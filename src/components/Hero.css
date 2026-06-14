@@ -1,0 +1,66 @@
+.hero {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100svh;
+  overflow: hidden;
+}
+
+.hero__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: var(--space-4);
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(40px, 8vw, 80px);
+  line-height: 1.1;
+  color: var(--color-text);
+}
+
+.hero__subtitle {
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: clamp(14px, 2vw, 18px);
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.hero__scroll {
+  position: absolute;
+  bottom: var(--space-4);
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  color: var(--color-text-muted);
+  animation: hero-bounce 2s ease-in-out infinite;
+  text-decoration: none;
+}
+
+.hero__scroll:hover {
+  color: var(--color-accent);
+  opacity: 1;
+}
+
+@keyframes hero-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+  }
+}

@@ -1,0 +1,119 @@
+@import 'lenis/dist/lenis.css';
+
+/* ===== Design System Tokens ===== */
+
+:root {
+  /* Espaciado (base 8px) */
+  --space-1: 8px;
+  --space-2: 16px;
+  --space-3: 24px;
+  --space-4: 32px;
+  --space-6: 48px;
+  --space-8: 64px;
+
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Tipografía */
+  --font-display: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  --font-body: 'Inter', system-ui, sans-serif;
+
+  /* Transición de tema */
+  --theme-transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+/* ===== Modo oscuro (default) ===== */
+[data-theme="dark"] {
+  --color-bg: #0B0B0D;
+  --color-accent: #FF8A3D;
+  --color-blue: #2A4D7A;
+  --color-text: #FAFAF8;
+  --color-text-muted: #9ca3af;
+  color-scheme: dark;
+}
+
+/* ===== Modo claro ===== */
+[data-theme="light"] {
+  --color-bg: #FAFAF8;
+  --color-accent: #D2691E;
+  --color-blue: #2A4D7A;
+  --color-text: #0B0B0D;
+  --color-text-muted: #6b6375;
+  color-scheme: light;
+}
+
+/* ===== Reset & base ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  transition: var(--theme-transition);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--color-text);
+  margin: 0;
+}
+
+h1 {
+  font-size: 48px;
+  line-height: 1.1;
+}
+
+h2 {
+  font-size: 36px;
+  line-height: 1.2;
+}
+
+h3 {
+  font-size: 24px;
+  line-height: 1.3;
+}
+
+p {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+a:hover {
+  opacity: 0.8;
+}
+
+code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.section {
+  scroll-margin-top: 72px;
+}

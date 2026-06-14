@@ -1,0 +1,110 @@
+.contact {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-4);
+}
+
+.contact__inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  margin-top: var(--space-4);
+}
+
+.contact__text {
+  font-size: 16px;
+  line-height: 1.7;
+  max-width: 400px;
+}
+
+.contact__socials {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-top: var(--space-4);
+}
+
+.contact__social {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--color-text);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.contact__social svg {
+  fill: currentColor;
+  color: currentColor;
+}
+
+.contact__social:hover {
+  color: var(--color-accent);
+  opacity: 1;
+}
+
+.contact__form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.contact__label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.contact__input {
+  font-family: var(--font-body);
+  font-size: 16px;
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid color-mix(in srgb, var(--color-text) 15%, transparent);
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--color-text);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.contact__input:focus {
+  border-color: var(--color-accent);
+}
+
+.contact__textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+
+.contact__submit {
+  align-self: flex-start;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.contact__submit:hover {
+  opacity: 0.85;
+}
+
+.contact__submit:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 768px) {
+  .contact__inner {
+    grid-template-columns: 1fr;
+  }
+}
