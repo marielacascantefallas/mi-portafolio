@@ -1,39 +1,27 @@
+import socialClubThumb from '../Socialclub/Mockup4.png'
+
 const projects = [
   {
     id: 1,
-    title: 'App de Finanzas',
+    title: 'Social Club',
     description:
-      'Diseño de interfaz para una app móvil de gestión financiera personal con dashboard interactivo.',
-    tags: ['UX Research', 'UI Design', 'Figma'],
-    image: null,
-    link: '#',
+      'A conceptual social platform built for creatives who want to share and curate their work away from algorithmic noise.',
+    tags: ['UX/UI Design', 'Branding', 'Concept Development'],
+    image: socialClubThumb,
+    link: '/proyectos/social-club',
+    accentClass: 'project--social-club',
   },
   {
     id: 2,
-    title: 'E-commerce Sostenible',
+    title: 'FitConnect',
     description:
-      'Rediseño completo de una tienda online enfocada en productos eco-friendly y experiencia de compra fluida.',
-    tags: ['E-commerce', 'Design System', 'Prototyping'],
+      'Mobile app UX design connecting clients with personal trainers — from booking and secure payments to real-time chat and ratings.',
+    tags: ['Mobile App', 'UX Design', 'Booking System'],
     image: null,
     link: '#',
-  },
-  {
-    id: 3,
-    title: 'Dashboard SaaS',
-    description:
-      'Sistema de diseño y dashboard para plataforma B2B de analytics con visualización de datos en tiempo real.',
-    tags: ['SaaS', 'Data Viz', 'Design System'],
-    image: null,
-    link: '#',
-  },
-  {
-    id: 4,
-    title: 'App de Salud',
-    description:
-      'Aplicación de seguimiento de bienestar con gamificación y recordatorios personalizados.',
-    tags: ['Mobile', 'Gamification', 'User Testing'],
-    image: null,
-    link: '#',
+    comingSoon: true,
+    placeholderGradient:
+      'linear-gradient(135deg, #0D2B45 0%, #2E86C1 55%, #D35400 100%)',
   },
 ]
 

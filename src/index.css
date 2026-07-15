@@ -19,7 +19,11 @@
 
   /* Tipografía */
   --font-display: 'Inter', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  /* Used for eyebrows, labels, tags, nav links — a distinct geometric
+     sans-serif (not monospace, no foot serifs) that still reads as a
+     clearly separate voice from Inter, for hierarchy without competing
+     with the main typeface. */
+  --font-mono: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
 
   /* Transición de tema */
@@ -116,4 +120,58 @@ code {
 
 .section {
   scroll-margin-top: 72px;
+}
+
+/* ===== Directional-fill buttons ===== */
+/* Rounded, outlined by default; on hover the fill grows in from whichever
+   edge the cursor entered, and on mouse-leave it recedes toward whichever
+   edge the cursor exited from. Direction is set via a data attribute by
+   the useFillHover hook; --btn-fill-bg lets each section pick its own
+   accent (site orange, or a project's own brand color). */
+.btn-fill {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--radius-full);
+  transition: color 0.35s ease;
+}
+
+.btn-fill::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--btn-fill-bg, var(--color-accent));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s ease;
+  z-index: -1;
+}
+
+.btn-fill[data-fill-dir='left']::before,
+.btn-fill[data-fill-dir='right']::before {
+  transform: scaleX(0);
+}
+
+.btn-fill[data-fill-dir='top']::before,
+.btn-fill[data-fill-dir='bottom']::before {
+  transform: scaleY(0);
+}
+
+.btn-fill[data-fill-dir='left']::before { transform-origin: left; }
+.btn-fill[data-fill-dir='right']::before { transform-origin: right; }
+.btn-fill[data-fill-dir='top']::before { transform-origin: top; }
+.btn-fill[data-fill-dir='bottom']::before { transform-origin: bottom; }
+
+.btn-fill.is-filled[data-fill-dir='left']::before,
+.btn-fill.is-filled[data-fill-dir='right']::before {
+  transform: scaleX(1);
+}
+
+.btn-fill.is-filled[data-fill-dir='top']::before,
+.btn-fill.is-filled[data-fill-dir='bottom']::before {
+  transform: scaleY(1);
+}
+
+.btn-fill.is-filled {
+  color: var(--btn-fill-color, var(--color-bg));
 }

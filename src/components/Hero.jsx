@@ -13,7 +13,7 @@ export default function Hero() {
         <h1 className="hero__title">Mariela Cascante</h1>
         <p className="hero__subtitle">UX/UI Product Design</p>
       </div>
-      <a href="#proyectos" className="hero__scroll" aria-label="Scroll hacia proyectos">
+      <a href="#projects" className="hero__scroll" aria-label="Scroll to projects">
         <svg
           width="24"
           height="24"

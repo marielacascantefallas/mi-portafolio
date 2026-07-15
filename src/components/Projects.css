@@ -4,7 +4,7 @@
 
 .projects__heading {
   max-width: 1120px;
-  margin: 0 auto var(--space-8);
+  margin: 0 auto var(--space-4);
   padding: 0 var(--space-4);
 }
 
@@ -14,7 +14,6 @@
   grid-template-columns: 1.4fr 1fr;
   gap: clamp(2rem, 4vw, 4rem);
   align-items: center;
-  min-height: 80vh;
   max-width: 1280px;
   margin: 0 auto;
   padding: var(--space-6) var(--space-4);
@@ -32,6 +31,17 @@
   order: 1;
 }
 
+/* Social Club row uses its own brand purple instead of the site's global
+   orange accent, picked for contrast in both light and dark mode (same
+   values used on the case study page itself). */
+.project--social-club {
+  --project-accent: #4f328c;
+}
+
+[data-theme='dark'] .project--social-club {
+  --project-accent: #7663f2;
+}
+
 /* Thumbnail */
 .project__thumb {
   width: 100%;
@@ -40,10 +50,21 @@
   aspect-ratio: 4 / 3;
 }
 
-.project__thumb img {
+.project__thumb-inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s ease;
+}
+
+.project__thumb:hover .project__thumb-inner {
+  transform: scale(1.05);
+}
+
+.project__thumb-inner img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
 .project__placeholder {
@@ -63,16 +84,29 @@
   gap: var(--space-2);
 }
 
-.project__number {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  color: var(--color-accent);
-  letter-spacing: 0.1em;
+.project__title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-2);
 }
 
 .project__title {
   font-size: clamp(24px, 3vw, 40px);
   line-height: 1.2;
+}
+
+/* Flags a project that isn't live yet — no case study link, image is a
+   placeholder gradient. Muted on purpose so it doesn't read as a CTA. */
+.project__badge {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 4px var(--space-2);
+  border-radius: var(--radius-full);
+  border: 1px solid color-mix(in srgb, var(--color-text) 20%, transparent);
+  color: var(--color-text-muted);
 }
 
 .project__desc {
@@ -94,8 +128,22 @@
   font-size: 12px;
   padding: 4px var(--space-1);
   border-radius: var(--radius-sm);
-  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
-  color: var(--color-accent);
+  background: color-mix(in srgb, var(--project-accent, var(--color-accent)) 12%, transparent);
+  color: var(--project-accent, var(--color-accent));
+}
+
+.project__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--project-accent, var(--color-accent));
+}
+
+.project__link:hover {
+  opacity: 0.75;
 }
 
 /* Mobile */

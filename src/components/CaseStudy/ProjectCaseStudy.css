@@ -1,0 +1,514 @@
+.case-study {
+  min-height: 100svh;
+  /* Social Club's own brand color used for accents/CTAs on this page,
+     instead of the site's global orange accent. Picked per theme for
+     good contrast: a deep, saturated purple on the light background,
+     and the brighter periwinkle from the same palette on dark. */
+  --case-accent: #4f328c;
+}
+
+[data-theme='dark'] .case-study {
+  --case-accent: #7663f2;
+}
+
+/* ===== Header ===== */
+.case-study__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-3) var(--space-4);
+}
+
+.case-study__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.case-study__back:hover {
+  color: var(--case-accent);
+}
+
+/* ===== Hero ===== */
+.case-study__hero {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-6) var(--space-4) var(--space-8);
+}
+
+.case-study__eyebrow {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--case-accent);
+}
+
+.case-study__title {
+  margin-top: var(--space-2);
+  font-size: clamp(36px, 6vw, 64px);
+  line-height: 1.05;
+}
+
+.case-study__tagline {
+  margin-top: var(--space-3);
+  max-width: 640px;
+  font-size: clamp(16px, 2vw, 20px);
+  line-height: 1.6;
+}
+
+.case-study__scope-box {
+  margin-top: var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-4);
+  padding: var(--space-4);
+  border: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
+  border-radius: var(--radius-lg);
+}
+
+.case-study__scope-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.case-study__scope-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.case-study__scope-value {
+  font-size: 15px;
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.case-study__scope-value--placeholder {
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+.case-study__prototype-link {
+  --btn-fill-bg: var(--case-accent);
+  margin-top: var(--space-4);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-family: var(--font-mono);
+  font-size: 14px;
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid var(--case-accent);
+  border-radius: var(--radius-full);
+  color: var(--case-accent);
+}
+
+.case-study__prototype-link:hover {
+  opacity: 1;
+}
+
+.case-study__prototype-link--disabled {
+  border-color: color-mix(in srgb, var(--color-text) 20%, transparent);
+  color: var(--color-text-muted);
+  cursor: default;
+  pointer-events: none;
+}
+
+.case-study__hero-image {
+  margin-top: var(--space-6);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.case-study__hero-image--top {
+  margin-top: 0;
+  margin-bottom: var(--space-6);
+}
+
+.case-study__hero-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===== Generic section ===== */
+.case-study__section {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-4);
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+
+.case-study__section-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.case-study__section-heading {
+  margin-top: var(--space-1);
+}
+
+.case-study__section-text {
+  margin-top: var(--space-3);
+  max-width: 100%;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.case-study__section-text + .case-study__section-text {
+  margin-top: var(--space-2);
+}
+
+/* Text + side image variant, used when a section has an accompanying
+   screen/mockup to fill the empty space next to shorter copy blocks. */
+.case-study__section-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: var(--space-4);
+  align-items: center;
+}
+
+.case-study__section-image {
+  display: flex;
+  justify-content: center;
+}
+
+.case-study__section-image img {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .case-study__section-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== Personas ===== */
+/* These are finished, pre-designed persona cards (image files) — displayed
+   as-is, never rebuilt as HTML/CSS. Text lives in the left column; the
+   cards stack in the right column, large enough to actually read. */
+.case-study__personas-layout {
+  margin-top: var(--space-4);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-6);
+  align-items: start;
+}
+
+/* Text is shorter than the stacked persona cards next to it. Instead of
+   shrinking the images to match, pin the text in place so it tracks
+   alongside the cards as you scroll past them — no dead space left behind
+   once the copy finishes. */
+.case-study__personas-col-text {
+  position: sticky;
+  top: var(--space-6);
+  align-self: start;
+}
+
+.case-study__personas-col-text .case-study__section-label,
+.case-study__personas-col-text .case-study__section-heading {
+  margin-top: 0;
+}
+
+@media (max-width: 900px) {
+  .case-study__personas-col-text {
+    position: static;
+  }
+}
+
+.case-study__personas-col-images {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.persona-card-image {
+  width: 100%;
+}
+
+.persona-card-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-lg);
+}
+
+@media (max-width: 900px) {
+  .case-study__personas-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== How Might We ===== */
+.case-study__hmw-list {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.hmw-item {
+  display: flex;
+  gap: var(--space-3);
+  align-items: baseline;
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-text) 6%, transparent);
+}
+
+.hmw-item:last-child {
+  border-bottom: none;
+}
+
+.hmw-item__number {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--case-accent);
+  flex-shrink: 0;
+}
+
+.hmw-item__text {
+  font-size: clamp(17px, 2.2vw, 22px);
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+/* ===== Ideation ===== */
+/* No card/gray background here on purpose — these sit directly on the
+   page's normal background, same as everything else. */
+.case-study__ideation-images {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+}
+
+.ideation-image {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Capped to viewport height so diagrams like the sitemap are visible in
+   full without needing to scroll to see the rest. */
+.ideation-image img {
+  width: auto;
+  max-width: 100%;
+  height: auto;
+  max-height: 82vh;
+  display: block;
+  border-radius: var(--radius-md);
+}
+
+/* Wider diagrams (e.g. the user flow) read better sized off their width
+   instead of their height, so the small text labels stay legible. Kept
+   inside the same container as the sitemap above it, so both share the
+   exact same left/right margins. */
+.ideation-image--wide {
+  width: 100%;
+}
+
+.ideation-image--wide img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 92vh;
+}
+
+.ideation-image__caption {
+  margin-top: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.case-study__ideation-thumbs-label {
+  margin-top: var(--space-3);
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.case-study__ideation-thumbs {
+  margin-top: var(--space-6);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: var(--space-2);
+}
+
+.ideation-thumb img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-sm);
+  opacity: 0.85;
+}
+
+/* ===== Brand ===== */
+/* These style-guide exports already come as finished, self-contained
+   cards (white pill background baked into the image), so no extra
+   wrapper background is added here. Stacked one on top of the other and
+   sized large enough to actually read the specs printed inside each one. */
+.case-study__brand-assets {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-6);
+}
+
+/* Breaks out of the section's 1120px container (same trick as the wide
+   ideation image) so the fine print inside each style-guide export is
+   actually legible. */
+.brand-asset {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 0 var(--space-4);
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+}
+
+.brand-asset img {
+  width: 100%;
+  max-width: 1100px;
+  height: auto;
+  display: block;
+  border-radius: var(--radius-md);
+}
+
+.case-study__brand-accent {
+  margin-top: var(--space-6);
+  display: flex;
+  justify-content: center;
+}
+
+.case-study__brand-accent img {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+  display: block;
+}
+
+/* ===== Key Screens ===== */
+.case-study__screen-group {
+  margin-top: var(--space-6);
+}
+
+.case-study__screen-group:first-of-type {
+  margin-top: var(--space-4);
+}
+
+.screen-group__title {
+  font-size: 20px;
+}
+
+.screen-group__desc {
+  margin-top: var(--space-1);
+  max-width: 60ch;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.screen-group__images {
+  margin-top: var(--space-3);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+/* Forces an exact N-column grid instead of the default flex-wrap row, so a
+   group like Onboarding's 4 screens lays out 2 up / 2 down instead of
+   however many happen to fit per row at the current viewport width. */
+.screen-group__images--cols-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 300px));
+  justify-content: center;
+}
+
+@media (max-width: 560px) {
+  .screen-group__images--cols-2 {
+    grid-template-columns: minmax(0, 300px);
+  }
+}
+
+/* App screen captures — capped so they read like phone screens, never
+   stretched to fill the grid column. No card frame here on purpose: these
+   PNGs are transparent right up to the device's own rounded corners, so a
+   container-level border-radius + shadow clips to a different curve than
+   the phone shape and leaves slivers of page background showing through
+   at the corners. Displayed as-is, straight on the page background. */
+.screen-image {
+  width: 100%;
+  max-width: 300px;
+  flex: 0 1 300px;
+}
+
+.screen-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ===== Next project ===== */
+.case-study__next {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: var(--space-8) var(--space-4) var(--space-8);
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 8%, transparent);
+  text-align: center;
+}
+
+.case-study__next-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.case-study__next-title {
+  margin-top: var(--space-2);
+  font-size: clamp(24px, 4vw, 40px);
+}
+
+.case-study__next-title--placeholder {
+  color: var(--color-text-muted);
+}
+
+.case-study__next-link {
+  margin-top: var(--space-3);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--case-accent);
+}
+
+@media (max-width: 900px) {
+  .case-study__scope-box {
+    grid-template-columns: 1fr;
+  }
+
+  .case-study__personas {
+    grid-template-columns: 1fr;
+  }
+}

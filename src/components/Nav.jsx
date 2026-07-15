@@ -4,14 +4,13 @@ import ThemeToggle from './ThemeToggle'
 import './Nav.css'
 
 const links = [
-  { label: 'Proyectos', href: '#proyectos' },
-  { label: 'Sobre mí', href: '#about' },
-  { label: 'Contacto', href: '#contacto' },
+  { label: 'Projects', href: '#projects' },
+  { label: 'About', href: '#about' },
+  { label: 'Contact', href: '#contact' },
 ]
 
 export default function Nav({ theme, onToggle }) {
   const [open, setOpen] = useState(false)
-  const [hovered, setHovered] = useState(null)
   const overlayRef = useRef(null)
   const linksRef = useRef([])
 
@@ -44,11 +43,16 @@ export default function Nav({ theme, onToggle }) {
         ease: 'power2.in',
       })
       document.body.style.overflow = ''
-      setHovered(null)
     }
   }, [open])
 
-  const close = () => setOpen(false)
+  const close = () => {
+    setOpen(false)
+  }
+
+  const toggleOpen = () => {
+    setOpen((prev) => !prev)
+  }
 
   return (
     <>
@@ -58,8 +62,8 @@ export default function Nav({ theme, onToggle }) {
         <ThemeToggle theme={theme} onToggle={onToggle} />
         <button
           className={`nav__hamburger ${open ? 'nav__hamburger--open' : ''}`}
-          onClick={() => setOpen(!open)}
-          aria-label={open ? 'Cerrar menú' : 'Abrir menú'}
+          onClick={toggleOpen}
+          aria-label={open ? 'Close menu' : 'Open menu'}
         >
           <span />
           <span />
@@ -80,34 +84,12 @@ export default function Nav({ theme, onToggle }) {
                 key={l.href}
                 ref={(el) => (linksRef.current[i] = el)}
               >
-                <a
-                  href={l.href}
-                  onClick={close}
-                  onMouseEnter={() => setHovered(l.label)}
-                  onMouseLeave={() => setHovered(null)}
-                >
+                <a href={l.href} onClick={close}>
                   {l.label}
                 </a>
               </li>
             ))}
           </ul>
-
-          <div className={`nav-overlay__preview ${hovered ? 'nav-overlay__preview--visible' : ''}`}>
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-              <circle cx="8.5" cy="8.5" r="1.5" />
-              <polyline points="21 15 16 10 5 21" />
-            </svg>
-          </div>
         </div>
       </div>
     </>

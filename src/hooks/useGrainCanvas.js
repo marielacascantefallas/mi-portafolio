@@ -4,7 +4,9 @@ const GRAIN_SIZE = 160
 const LERP_FACTOR = 0.06
 
 const STOPS_DARK = ['#FF8A3D', '#2A4D7A', '#15151A', '#0B0B0D']
-const STOPS_LIGHT = ['#FFD9B8', '#BFD4EE', '#F4F1EC', '#FAFAF8']
+// More saturated than a straight pastel tint of the dark stops — the
+// original ('#FFD9B8'/'#BFD4EE') read as almost gray on a light background.
+const STOPS_LIGHT = ['#FFA366', '#6E93C2', '#F4F1EC', '#FAFAF8']
 
 function lerp(a, b, t) {
   return a + (b - a) * t

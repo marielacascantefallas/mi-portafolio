@@ -7,8 +7,8 @@ export default function ThemeToggle({ theme, onToggle }) {
     <button
       className="theme-toggle"
       onClick={onToggle}
-      aria-label={`Cambiar a modo ${isDark ? 'claro' : 'oscuro'}`}
-      title={`Modo ${isDark ? 'claro' : 'oscuro'}`}
+      aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
+      title={`${isDark ? 'Light' : 'Dark'} mode`}
     >
       <svg
         className="theme-toggle__icon"
