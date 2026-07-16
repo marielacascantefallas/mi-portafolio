@@ -122,6 +122,21 @@ code {
   scroll-margin-top: 72px;
 }
 
+/* Visually hidden but still available to screen readers — used where a
+   real heading is needed for a11y but the visible text is decorative
+   (e.g. Contact's giant background word is aria-hidden). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* ===== Directional-fill buttons ===== */
 /* Rounded, outlined by default; on hover the fill grows in from whichever
    edge the cursor entered, and on mouse-leave it recedes toward whichever

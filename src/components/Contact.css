@@ -1,51 +1,85 @@
 .contact {
+  position: relative;
   max-width: 1120px;
   margin: 0 auto;
   padding: var(--space-8) var(--space-4);
+  overflow: hidden;
 }
 
-.contact__inner {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--space-6);
-  margin-top: var(--space-4);
+/* Big decorative headline sitting behind the card — purely visual, not
+   real content, so it's hidden from assistive tech and unselectable. */
+.contact__backdrop {
+  margin: 0;
+  padding: 0 var(--space-4);
+  pointer-events: none;
+  user-select: none;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  line-height: 0.85;
+  font-size: clamp(64px, 13vw, 200px);
+  color: color-mix(in srgb, var(--color-text) 10%, transparent);
+  white-space: nowrap;
 }
 
-.contact__text {
-  font-size: 16px;
-  line-height: 1.7;
-  max-width: 400px;
+.contact__card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 720px);
+  margin-left: auto;
+  margin-top: clamp(-32px, -6vw, 0px);
+  background: var(--color-blue);
+  border-radius: var(--radius-lg);
+  padding: var(--space-6);
+  box-shadow: 0 24px 60px color-mix(in srgb, #000 30%, transparent);
+  /* Local palette for everything inside the card, so it reads as one
+     solid brand-color block regardless of site theme. */
+  --card-text: #FAFAF8;
+  --card-text-muted: rgba(250, 250, 248, 0.65);
+  --card-line: rgba(250, 250, 248, 0.3);
+  color: var(--card-text);
 }
 
-.contact__socials {
+.contact__card-header {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
   gap: var(--space-2);
-  margin-top: var(--space-4);
 }
 
-.contact__social {
+.contact__linkedin {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: 6px;
   font-family: var(--font-mono);
-  font-size: 14px;
-  color: var(--color-text);
-  text-decoration: none;
-  transition: color 0.2s ease;
+  font-size: 13px;
+  color: var(--card-text);
 }
 
-.contact__social svg {
+.contact__linkedin svg {
   fill: currentColor;
-  color: currentColor;
 }
 
-.contact__social:hover {
+.contact__linkedin:hover {
   color: var(--color-accent);
   opacity: 1;
 }
 
 .contact__form {
+  margin-top: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.contact__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.contact__fields {
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -57,17 +91,29 @@
   gap: 6px;
   font-family: var(--font-mono);
   font-size: 13px;
-  color: var(--color-text-muted);
+  color: var(--card-text-muted);
+}
+
+.contact__label--message {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.contact__label--message .contact__textarea {
+  flex: 1;
+  min-height: 140px;
 }
 
 .contact__input {
   font-family: var(--font-body);
   font-size: 16px;
-  padding: var(--space-1) var(--space-2);
-  border: 1px solid color-mix(in srgb, var(--color-text) 15%, transparent);
-  border-radius: var(--radius-md);
+  padding: var(--space-1) 0;
+  border: none;
+  border-bottom: 1px solid var(--card-line);
+  border-radius: 0;
   background: transparent;
-  color: var(--color-text);
+  color: var(--card-text);
   outline: none;
   transition: border-color 0.2s ease;
 }
@@ -78,28 +124,52 @@
 
 .contact__textarea {
   resize: vertical;
-  min-height: 120px;
+  display: block;
+  width: 100%;
+}
+
+.contact__actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-3);
 }
 
 .contact__submit {
-  align-self: flex-start;
+  --btn-fill-bg: var(--color-accent);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  align-self: flex-end;
   font-family: var(--font-mono);
   font-size: 14px;
-  padding: var(--space-1) var(--space-4);
+  padding: var(--space-2) var(--space-4);
   border: 1px solid var(--color-accent);
   background: transparent;
   color: var(--color-accent);
   cursor: pointer;
 }
 
-.contact__submit:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
 .contact__submit:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+}
+
+.contact__status {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--card-text-muted);
+}
+
+.contact__status--success {
+  color: var(--card-text);
+}
+
+.contact__status--error a {
+  color: var(--card-text);
+  text-decoration: underline;
 }
 
 .contact__honeypot {
@@ -110,22 +180,22 @@
   pointer-events: none;
 }
 
-.contact__status {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.contact__status--success {
-  color: var(--color-accent);
-}
-
-.contact__status--error {
-  color: #d64545;
-}
-
 @media (max-width: 768px) {
-  .contact__inner {
+  .contact__backdrop {
+    font-size: clamp(40px, 16vw, 90px);
+  }
+
+  .contact__card {
+    width: 100%;
+    margin-top: var(--space-4);
+    padding: var(--space-4);
+  }
+
+  .contact__grid {
     grid-template-columns: 1fr;
+  }
+
+  .contact__actions {
+    justify-content: flex-start;
   }
 }
