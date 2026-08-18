@@ -76,6 +76,16 @@ export default function Projects() {
 
       {projects.map((p, i) => {
         const hasCaseStudy = p.link && p.link.startsWith('/')
+        const isExternal = p.link && /^https?:\/\//.test(p.link)
+
+        const thumbContent = p.image ? (
+          <img src={p.image} alt={p.title} loading="lazy" />
+        ) : (
+          <div
+            className="project__placeholder"
+            style={p.placeholderGradient ? { background: p.placeholderGradient } : undefined}
+          />
+        )
 
         return (
           <div
@@ -90,22 +100,19 @@ export default function Projects() {
               <div className="project__thumb-inner">
                 {hasCaseStudy ? (
                   <Link to={p.link} aria-label={`View ${p.title} case study`}>
-                    {p.image ? (
-                      <img src={p.image} alt={p.title} loading="lazy" />
-                    ) : (
-                      <div
-                        className="project__placeholder"
-                        style={p.placeholderGradient ? { background: p.placeholderGradient } : undefined}
-                      />
-                    )}
+                    {thumbContent}
                   </Link>
-                ) : p.image ? (
-                  <img src={p.image} alt={p.title} loading="lazy" />
+                ) : isExternal ? (
+                  <a
+                    href={p.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Visit ${p.title}`}
+                  >
+                    {thumbContent}
+                  </a>
                 ) : (
-                  <div
-                    className="project__placeholder"
-                    style={p.placeholderGradient ? { background: p.placeholderGradient } : undefined}
-                  />
+                  thumbContent
                 )}
               </div>
             </div>
@@ -129,6 +136,16 @@ export default function Projects() {
                 <Link to={p.link} className="project__link">
                   View case study →
                 </Link>
+              )}
+              {isExternal && (
+                <a
+                  href={p.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="project__link"
+                >
+                  Visit site →
+                </a>
               )}
             </div>
           </div>
