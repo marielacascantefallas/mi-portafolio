@@ -9,7 +9,7 @@ const links = [
   { label: 'Contact', href: '#contact' },
 ]
 
-export default function Nav({ theme, onToggle }) {
+export default function Nav({ theme, onToggle, glass }) {
   const [open, setOpen] = useState(false)
   const overlayRef = useRef(null)
   const linksRef = useRef([])
@@ -56,9 +56,9 @@ export default function Nav({ theme, onToggle }) {
 
   return (
     <>
-      <a href="#" className="nav__logo">MC</a>
+      <a href="#" className={`nav__logo${glass ? ' glass' : ''}`}>MC</a>
 
-      <div className="nav__actions">
+      <div className={`nav__actions${glass ? ' glass' : ''}`}>
         <ThemeToggle theme={theme} onToggle={onToggle} />
         <button
           className={`nav__hamburger ${open ? 'nav__hamburger--open' : ''}`}

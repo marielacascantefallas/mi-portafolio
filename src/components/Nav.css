@@ -11,11 +11,20 @@
   text-transform: uppercase;
   color: var(--color-text);
   text-decoration: none;
+  border-radius: var(--radius-full);
+  transition: background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
 }
 
 .nav__logo:hover {
   color: var(--color-accent);
   opacity: 1;
+}
+
+/* Glass state — only while the hero section is on screen (see Home.jsx's
+   Intersection Observer). Padding only applies here so the logo doesn't
+   carry empty padding (and the pill shape it implies) outside the hero. */
+.nav__logo.glass {
+  padding: 10px 16px;
 }
 
 /* Actions — fixed top-right */
@@ -27,6 +36,12 @@
   display: flex;
   align-items: center;
   gap: var(--space-2);
+  border-radius: var(--radius-full);
+  transition: background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
+}
+
+.nav__actions.glass {
+  padding: 8px;
 }
 
 /* Hamburger — always visible */

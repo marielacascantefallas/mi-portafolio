@@ -11,38 +11,69 @@
 .hero__canvas {
   position: absolute;
   inset: 0;
+  z-index: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
 }
 
+/* Cheap full-bleed grain: a tiled SVG feTurbulence filter, no raster asset
+   and no per-frame cost. mix-blend-mode keeps it from flattening into gray
+   static at this opacity — it textures whatever color is underneath
+   instead. Independent of the cursor-reactive grain already baked into the
+   canvas gradient (useGrainCanvas) — that one stays as-is. */
+.hero__noise {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.75;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 160px 160px;
+}
+
+/* Glass panel wrapping the name + subtitle — this is the "text looks glass,
+   the rest of the hero looks grainy" split: the panel area is frosted, the
+   background around it is the plain noise overlay above. */
 .hero__content {
   position: relative;
   z-index: 1;
+  width: fit-content;
+  max-width: 96vw;
   text-align: center;
-  padding: var(--space-4);
+  padding: clamp(20px, 3vw, 56px) clamp(24px, 4vw, 64px);
+  border-radius: var(--radius-xl);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
-.hero__title {
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: clamp(40px, 8vw, 80px);
-  line-height: 1.1;
+.hero__name {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: var(--font-hero);
+  font-weight: 400;
   color: var(--color-text);
+  /* 347pt/270pt desktop ratio (≈462.7px/360px) kept via a unitless
+     line-height instead of clamping two separate values — it scales
+     proportionally at every breakpoint for free. The vw-led clamp caps
+     the literal 462.7px ceiling for very wide screens while keeping
+     normal desktop/laptop widths from overflowing. */
+  font-size: clamp(2.5rem, 15.5vw, 462.7px);
+  line-height: 0.778;
+  overflow-wrap: break-word;
 }
 
 .hero__subtitle {
-  margin-top: var(--space-2);
-  font-family: var(--font-mono);
-  font-size: clamp(14px, 2vw, 18px);
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-  transition: color 0.25s ease;
-}
-
-.hero__subtitle:hover {
-  color: #ffffff;
+  margin-top: var(--space-3);
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: clamp(14px, 6vw, 96px);
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  opacity: 0.85;
 }
 
 .hero__scroll {

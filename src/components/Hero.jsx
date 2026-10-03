@@ -1,18 +1,30 @@
-import { useRef } from 'react'
+import { forwardRef, useRef } from 'react'
 import { useGrainCanvas } from '../hooks/useGrainCanvas'
 import './Hero.css'
 
-export default function Hero() {
+// Takes a ref (forwarded from Home) so an Intersection Observer there can
+// tell the Nav when the hero is on screen, for the glass-while-on-hero
+// effect.
+const Hero = forwardRef(function Hero(_props, ref) {
   const canvasRef = useRef(null)
   useGrainCanvas(canvasRef)
 
   return (
-    <section className="hero">
+    <section className="hero" ref={ref}>
       <canvas ref={canvasRef} className="hero__canvas" />
-      <div className="hero__content">
-        <h1 className="hero__title">Mariela Cascante</h1>
-        <p className="hero__subtitle">UX/UI Product Design</p>
+      <div className="hero__noise" aria-hidden="true" />
+
+      {/* Glass panel: frosted/blurred over the gradient + grain behind it,
+          which is what gives the "glass over the hero" look the rest of
+          the hero (outside this panel) doesn't have. */}
+      <div className="hero__content glass">
+        <h1 className="hero__name">
+          <span className="hero__name-line">MARIELA</span>
+          <span className="hero__name-line">CASCANTE</span>
+        </h1>
+        <p className="hero__subtitle">UX/UI PRODUCT DESIGNER</p>
       </div>
+
       <a href="#projects" className="hero__scroll" aria-label="Scroll to projects">
         <svg
           width="24"
@@ -29,4 +41,6 @@ export default function Hero() {
       </a>
     </section>
   )
-}
+})
+
+export default Hero

@@ -1,5 +1,18 @@
 @import 'lenis/dist/lenis.css';
 
+/* Hero display font. The file isn't in the repo yet — once it's added at
+   this path, the hero title picks it up automatically, no code change
+   needed. Falls back to a system rounded face so the hero still looks
+   intentional in the meantime. */
+@font-face {
+  font-family: 'Bubblegum Pop';
+  src: url('/fonts/BubblegumPop.woff2') format('woff2'),
+       url('/fonts/BubblegumPop.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ===== Design System Tokens ===== */
 
 :root {
@@ -23,6 +36,8 @@
   --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-mono: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  /* Hero name only — see @font-face above. */
+  --font-hero: 'Bubblegum Pop', ui-rounded, system-ui, sans-serif;
 
   /* Transición de tema */
   --theme-transition: color 0.3s ease, background-color 0.3s ease;
@@ -130,6 +145,20 @@ code {
 
 .section {
   scroll-margin-top: 72px;
+}
+
+/* ===== Glass effect ===== */
+/* Shared frosted-glass treatment — translucent, blurred backdrop with a
+   bright inset edge — reused by the hero content panel, the nav while the
+   hero is visible, and the hamburger menu overlay. White-based regardless
+   of theme: a glass panel reads as "clear glass catching light" on both a
+   light and a dark backdrop, it isn't meant to recolor to the page theme. */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 /* Visually hidden but still available to screen readers — used where a
