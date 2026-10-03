@@ -1,0 +1,23 @@
+/* The extra height beyond the sticky content's own min-height is what
+   gives the section time to "dwell" pinned before the next one slides up
+   over it. For sections taller than this (Projects), min-height is simply
+   overridden by content — no artificial empty space is introduced, so the
+   user is never trapped scrolling through blank space inside a pinned
+   section. */
+.stack-section {
+  position: relative;
+  min-height: 130vh;
+}
+
+.stack-section__sticky {
+  position: sticky;
+  top: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stack-section__inner {
+  width: 100%;
+}

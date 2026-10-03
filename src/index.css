@@ -75,6 +75,15 @@
   color-scheme: light;
 }
 
+/* Alternating section backgrounds for the Fase 4 stacked-sections layout
+   (see StackSection.jsx) — a subtle wash of each brand color over the
+   page's own --color-bg, light enough that the existing text-color
+   contrast ratios (validated against plain --color-bg above) still hold. */
+:root {
+  --surface-tint-lilac: color-mix(in srgb, var(--color-lilac) 14%, var(--color-bg));
+  --surface-tint-yellow: color-mix(in srgb, var(--color-yellow) 14%, var(--color-bg));
+}
+
 /* ===== Reset & base ===== */
 *, *::before, *::after {
   box-sizing: border-box;
