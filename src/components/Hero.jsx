@@ -12,7 +12,7 @@ const Hero = forwardRef(function Hero(_props, ref) {
   return (
     <section className="hero" ref={ref}>
       <canvas ref={canvasRef} className="hero__canvas" />
-      <div className="hero__noise" aria-hidden="true" />
+      <div className="hero__noise noise-overlay" aria-hidden="true" />
 
       {/* Glass panel: frosted/blurred over the gradient + grain behind it,
           which is what gives the "glass over the hero" look the rest of

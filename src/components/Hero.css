@@ -17,21 +17,14 @@
   pointer-events: none;
 }
 
-/* Cheap full-bleed grain: a tiled SVG feTurbulence filter, no raster asset
-   and no per-frame cost. mix-blend-mode keeps it from flattening into gray
-   static at this opacity — it textures whatever color is underneath
-   instead. Independent of the cursor-reactive grain already baked into the
-   canvas gradient (useGrainCanvas) — that one stays as-is. */
+/* Appearance comes from .noise-overlay (index.css); independent of the
+   cursor-reactive grain already baked into the canvas gradient
+   (useGrainCanvas) — that one stays as-is. */
 .hero__noise {
   position: absolute;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  opacity: 0.75;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 160px 160px;
 }
 
 /* Glass panel wrapping the name + subtitle — this is the "text looks glass,

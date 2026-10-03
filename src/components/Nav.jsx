@@ -54,11 +54,16 @@ export default function Nav({ theme, onToggle, glass }) {
     setOpen((prev) => !prev)
   }
 
+  // Glass while the hero is visible (see Home.jsx), and also while the menu
+  // itself is open — the menu's own grainy backdrop gets the same glass
+  // treatment regardless of scroll position.
+  const showGlass = glass || open
+
   return (
     <>
-      <a href="#" className={`nav__logo${glass ? ' glass' : ''}`}>MC</a>
+      <a href="#" className={`nav__logo${showGlass ? ' glass' : ''}`}>MC</a>
 
-      <div className={`nav__actions${glass ? ' glass' : ''}`}>
+      <div className={`nav__actions${showGlass ? ' glass' : ''}`}>
         <ThemeToggle theme={theme} onToggle={onToggle} />
         <button
           className={`nav__hamburger ${open ? 'nav__hamburger--open' : ''}`}
@@ -77,6 +82,7 @@ export default function Nav({ theme, onToggle, glass }) {
         className="nav-overlay"
         style={{ visibility: 'hidden', opacity: 0 }}
       >
+        <div className="nav-overlay__noise noise-overlay" aria-hidden="true" />
         <div className="nav-overlay__content">
           <ul className="nav-overlay__links">
             {links.map((l, i) => (
@@ -84,7 +90,7 @@ export default function Nav({ theme, onToggle, glass }) {
                 key={l.href}
                 ref={(el) => (linksRef.current[i] = el)}
               >
-                <a href={l.href} onClick={close}>
+                <a href={l.href} onClick={close} className="glass">
                   {l.label}
                 </a>
               </li>
