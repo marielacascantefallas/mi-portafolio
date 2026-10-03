@@ -9,9 +9,11 @@ gsap.registerPlugin(ScrollTrigger)
 // sticky-card mechanism that makes each section pin at the top and get
 // covered by the next one sliding up over it — pure CSS (position: sticky +
 // z-index + overlapping wrappers, see StackSection.css), no JS
-// scroll-hijacking. A section whose own content is taller than the
-// wrapper's floor (Projects) just grows past it instead of trapping the
-// user inside a pinned viewport.
+// scroll-hijacking. The trailing spacer gives every section exactly one
+// viewport of dwell/overlap room regardless of its own content height, so
+// a section taller than a viewport still gets a proper dwell at the end of
+// its own content instead of none, and a short section doesn't get an
+// oversized fixed budget that rushes past content near the end.
 export default function StackSection({ children, zIndex, background, className = '' }) {
   const innerRef = useRef(null)
 
@@ -57,6 +59,7 @@ export default function StackSection({ children, zIndex, background, className =
           {children}
         </div>
       </div>
+      <div className="stack-section__spacer" aria-hidden="true" />
     </div>
   )
 }

@@ -1,22 +1,47 @@
 .about {
   max-width: 1120px;
   margin: 0 auto;
-  padding: var(--space-8) var(--space-4);
+  padding: var(--space-8) var(--space-4) 0;
 }
 
-/* Photo + intro text, side by side */
-.about__top {
-  display: grid;
-  grid-template-columns: 220px 1fr;
-  gap: clamp(2rem, 4vw, 4rem);
-  align-items: center;
-}
-
-/* Decorative offset outline behind the photo — cheap, editorial-feeling
-   depth cue used across a lot of designer portfolios, no extra assets. */
-.about__photo-frame {
+.about__intro {
   position: relative;
-  width: 220px;
+}
+
+/* Mixed-weight headline — light/regular voice for the first line, bold
+   accent for the second, same contrast idea as the reference (serif
+   italic + bold caps) built from Helvetica's own weight range instead of
+   adding a second typeface. */
+.about__title {
+  display: flex;
+  flex-direction: column;
+  max-width: 780px;
+  font-size: clamp(32px, 5.2vw, 64px);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+
+.about__title-light {
+  font-weight: 300;
+  font-style: italic;
+  color: var(--color-text);
+}
+
+.about__title-bold {
+  font-weight: 800;
+  color: var(--color-accent);
+}
+
+/* Photo sits on top of the headline's last line — "integrated with the
+   title" per the reference — rather than in its own column. Falls back to
+   a normal stacked block on narrow screens, where overlap risks clipping
+   wrapped text. */
+.about__photo-frame {
+  position: absolute;
+  top: 0.95em;
+  right: 0;
+  z-index: 1;
+  width: 200px;
 }
 
 .about__photo-frame::before {
@@ -38,11 +63,12 @@
 
 .about__photo-placeholder {
   position: relative;
-  width: 220px;
+  width: 200px;
   aspect-ratio: 1 / 1;
   border-radius: var(--radius-lg);
   background: color-mix(in srgb, var(--color-text) 5%, transparent);
   overflow: hidden;
+  box-shadow: 0 16px 32px color-mix(in srgb, #000 20%, transparent);
 }
 
 .about__photo-placeholder img {
@@ -52,30 +78,42 @@
   display: block;
 }
 
-.about__intro {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
-}
-
-.about__title {
-  font-size: clamp(28px, 3.6vw, 44px);
-  line-height: 1.15;
-  letter-spacing: -0.01em;
-}
-
-.about__title-accent {
+/* CTA pill overlapping the photo's bottom edge, same spot as the
+   reference's "LET'S CHAT" button. */
+.about__cv {
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-3);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  white-space: nowrap;
   color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  background: var(--color-bg);
+  text-decoration: none;
+}
+
+.about__cv:hover {
+  opacity: 1;
 }
 
 .about__bio {
+  margin-top: var(--space-4);
   font-size: 16px;
   line-height: 1.7;
   color: var(--color-text-muted);
   max-width: 62ch;
 }
 
-/* Competency cards — one horizontal row */
+/* Compact — icon + title + description, no card chrome — so the intro
+   block stays close to one viewport tall (see StackSection.css for why
+   that matters: only content within roughly a viewport gets a comfortable
+   dwell before the next section's entrance starts). */
 .about__competencies {
   margin-top: var(--space-6);
   display: grid;
@@ -86,75 +124,84 @@
 .about__comp {
   display: flex;
   flex-direction: column;
-  gap: var(--space-1);
-  padding: var(--space-3);
-  border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
-  border-radius: var(--radius-lg);
-  transition: border-color 0.25s ease, transform 0.25s ease, background-color 0.25s ease;
-}
-
-.about__comp:hover {
-  border-color: var(--color-accent);
-  background: color-mix(in srgb, var(--color-accent) 5%, transparent);
-  transform: translateY(-4px);
+  gap: 6px;
 }
 
 .about__comp-icon {
   flex-shrink: 0;
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   display: grid;
   place-items: center;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   background: color-mix(in srgb, var(--color-accent) 10%, transparent);
   color: var(--color-accent);
 }
 
 .about__comp-title {
-  margin-top: var(--space-1);
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.4;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-text);
 }
 
 .about__comp-desc {
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: 13px;
+  line-height: 1.5;
   color: var(--color-text-muted);
 }
 
-/* Skill chips — horizontal row below the cards */
+/* ===== Solid color block =====
+   Full-bleed regardless of the section's own max-width — the standard
+   "break out of the container" trick (50% + -50vw on each side). Pill
+   cloud only, like the reference's blue block. Always lilac with dark
+   ink, in both site themes, same pairing already proven on the Contact
+   card (~8.5:1 contrast) — lilac/yellow are reserved for solid fills with
+   dark text, never as text color on the page's own background (see
+   design-system.md). */
+.about__block {
+  margin-top: var(--space-6);
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  padding: var(--space-6) var(--space-4);
+  background: var(--color-lilac);
+}
+
+/* Tilted pill cloud — reference's loose cluster of service tags, built
+   here from the existing skills list. */
 .about__skills {
-  margin-top: var(--space-4);
+  max-width: 1120px;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-1);
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-3) var(--space-2);
 }
 
 .about__chip {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  padding: var(--space-1) var(--space-2);
-  border-radius: var(--radius-full);
-  border: 1px solid color-mix(in srgb, var(--color-text) 10%, transparent);
-  color: var(--color-text-muted);
-}
-
-.about__cv {
-  margin-top: var(--space-6);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-2) var(--space-3);
+  display: inline-block;
+  transform: rotate(var(--tilt, 0deg));
   font-family: var(--font-mono);
   font-size: 14px;
-  color: var(--color-accent);
-  border: 1px solid var(--color-accent);
-  text-decoration: none;
+  font-weight: 500;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-full);
+  /* Fixed cream, not the theme's --color-bg: in dark mode that would be
+     the dark page background, making the (always-dark) chip text
+     invisible against its own fill. */
+  background: var(--color-cream);
+  color: #1C1C1E;
+  box-shadow: 0 6px 16px color-mix(in srgb, #000 12%, transparent);
+  transition: transform 0.25s ease;
 }
 
-.about__cv:hover {
-  opacity: 1;
+.about__chip:hover {
+  transform: rotate(0deg) scale(1.06);
 }
 
 @media (max-width: 900px) {
@@ -164,13 +211,28 @@
 }
 
 @media (max-width: 768px) {
-  .about__top {
-    grid-template-columns: 1fr;
+  .about__photo-frame {
+    /* Not position: static — its ::before decorative outline and the .about__cv
+       button are both position: absolute relative to this element. Static
+       would detach them, positioning relative to .about__intro instead
+       (that was a real bug: a stray outline spanning the whole section). */
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 180px;
+    margin: var(--space-4) auto var(--space-6);
   }
 
-  .about__photo-frame,
   .about__photo-placeholder {
-    width: 200px;
+    width: 180px;
+  }
+
+  .about__cv {
+    position: static;
+    display: flex;
+    width: fit-content;
+    transform: none;
+    margin: var(--space-3) auto 0;
   }
 
   .about__competencies {

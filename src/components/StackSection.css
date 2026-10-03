@@ -1,35 +1,52 @@
 /* ===== Real overlapping stacking cards =====
    Two things make this actually overlap (vs. a plain "dwell, then hand off
-   at a seam", which is what a naive sticky setup produces — see the commit
-   message for the full diagnosis):
+   at a seam", which is what a naive sticky setup produces — see the Fase 4
+   fix commit for the full diagnosis):
 
-   1. Each wrapper is 2 viewport heights tall, and every wrapper after the
-      first pulls itself up by one viewport height (negative margin) so it
-      starts overlapping the END of the previous wrapper, instead of
-      starting exactly where the previous one ends. Without that overlap in
-      the underlying document space, a section's sticky child and the next
-      section's sticky child are mathematically never on screen at the same
-      time — position: sticky's own clamping means "wrapper N+1 starts
-      exactly where wrapper N ends" always produces a pixel-perfect seam,
-      never a true overlap, no matter how long each section's own pin
-      "dwell" is.
-   2. The background lives on the STICKY element itself, not the (non-
+   1. Every wrapper after the first pulls itself up by one viewport height
+      (negative margin) so it starts overlapping the END of the previous
+      wrapper, instead of starting exactly where it ends. Without that
+      overlap in the underlying document space, a section's sticky child
+      and the next section's sticky child are mathematically never on
+      screen at the same time — "wrapper N+1 starts exactly where wrapper
+      N ends" always produces a pixel-perfect seam, never a true overlap,
+      no matter how long either section's own pin "dwell" is.
+   2. The dwell/overlap room is a dedicated spacer AFTER the sticky
+      element, sized to one viewport, rather than a fixed min-height on the
+      wrapper itself. That makes the dwell scale with each section's own
+      content automatically: short content (Hero, Contact) gets ~100vh of
+      wrapper beyond itself; a section taller than a viewport (Projects,
+      About once its body grows past one screen) gets the same dwell at
+      the END of its own content, instead of none.
+   3. The background lives on the STICKY element itself, not the (non-
       sticky) outer wrapper. During the dwell phase the wrapper keeps
       scrolling normally while its sticky child stays pinned — a background
       on the wrapper would scroll away under the still-pinned content,
       detaching from it and letting whatever's behind bleed through.
 
-   For a section taller than ~2 viewports (Projects), min-height is simply
-   overridden by its own content on both levels — no artificial empty space
-   is introduced, so nothing is ever trapped scrolling through blank space
-   or cut off before it's been read. */
+   The overlap depth (the negative margin below) is deliberately HALF a
+   viewport, not a full one, even though the spacer is a full viewport.
+   Worked out the sticky clamp math by hand: the instant a section's own
+   content finishes being revealed during its unstick/scroll-away phase is
+   ALWAYS identical to the instant the next section's cover-in begins,
+   algebraically independent of the spacer size — making the spacer taller
+   never buys any safety margin, it only shifts both instants together.
+   The only lever that creates a gap between "fully readable" and "starts
+   getting covered" is making the overlap margin SMALLER than the spacer:
+   with a 100vh spacer and a 50vh pull, there's a guaranteed 50vh of
+   scroll — confirmed empirically with instrumented scroll traces on both
+   a short section (About) and a very tall one (Projects) — where a
+   section's own last pixel is on screen and the next section hasn't
+   started covering it yet. A full-viewport pull looked more dramatic but
+   left zero such margin: the tail of any section taller than ~1.2
+   viewports (About's pill cloud, on first ship) raced the next section's
+   incoming cover and was visible for only a sliver of scroll. */
 .stack-section {
   position: relative;
-  min-height: 200vh;
 }
 
 .stack-section + .stack-section {
-  margin-top: -100vh;
+  margin-top: -50vh;
 }
 
 .stack-section__sticky {
@@ -39,6 +56,10 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+.stack-section__spacer {
+  height: 100vh;
 }
 
 .stack-section__inner {
