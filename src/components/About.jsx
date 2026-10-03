@@ -1,60 +1,20 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import profilePhoto from '../assets/profile-photo.png'
+import profilePhoto from '../assets/profile-cutout.png'
 import useFillHover from '../hooks/useFillHover'
 import './About.css'
 
 gsap.registerPlugin(ScrollTrigger)
 
-const competencies = [
-  {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" />
-      </svg>
-    ),
-    title: 'UX Research & strategy',
-    desc: 'Qualitative and quantitative research, personas, journey maps, and service blueprints that ground every design decision.',
-  },
-  {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="3" width="7" height="7" /><rect x="14" y="3" width="7" height="7" /><rect x="3" y="14" width="7" height="7" /><rect x="14" y="14" width="7" height="7" />
-      </svg>
-    ),
-    title: 'Design systems & component libraries',
-    desc: 'Building and maintaining scalable design systems in Figma for cross-functional teams.',
-  },
-  {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="16 18 22 12 16 6" /><polyline points="8 6 2 12 8 18" />
-      </svg>
-    ),
-    title: 'Prototyping & usability testing',
-    desc: 'Low- to high-fidelity wireframes, interactive prototypes, and heuristic evaluations to validate every flow.',
-  },
-  {
-    icon: (
-      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" /><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-      </svg>
-    ),
-    title: 'Branding & visual communication',
-    desc: 'Graphic design, motion graphics, and brand consistency across every digital touchpoint.',
-  },
-]
-
-const skills = [
-  'Figma', 'Framer', 'Sketch', 'Adobe Photoshop', 'Adobe Illustrator',
-  'Adobe InDesign', 'Adobe XD', 'Adobe Animate', 'Adobe Lightroom',
-  'HTML', 'CSS', 'Claude Code', 'Cursor',
-]
-
-// Repeating tilt pattern for the loose pill-cloud look (reference: about.jpg).
-const TILTS = [-6, 4, -3, 6, -4, 3, -5, 5]
-
+// Bloque A — almost-full-screen, everything centered (reference: about.jpg).
+// Kept as its own StackSection (see Home.jsx) rather than combined with
+// AboutSkills/Bloque B: combined, their total height outgrew a viewport and
+// the tail (the pill cloud) only ever became visible at the exact moment
+// Projects' cover-in had already reached it — same class of bug as the
+// original "scroll reveal overlap" fix, just re-triggered by Bloque A+B's
+// combined height. Splitting them back into two viewport-sized sections
+// keeps each one inside the safe-window math StackSection.css documents.
 export default function About() {
   const sectionRef = useRef(null)
   const { ref: cvRef, onMouseEnter: cvEnter, onMouseLeave: cvLeave } = useFillHover()
@@ -89,18 +49,17 @@ export default function About() {
       className="section about"
       ref={sectionRef}
     >
-      <div className="about__intro">
-        <h2 className="about__title">
-          <span className="about__title-light">Designing digital experiences</span>
-          <span className="about__title-bold">centered on people</span>
+      <div className="about__hero">
+        <h2 className="about__headline">
+          <span className="about__headline-light">Designing digital experiences</span>
+          <span className="about__headline-bold">centered on people</span>
         </h2>
 
-        {/* Photo overlaps the headline's last line, like the reference —
-            integrated with the title instead of sitting in its own column. */}
-        <div className="about__photo-frame">
-          <div className="about__photo-placeholder">
-            <img src={profilePhoto} alt="Mariela Cascante" />
-          </div>
+        {/* Cutout photo centered and overlapping the headline's second line —
+            the transparent PNG lets the letters show through around the
+            silhouette, exactly like the reference's photo-over-text effect. */}
+        <div className="about__photo-wrap">
+          <img src={profilePhoto} alt="Mariela Cascante" className="about__photo" />
           <a
             ref={cvRef}
             onMouseEnter={cvEnter}
@@ -118,7 +77,12 @@ export default function About() {
           </a>
         </div>
 
-        <p className="about__bio">
+        <div className="about__corner about__corner--left">
+          <span className="about__corner-rule" aria-hidden="true" />
+          <p className="about__corner-label">UX/UI Product Designer</p>
+        </div>
+
+        <p className="about__bio about__corner about__corner--right">
           I'm a UX Designer with nearly five years of experience creating
           user-centered digital products that combine business objectives,
           usability principles, and visual excellence. I've led end-to-end
@@ -127,34 +91,6 @@ export default function About() {
           experiences — from discovery and research to implementation and
           continuous improvement.
         </p>
-
-        <div className="about__competencies">
-          {competencies.map((c) => (
-            <div key={c.title} className="about__comp">
-              <div className="about__comp-icon">{c.icon}</div>
-              <h3 className="about__comp-title">{c.title}</h3>
-              <p className="about__comp-desc">{c.desc}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Solid color block, full-bleed, pill cloud only — reference's "ALL
-          YOUR design needs" section has nothing else in it either. Dark
-          ink on the lilac fill regardless of site theme, same pairing
-          already used for the Contact card (~8.5:1 contrast). */}
-      <div className="about__block">
-        <div className="about__skills">
-          {skills.map((s, i) => (
-            <span
-              key={s}
-              className="about__chip"
-              style={{ '--tilt': `${TILTS[i % TILTS.length]}deg` }}
-            >
-              {s}
-            </span>
-          ))}
-        </div>
       </div>
     </section>
   )
