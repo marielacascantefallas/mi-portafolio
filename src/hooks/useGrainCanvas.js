@@ -3,10 +3,10 @@ import { useEffect, useRef } from 'react'
 const GRAIN_SIZE = 160
 const LERP_FACTOR = 0.06
 
-const STOPS_DARK = ['#FF8A3D', '#2A4D7A', '#15151A', '#0B0B0D']
-// More saturated than a straight pastel tint of the dark stops — the
-// original ('#FFD9B8'/'#BFD4EE') read as almost gray on a light background.
-const STOPS_LIGHT = ['#FFA366', '#6E93C2', '#F4F1EC', '#FAFAF8']
+// Brand yellow/lilac at the center, fading out to each theme's own --color-bg
+// at the edge so the canvas blends seamlessly into the page.
+const STOPS_DARK = ['#EFD86D', '#AAB6E1', '#242428', '#1C1C1E']
+const STOPS_LIGHT = ['#EFD86D', '#AAB6E1', '#F3ECD9', '#F9F2E2']
 
 function lerp(a, b, t) {
   return a + (b - a) * t
