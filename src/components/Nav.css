@@ -120,21 +120,45 @@
   text-align: center;
 }
 
+/* Glass directly on the letters: the link stays real, selectable,
+   keyboard-navigable text — only its paint is clipped to the glyph shapes
+   via background-clip: text, so there's no pill or box behind it.
+
+   No backdrop-filter here (unlike the hero title in Hero.css, which masks
+   a plain div): GSAP leaves each <li> with an inline
+   `transform: translate(0px, 0px)` for its stagger-in animation, even at
+   rest, and a transformed ancestor changes what backdrop-filter can sample
+   as its backdrop — in testing that turned the blur into a visible
+   rectangle behind each word, exactly the "recuadro" this is supposed to
+   avoid. A translucent background-clip fill + drop-shadow (which does
+   follow the actual glyph silhouette, unlike box-shadow) still reads as
+   glass without depending on backdrop-filter's backdrop root. */
 .nav-overlay__links a {
   display: inline-block;
-  padding: var(--space-1) var(--space-4);
-  border-radius: var(--radius-full);
   font-family: var(--font-display);
   font-weight: 500;
   font-size: clamp(2.5rem, 6vw, 4.5rem);
-  color: var(--color-text);
   text-decoration: none;
-  transition: color 0.2s ease;
+  color: transparent;
+  background-color: var(--glass-text-fill);
+  background-clip: text;
+  -webkit-background-clip: text;
+  filter:
+    drop-shadow(0 1px 1px var(--glass-text-shadow-hi))
+    drop-shadow(0 2px 8px var(--glass-text-shadow-lo));
+  transition: filter 0.2s ease;
 }
 
 .nav-overlay__links a:hover {
-  color: var(--color-accent);
-  opacity: 1;
+  filter:
+    drop-shadow(0 1px 1px var(--glass-text-shadow-hi))
+    drop-shadow(0 2px 14px var(--glass-text-shadow-lo));
+}
+
+.nav-overlay__links a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 6px;
+  border-radius: var(--radius-sm);
 }
 
 @media (max-width: 768px) {

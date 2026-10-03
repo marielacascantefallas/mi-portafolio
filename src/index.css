@@ -61,13 +61,25 @@
   color-scheme: light;
 }
 
-/* Alternating section backgrounds for the Fase 4 stacked-sections layout
-   (see StackSection.jsx) — a subtle wash of each brand color over the
-   page's own --color-bg, light enough that the existing text-color
-   contrast ratios (validated against plain --color-bg above) still hold. */
+/* Alternating section backgrounds for the stacked-sections layout (see
+   StackSection.jsx / Home.jsx) — section 1 (About) uses the site default,
+   section 2 (Projects) the alternate, section 3 (Contact) back to default.
+   Light mode alternates with plain white; dark mode can't use white, so it
+   alternates with a dark tone pulled slightly toward the lilac brand color
+   instead — distinguishable from the default dark bg, still coherent with
+   the palette, and text contrast is barely affected (same as the Fase 4
+   tints this replaces). The footer and the hero's own animated background
+   are intentionally not part of this. */
 :root {
-  --surface-tint-lilac: color-mix(in srgb, var(--color-lilac) 14%, var(--color-bg));
-  --surface-tint-yellow: color-mix(in srgb, var(--color-yellow) 14%, var(--color-bg));
+  --section-bg-a: var(--color-bg);
+}
+
+[data-theme="dark"] {
+  --section-bg-b: color-mix(in srgb, var(--color-lilac) 10%, var(--color-bg));
+}
+
+[data-theme="light"] {
+  --section-bg-b: #ffffff;
 }
 
 /* ===== Reset & base ===== */
@@ -144,10 +156,12 @@ code {
 
 /* ===== Glass effect ===== */
 /* Shared frosted-glass treatment — translucent, blurred backdrop with a
-   bright inset edge — reused by the hero content panel, the nav while the
-   hero is visible, and the hamburger menu overlay. White-based regardless
-   of theme: a glass panel reads as "clear glass catching light" on both a
-   light and a dark backdrop, it isn't meant to recolor to the page theme. */
+   bright inset edge — reused by the nav while the hero is visible and by
+   the hamburger menu overlay (logo/toggle/close button). Light-tinted in
+   dark mode, dark-tinted in light mode: a fixed white tint is nearly
+   invisible over the site's own pale light-mode surfaces (that's what was
+   making the menu's glass disappear in light mode), the same reason the
+   hero's glass letters are theme-adaptive too (see Hero.css). */
 .glass {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -156,18 +170,52 @@ code {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
+[data-theme="light"] .glass {
+  background: rgba(20, 20, 24, 0.07);
+  border: 1px solid rgba(20, 20, 24, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.05);
+}
+
+/* ===== Glass-on-letters tokens =====
+   Shared by the hero title/subtitle (mask-image on vector artwork, see
+   Hero.css) and the menu links (background-clip: text on live text, see
+   Nav.css) — two different mechanisms for the same look. Theme-adaptive
+   for the same reason as .glass above. */
+:root {
+  --glass-text-fill: rgba(255, 255, 255, 0.22);
+  --glass-text-fill-fallback: rgba(255, 255, 255, 0.32);
+  --glass-text-shadow-hi: rgba(255, 255, 255, 0.4);
+  --glass-text-shadow-lo: rgba(0, 0, 0, 0.25);
+}
+
+[data-theme="light"] {
+  --glass-text-fill: rgba(20, 20, 24, 0.14);
+  --glass-text-fill-fallback: rgba(20, 20, 24, 0.26);
+  --glass-text-shadow-hi: rgba(255, 255, 255, 0.55);
+  --glass-text-shadow-lo: rgba(0, 0, 0, 0.22);
+}
+
 /* ===== Noise overlay ===== */
 /* Cheap full-bleed grain: a tiled SVG feTurbulence filter, no raster asset
-   and no per-frame JS cost. mix-blend-mode keeps it from flattening into
-   gray static at this opacity — it textures whatever color is underneath
-   instead. Shared by the hero background and the hamburger menu overlay;
-   each positions/sizes it, this just supplies the look. */
+   and no per-frame JS cost. Shared by the hero background and the
+   hamburger menu overlay; each positions/sizes it, this just supplies the
+   look. mix-blend-mode: overlay darkens/lightens a lot against a dark base
+   but barely moves the needle on a near-white one (its math is confined to
+   roughly the top 10% of the range there) — that's what was making the
+   grain invisible in light mode. multiply fixes that by actually darkening
+   the light surface where the noise is dark. */
 .noise-overlay {
   opacity: 0.75;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 160px 160px;
+}
+
+[data-theme="light"] .noise-overlay {
+  mix-blend-mode: multiply;
 }
 
 /* Visually hidden but still available to screen readers — used where a

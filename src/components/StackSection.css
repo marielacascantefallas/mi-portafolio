@@ -1,12 +1,35 @@
-/* The extra height beyond the sticky content's own min-height is what
-   gives the section time to "dwell" pinned before the next one slides up
-   over it. For sections taller than this (Projects), min-height is simply
-   overridden by content — no artificial empty space is introduced, so the
-   user is never trapped scrolling through blank space inside a pinned
-   section. */
+/* ===== Real overlapping stacking cards =====
+   Two things make this actually overlap (vs. a plain "dwell, then hand off
+   at a seam", which is what a naive sticky setup produces — see the commit
+   message for the full diagnosis):
+
+   1. Each wrapper is 2 viewport heights tall, and every wrapper after the
+      first pulls itself up by one viewport height (negative margin) so it
+      starts overlapping the END of the previous wrapper, instead of
+      starting exactly where the previous one ends. Without that overlap in
+      the underlying document space, a section's sticky child and the next
+      section's sticky child are mathematically never on screen at the same
+      time — position: sticky's own clamping means "wrapper N+1 starts
+      exactly where wrapper N ends" always produces a pixel-perfect seam,
+      never a true overlap, no matter how long each section's own pin
+      "dwell" is.
+   2. The background lives on the STICKY element itself, not the (non-
+      sticky) outer wrapper. During the dwell phase the wrapper keeps
+      scrolling normally while its sticky child stays pinned — a background
+      on the wrapper would scroll away under the still-pinned content,
+      detaching from it and letting whatever's behind bleed through.
+
+   For a section taller than ~2 viewports (Projects), min-height is simply
+   overridden by its own content on both levels — no artificial empty space
+   is introduced, so nothing is ever trapped scrolling through blank space
+   or cut off before it's been read. */
 .stack-section {
   position: relative;
-  min-height: 130vh;
+  min-height: 200vh;
+}
+
+.stack-section + .stack-section {
+  margin-top: -100vh;
 }
 
 .stack-section__sticky {
