@@ -27,46 +27,94 @@
   pointer-events: none;
 }
 
-/* Glass panel wrapping the name + subtitle — this is the "text looks glass,
-   the rest of the hero looks grainy" split: the panel area is frosted, the
-   background around it is the plain noise overlay above. */
 .hero__content {
   position: relative;
   z-index: 1;
-  width: fit-content;
-  max-width: 96vw;
-  text-align: center;
-  padding: clamp(20px, 3vw, 56px) clamp(24px, 4vw, 64px);
-  border-radius: var(--radius-xl);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
-}
-
-.hero__name {
-  margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: var(--font-hero);
-  font-weight: 400;
-  color: var(--color-text);
-  /* 347pt/270pt desktop ratio (≈462.7px/360px) kept via a unitless
-     line-height instead of clamping two separate values — it scales
-     proportionally at every breakpoint for free. The vw-led clamp caps
-     the literal 462.7px ceiling for very wide screens while keeping
-     normal desktop/laptop widths from overflowing. */
-  font-size: clamp(2.5rem, 15.5vw, 462.7px);
-  line-height: 0.778;
-  overflow-wrap: break-word;
+  gap: clamp(20px, 3vw, 40px);
+  padding: 0 var(--space-4);
+  max-width: 96vw;
+}
+
+/* ===== Glass letters =====
+   The visible title/subtitle are solid-black glyph shapes (SVGs made from
+   the actual typefaces) used as a CSS mask on a glass-styled div: the
+   blur/tint/shadow below only shows up INSIDE the letterforms, because the
+   mask makes everything outside them fully transparent. That's what gives
+   "glass on the letters, grain on the background" for free, with no
+   cursor-tracking JS — wherever the cursor is, the letters are glass and
+   the rest of the hero is the noise overlay above, because that's just
+   what's drawn there. The cursor-reactive gradient (useGrainCanvas) can put
+   a pale patch right behind the centered title, so the fill/shadow here are
+   tuned to stay legible against that pale case too, not just the darker
+   average background. */
+.hero-glass-text {
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  background: rgba(255, 255, 255, 0.22);
+  backdrop-filter: blur(20px) saturate(1.5);
+  -webkit-backdrop-filter: blur(20px) saturate(1.5);
+  /* Inset shadows are clipped by the mask too, so this reads as a soft
+     bevel inside each letter rather than a rectangular panel shadow. */
+  box-shadow:
+    inset 0 2px 1px rgba(255, 255, 255, 0.5),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.22);
+  /* A regular `border` traces the element's rectangular box, not the
+     glyph outlines — drop-shadow instead follows the actual masked
+     silhouette, which is what gives each letter its subtle edge glow. */
+  filter:
+    drop-shadow(0 1px 1px rgba(255, 255, 255, 0.4))
+    drop-shadow(0 2px 12px rgba(0, 0, 0, 0.25));
+}
+
+/* Fallback for browsers without backdrop-filter support: a plain
+   translucent fill reads fine on its own without the blur-glass look. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .hero-glass-text {
+    background: rgba(255, 255, 255, 0.32);
+  }
+}
+
+/* The hero's own background is pale in light mode (see useGrainCanvas's
+   STOPS_LIGHT), so a white glass fill all but disappears into it. Real
+   adaptive glass (iOS included) tints darker over light surfaces and
+   lighter over dark ones rather than staying a fixed color — flipping the
+   fill/shadow polarity here keeps the letters legible without losing the
+   glass look. */
+[data-theme='light'] .hero-glass-text {
+  background: rgba(20, 20, 24, 0.14);
+  box-shadow:
+    inset 0 2px 1px rgba(255, 255, 255, 0.5),
+    inset 0 -3px 6px rgba(0, 0, 0, 0.18);
+  filter:
+    drop-shadow(0 1px 1px rgba(255, 255, 255, 0.55))
+    drop-shadow(0 2px 10px rgba(0, 0, 0, 0.22));
+}
+
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  [data-theme='light'] .hero-glass-text {
+    background: rgba(20, 20, 24, 0.26);
+  }
+}
+
+.hero__title {
+  -webkit-mask-image: url('/hero-title.svg');
+  mask-image: url('/hero-title.svg');
+  width: min(92vw, 1400px);
+  aspect-ratio: 4710.94 / 1631.98;
 }
 
 .hero__subtitle {
-  margin-top: var(--space-3);
-  font-family: var(--font-body);
-  font-weight: 400;
-  font-size: clamp(14px, 6vw, 96px);
-  letter-spacing: 0.04em;
-  color: var(--color-text);
-  opacity: 0.85;
+  -webkit-mask-image: url('/hero-subtitle.svg');
+  mask-image: url('/hero-subtitle.svg');
+  width: min(78vw, 820px);
+  aspect-ratio: 2845.32 / 170.88;
 }
 
 .hero__scroll {

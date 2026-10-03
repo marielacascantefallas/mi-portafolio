@@ -1,18 +1,5 @@
 @import 'lenis/dist/lenis.css';
 
-/* Hero display font. The file isn't in the repo yet — once it's added at
-   this path, the hero title picks it up automatically, no code change
-   needed. Falls back to a system rounded face so the hero still looks
-   intentional in the meantime. */
-@font-face {
-  font-family: 'Bubblegum Pop';
-  src: url('/fonts/BubblegumPop.woff2') format('woff2'),
-       url('/fonts/BubblegumPop.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* ===== Design System Tokens ===== */
 
 :root {
@@ -31,13 +18,12 @@
   --radius-xl: 28px;
   --radius-full: 9999px;
 
-  /* Tipografía — Helvetica en todo el sitio. Única excepción: el título
-     del hero (ver .hero__title), que usa su propia fuente de display. */
+  /* Tipografía — Helvetica en todo el sitio. El título del hero ya no usa
+     una fuente CSS: es artwork vectorial (public/hero-title.svg) usado
+     como mask-image, ver Hero.css. */
   --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-mono: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  /* Hero name only — see @font-face above. */
-  --font-hero: 'Bubblegum Pop', ui-rounded, system-ui, sans-serif;
 
   /* Transición de tema */
   --theme-transition: color 0.3s ease, background-color 0.3s ease;
