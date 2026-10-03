@@ -17,6 +17,7 @@ gsap.registerPlugin(ScrollTrigger)
 // keeps each one inside the safe-window math StackSection.css documents.
 export default function About() {
   const sectionRef = useRef(null)
+  const photoRef = useRef(null)
   const { ref: cvRef, onMouseEnter: cvEnter, onMouseLeave: cvLeave } = useFillHover()
 
   useEffect(() => {
@@ -43,6 +44,53 @@ export default function About() {
     return () => clearTimeout(timer)
   }, [])
 
+  useEffect(() => {
+    const photo = photoRef.current
+    const section = sectionRef.current
+    if (!photo || !section) return
+
+    const prefersReducedMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)'
+    ).matches
+
+    // The photo starts low enough that the headline reads fully, then rises
+    // into its final overlapping spot as you scroll through the section's
+    // own dwell — instead of covering the text from the very first frame.
+    // Scrubbed to scroll position (not time), tied to the pin's dwell,
+    // which StackSection.css establishes is always exactly one spacer
+    // (100vh) long regardless of this section's own content height.
+    if (prefersReducedMotion) {
+      gsap.set(photo, { yPercent: 0 })
+      return
+    }
+
+    gsap.set(photo, { yPercent: 45 })
+
+    const tween = gsap.to(photo, {
+      yPercent: 0,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: section,
+        start: 'top top',
+        // Finishes well before AboutSkills' cover-in starts, so the fully-
+        // overlapped headline gets a calm, static moment first. Measured
+        // empirically: with this hero shorter than the viewport, the next
+        // section's sticky top re-enters the viewport at roughly 35-40% of
+        // the dwell (StackSection.css's spacer/margin math sets the dwell
+        // itself at exactly 100vh, independent of content height) — well
+        // before the dwell's own end, because a short hero does nothing
+        // during most of its own pin. 25% leaves a clear buffer before that.
+        end: () => '+=' + window.innerHeight * 0.2,
+        scrub: true,
+      },
+    })
+
+    return () => {
+      tween.scrollTrigger?.kill()
+      tween.kill()
+    }
+  }, [])
+
   return (
     <section
       id="about"
@@ -58,7 +106,7 @@ export default function About() {
         {/* Cutout photo centered and overlapping the headline's second line —
             the transparent PNG lets the letters show through around the
             silhouette, exactly like the reference's photo-over-text effect. */}
-        <div className="about__photo-wrap">
+        <div className="about__photo-wrap" ref={photoRef}>
           <img src={profilePhoto} alt="Mariela Cascante" className="about__photo" />
           <a
             ref={cvRef}

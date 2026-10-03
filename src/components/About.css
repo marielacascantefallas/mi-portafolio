@@ -11,11 +11,11 @@
   min-height: 92vh;
   max-width: 1200px;
   margin: 0 auto;
-  padding: var(--space-8) var(--space-4) 0;
+  padding: calc(var(--space-8) + 56px) var(--space-4) 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
 }
 
@@ -32,7 +32,6 @@
 .about__headline-light {
   font-size: clamp(22px, 3.6vw, 42px);
   font-weight: 300;
-  font-style: italic;
   line-height: 1.15;
   color: var(--color-text);
 }
@@ -51,11 +50,17 @@
 .about__photo-wrap {
   position: absolute;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
+  margin-inline: auto;
   z-index: 2;
   width: clamp(240px, 32vw, 460px);
   pointer-events: none;
+  /* transform (y/yPercent) is owned by the GSAP scroll-scrub in About.jsx —
+     it slides up from below into its overlapping resting spot as the
+     section scrolls, instead of covering the headline from the first
+     frame. Centering uses left/right/margin instead of translateX so GSAP
+     can own the transform outright without fighting a CSS one. */
 }
 
 .about__photo-wrap a {
