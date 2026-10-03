@@ -11,42 +11,52 @@
   --space-6: 48px;
   --space-8: 64px;
 
-  /* Border radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 16px;
+  /* Border radius — escala continua estilo Apple HIG */
+  --radius-sm: 12px;
+  --radius-md: 16px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
   --radius-full: 9999px;
 
-  /* Tipografía */
-  --font-display: 'Inter', system-ui, sans-serif;
-  /* Used for eyebrows, labels, tags, nav links — a distinct geometric
-     sans-serif (not monospace, no foot serifs) that still reads as a
-     clearly separate voice from Inter, for hierarchy without competing
-     with the main typeface. */
-  --font-mono: 'Space Grotesk', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  /* Tipografía — Helvetica en todo el sitio. Única excepción: el título
+     del hero (ver .hero__title), que usa su propia fuente de display. */
+  --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
   /* Transición de tema */
   --theme-transition: color 0.3s ease, background-color 0.3s ease;
+
+  /* Paleta de marca (mismo valor en ambos modos) */
+  --color-yellow: #EFD86D;
+  --color-lilac: #AAB6E1;
+  --color-cream: #F9F2E2;
 }
 
-/* ===== Modo oscuro (default) ===== */
+/* ===== Modo oscuro (default) =====
+   Fondo neutro oscuro propuesto (#1C1C1E) + texto crema + los acentos de
+   marca tal cual, que sobre este fondo ya cumplen AA (~8.5:1 el lila,
+   ~12:1 el amarillo). */
 [data-theme="dark"] {
-  --color-bg: #0B0B0D;
-  --color-accent: #FF8A3D;
-  --color-blue: #2A4D7A;
-  --color-text: #FAFAF8;
-  --color-text-muted: #9ca3af;
+  --color-bg: #1C1C1E;
+  --color-accent: var(--color-lilac);
+  --color-text: var(--color-cream);
+  --color-text-muted: #B8AF9C;
   color-scheme: dark;
 }
 
-/* ===== Modo claro ===== */
+/* ===== Modo claro =====
+   Fondo crema + texto tinta casi negra. El lila y el amarillo puros, sobre
+   crema, no llegan a 3:1 (son dos tonos pastel muy cercanos en luminancia),
+   así que --color-accent usa un matiz más oscuro del mismo lila para texto,
+   íconos y bordes (6.5:1 en crema). Los tonos puros (--color-yellow /
+   --color-lilac) se reservan para bloques sólidos y pills con texto oscuro
+   encima, nunca como texto suelto sobre el fondo. */
 [data-theme="light"] {
-  --color-bg: #FAFAF8;
-  --color-accent: #D2691E;
-  --color-blue: #2A4D7A;
-  --color-text: #0B0B0D;
-  --color-text-muted: #6b6375;
+  --color-bg: var(--color-cream);
+  --color-accent: #46548C;
+  --color-text: #1C1C1E;
+  --color-text-muted: #6B6558;
   color-scheme: light;
 }
 
