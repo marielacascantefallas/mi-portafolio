@@ -4,6 +4,7 @@ import Hero from '../components/Hero'
 import Projects from '../components/Projects'
 import About from '../components/About'
 import Contact from '../components/Contact'
+import StackSection from '../components/StackSection'
 import '../App.css'
 
 export default function Home({ theme, onToggle }) {
@@ -29,10 +30,21 @@ export default function Home({ theme, onToggle }) {
     <>
       <Nav theme={theme} onToggle={onToggle} glass={heroVisible} />
       <main>
-        <Hero ref={heroRef} />
-        <About />
-        <Projects />
-        <Contact />
+        {/* Each section stacks over the previous one as you scroll (see
+            StackSection) — z-index increases down the page, and the
+            background alternates between the brand colors. */}
+        <StackSection zIndex={1} background="var(--color-bg)">
+          <Hero ref={heroRef} />
+        </StackSection>
+        <StackSection zIndex={2} background="var(--surface-tint-lilac)">
+          <About />
+        </StackSection>
+        <StackSection zIndex={3} background="var(--surface-tint-yellow)">
+          <Projects />
+        </StackSection>
+        <StackSection zIndex={4} background="var(--color-bg)">
+          <Contact />
+        </StackSection>
       </main>
       <footer className="footer">
         <p>© 2025 Mariela Cascante. All rights reserved.</p>
