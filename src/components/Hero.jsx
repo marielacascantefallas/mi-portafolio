@@ -14,15 +14,14 @@ const Hero = forwardRef(function Hero(_props, ref) {
       <canvas ref={canvasRef} className="hero__canvas" />
       <div className="hero__noise noise-overlay" aria-hidden="true" />
 
-      {/* Glass panel: frosted/blurred over the gradient + grain behind it,
-          which is what gives the "glass over the hero" look the rest of
-          the hero (outside this panel) doesn't have. */}
-      <div className="hero__content glass">
-        <h1 className="hero__name">
-          <span className="hero__name-line">MARIELA</span>
-          <span className="hero__name-line">CASCANTE</span>
-        </h1>
-        <p className="hero__subtitle">UX/UI PRODUCT DESIGNER</p>
+      <div className="hero__content">
+        {/* Real text for a11y/SEO — visually hidden. The visible artwork
+            below is the actual glyph shapes (public/hero-title.svg /
+            hero-subtitle.svg) used as a mask, so it's decorative/aria-hidden. */}
+        <h1 className="sr-only">Mariela Cascante</h1>
+        <div className="hero__title hero-glass-text" aria-hidden="true" />
+        <p className="sr-only">UX/UI Product Designer</p>
+        <div className="hero__subtitle hero-glass-text" aria-hidden="true" />
       </div>
 
       <a href="#projects" className="hero__scroll" aria-label="Scroll to projects">
