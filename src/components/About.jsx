@@ -52,6 +52,9 @@ const skills = [
   'HTML', 'CSS', 'Claude Code', 'Cursor',
 ]
 
+// Repeating tilt pattern for the loose pill-cloud look (reference: about.jpg).
+const TILTS = [-6, 4, -3, 6, -4, 3, -5, 5]
+
 export default function About() {
   const sectionRef = useRef(null)
   const { ref: cvRef, onMouseEnter: cvEnter, onMouseLeave: cvLeave } = useFillHover()
@@ -86,61 +89,73 @@ export default function About() {
       className="section about"
       ref={sectionRef}
     >
-      <div className="about__top">
+      <div className="about__intro">
+        <h2 className="about__title">
+          <span className="about__title-light">Designing digital experiences</span>
+          <span className="about__title-bold">centered on people</span>
+        </h2>
+
+        {/* Photo overlaps the headline's last line, like the reference —
+            integrated with the title instead of sitting in its own column. */}
         <div className="about__photo-frame">
           <div className="about__photo-placeholder">
             <img src={profilePhoto} alt="Mariela Cascante" />
           </div>
+          <a
+            ref={cvRef}
+            onMouseEnter={cvEnter}
+            onMouseLeave={cvLeave}
+            href="/documents/Mariela_Cascante_CV.pdf"
+            download="Mariela_Cascante_CV.pdf"
+            className="about__cv btn-fill"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+            Download CV
+          </a>
         </div>
 
-        <div className="about__intro">
-          <h2 className="about__title">
-            Designing digital experiences{' '}
-            <span className="about__title-accent">centered on people</span>
-          </h2>
-          <p className="about__bio">
-            I'm a UX Designer with nearly five years of experience creating
-            user-centered digital products that combine business objectives,
-            usability principles, and visual excellence. I've led end-to-end
-            UX initiatives, collaborating with cross-functional teams to
-            transform complex requirements into intuitive digital
-            experiences — from discovery and research to implementation and
-            continuous improvement.
-          </p>
+        <p className="about__bio">
+          I'm a UX Designer with nearly five years of experience creating
+          user-centered digital products that combine business objectives,
+          usability principles, and visual excellence. I've led end-to-end
+          UX initiatives, collaborating with cross-functional teams to
+          transform complex requirements into intuitive digital
+          experiences — from discovery and research to implementation and
+          continuous improvement.
+        </p>
+
+        <div className="about__competencies">
+          {competencies.map((c) => (
+            <div key={c.title} className="about__comp">
+              <div className="about__comp-icon">{c.icon}</div>
+              <h3 className="about__comp-title">{c.title}</h3>
+              <p className="about__comp-desc">{c.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="about__competencies">
-        {competencies.map((c) => (
-          <div key={c.title} className="about__comp">
-            <div className="about__comp-icon">{c.icon}</div>
-            <h3 className="about__comp-title">{c.title}</h3>
-            <p className="about__comp-desc">{c.desc}</p>
-          </div>
-        ))}
+      {/* Solid color block, full-bleed, pill cloud only — reference's "ALL
+          YOUR design needs" section has nothing else in it either. Dark
+          ink on the lilac fill regardless of site theme, same pairing
+          already used for the Contact card (~8.5:1 contrast). */}
+      <div className="about__block">
+        <div className="about__skills">
+          {skills.map((s, i) => (
+            <span
+              key={s}
+              className="about__chip"
+              style={{ '--tilt': `${TILTS[i % TILTS.length]}deg` }}
+            >
+              {s}
+            </span>
+          ))}
+        </div>
       </div>
-
-      <div className="about__skills">
-        {skills.map((s) => (
-          <span key={s} className="about__chip">{s}</span>
-        ))}
-      </div>
-
-      <a
-        ref={cvRef}
-        onMouseEnter={cvEnter}
-        onMouseLeave={cvLeave}
-        href="/documents/Mariela_Cascante_CV.pdf"
-        download="Mariela_Cascante_CV.pdf"
-        className="about__cv btn-fill"
-      >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-          <polyline points="7 10 12 15 17 10" />
-          <line x1="12" y1="15" x2="12" y2="3" />
-        </svg>
-        Download CV (PDF)
-      </a>
     </section>
   )
 }
