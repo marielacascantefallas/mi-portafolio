@@ -32,17 +32,18 @@ export default function Home({ theme, onToggle }) {
       <main>
         {/* Each section stacks over the previous one as you scroll (see
             StackSection) — z-index increases down the page, and the
-            background alternates between the brand colors. */}
-        <StackSection zIndex={1} background="var(--color-bg)">
+            background alternates starting with About (the hero keeps its
+            own animated background instead of a flat color). */}
+        <StackSection zIndex={1}>
           <Hero ref={heroRef} />
         </StackSection>
-        <StackSection zIndex={2} background="var(--surface-tint-lilac)">
+        <StackSection zIndex={2} background="var(--section-bg-a)">
           <About />
         </StackSection>
-        <StackSection zIndex={3} background="var(--surface-tint-yellow)">
+        <StackSection zIndex={3} background="var(--section-bg-b)">
           <Projects />
         </StackSection>
-        <StackSection zIndex={4} background="var(--color-bg)">
+        <StackSection zIndex={4} background="var(--section-bg-a)">
           <Contact />
         </StackSection>
       </main>

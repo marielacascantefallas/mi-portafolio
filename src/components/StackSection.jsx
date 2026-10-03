@@ -8,11 +8,10 @@ gsap.registerPlugin(ScrollTrigger)
 // Wraps one top-level section (Hero, About, Projects, Contact) in the
 // sticky-card mechanism that makes each section pin at the top and get
 // covered by the next one sliding up over it — pure CSS (position: sticky +
-// z-index), no JS scroll-hijacking. The wrapper's min-height gives the
-// section its "dwell" time before the next one takes over; a section whose
-// own content is taller than that (Projects) just grows past it and the
-// dwell naturally shrinks to ~0, so it scrolls through normally instead of
-// trapping the user inside a pinned viewport.
+// z-index + overlapping wrappers, see StackSection.css), no JS
+// scroll-hijacking. A section whose own content is taller than the
+// wrapper's floor (Projects) just grows past it instead of trapping the
+// user inside a pinned viewport.
 export default function StackSection({ children, zIndex, background, className = '' }) {
   const innerRef = useRef(null)
 
@@ -50,8 +49,10 @@ export default function StackSection({ children, zIndex, background, className =
   }, [])
 
   return (
-    <div className={`stack-section ${className}`} style={{ background }}>
-      <div className="stack-section__sticky" style={{ zIndex }}>
+    <div className={`stack-section ${className}`}>
+      {/* Background goes on the sticky element itself — see StackSection.css
+          for why the (non-sticky) outer wrapper is the wrong place for it. */}
+      <div className="stack-section__sticky" style={{ zIndex, background }}>
         <div ref={innerRef} className="stack-section__inner">
           {children}
         </div>

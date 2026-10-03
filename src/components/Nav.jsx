@@ -90,7 +90,7 @@ export default function Nav({ theme, onToggle, glass }) {
                 key={l.href}
                 ref={(el) => (linksRef.current[i] = el)}
               >
-                <a href={l.href} onClick={close} className="glass">
+                <a href={l.href} onClick={close}>
                   {l.label}
                 </a>
               </li>
