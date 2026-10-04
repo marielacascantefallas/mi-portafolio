@@ -39,18 +39,41 @@
 }
 
 /* ===== Glass letters =====
-   The visible title/subtitle are solid-black glyph shapes (SVGs made from
-   the actual typefaces) used as a CSS mask on a glass-styled div: the
-   blur/tint/shadow below only shows up INSIDE the letterforms, because the
-   mask makes everything outside them fully transparent. That's what gives
-   "glass on the letters, grain on the background" for free, with no
-   cursor-tracking JS — wherever the cursor is, the letters are glass and
-   the rest of the hero is the noise overlay above, because that's just
-   what's drawn there. The cursor-reactive gradient (useGrainCanvas) can put
-   a pale patch right behind the centered title, so the fill/shadow here are
-   tuned to stay legible against that pale case too, not just the darker
-   average background. */
-.hero-glass-text {
+   Two layers, exactly the same size/position, stacked on one wrapper:
+
+   1. .hero-glass-backdrop — a plain div, masked to the glyph silhouette
+      (still via the original SVG files, as a CSS mask — a mask only needs
+      the shape's alpha, not real path data). backdrop-filter has no
+      equivalent inside an SVG filter graph, so this is the only way to get
+      "the animated background, blurred and more vivid, showing through the
+      letters" — wherever the cursor is, the letters are glass and the rest
+      of the hero is the noise overlay above, because that's just what's
+      drawn there, no cursor-tracking JS needed for the glass itself.
+
+   2. The GlassLetters SVG (hero__title-svg / hero__subtitle-svg) — real
+      path data (see heroGlyphPaths.js) tracing the actual letter outlines,
+      for the edge glow / bevel / sheen that a rectangular CSS mask can't
+      give: box-shadow and border only ever follow an element's box, not an
+      arbitrary mask shape. */
+/* Both layers inside are position: absolute, so the wrap itself has to
+   carry the actual width/aspect-ratio that sizes this part of the flex
+   layout — an absolutely-positioned child contributes nothing to its
+   parent's size. */
+.hero__title-wrap {
+  position: relative;
+  width: min(92vw, 1400px);
+  aspect-ratio: 4710.94 / 1631.98;
+}
+
+.hero__subtitle-wrap {
+  position: relative;
+  width: min(78vw, 820px);
+  aspect-ratio: 2845.32 / 170.88;
+}
+
+.hero-glass-backdrop {
+  position: absolute;
+  inset: 0;
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
@@ -58,25 +81,18 @@
   -webkit-mask-size: contain;
   mask-size: contain;
   background: var(--glass-text-fill);
-  backdrop-filter: blur(20px) saturate(1.5);
-  -webkit-backdrop-filter: blur(20px) saturate(1.5);
-  /* Inset shadows are clipped by the mask too, so this reads as a soft
-     bevel inside each letter rather than a rectangular panel shadow. */
-  box-shadow:
-    inset 0 2px 1px var(--glass-text-shadow-hi),
-    inset 0 -3px 6px var(--glass-text-shadow-lo);
-  /* A regular `border` traces the element's rectangular box, not the
-     glyph outlines — drop-shadow instead follows the actual masked
-     silhouette, which is what gives each letter its subtle edge glow. */
-  filter:
-    drop-shadow(0 1px 1px var(--glass-text-shadow-hi))
-    drop-shadow(0 2px 12px var(--glass-text-shadow-lo));
+  /* saturate+brightness over the base blur: the yellow/lilac cursor glow
+     behind the letters should read as more vivid and luminous than the
+     same colors look outside the glass, like light concentrating through
+     real glass rather than just a frosted window. */
+  backdrop-filter: blur(20px) saturate(1.8) brightness(1.2);
+  -webkit-backdrop-filter: blur(20px) saturate(1.8) brightness(1.2);
 }
 
 /* Fallback for browsers without backdrop-filter support: a plain
    translucent fill reads fine on its own without the blur-glass look. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-  .hero-glass-text {
+  .hero-glass-backdrop {
     background: var(--glass-text-fill-fallback);
   }
 }
@@ -84,15 +100,59 @@
 .hero__title {
   -webkit-mask-image: url('/hero-title.svg');
   mask-image: url('/hero-title.svg');
-  width: min(92vw, 1400px);
-  aspect-ratio: 4710.94 / 1631.98;
 }
 
 .hero__subtitle {
   -webkit-mask-image: url('/hero-subtitle.svg');
   mask-image: url('/hero-subtitle.svg');
-  width: min(78vw, 820px);
-  aspect-ratio: 2845.32 / 170.88;
+}
+
+.hero__title-svg,
+.hero__subtitle-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  /* Floating drop-shadow underneath the whole glyph silhouette (this is a
+     CSS filter, not the SVG bevel filter — it follows the rendered alpha
+     of the whole SVG, same trick the old implementation used). */
+  filter: drop-shadow(0 6px 18px var(--glass-outer-shadow));
+}
+
+.glass-letters__fill {
+  fill: var(--glass-text-fill);
+}
+
+.glass-letters__bevel {
+  opacity: 0.85;
+  mix-blend-mode: soft-light;
+}
+
+[data-theme='dark'] .glass-letters__bevel {
+  opacity: 1;
+  mix-blend-mode: overlay;
+}
+
+.glass-letters__edge-stop-hi {
+  stop-color: var(--glass-edge-hi);
+}
+
+.glass-letters__edge-stop-mid {
+  stop-color: var(--glass-edge-mid);
+}
+
+.glass-letters__edge-stop-lo {
+  stop-color: rgba(255, 255, 255, 0);
+}
+
+.glass-letters__sheen-stop {
+  stop-color: var(--glass-sheen);
+}
+
+.glass-letters__sheen {
+  mix-blend-mode: screen;
 }
 
 .hero__scroll {

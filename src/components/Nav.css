@@ -146,19 +146,21 @@
   font-size: clamp(2.5rem, 6vw, 4.5rem);
   text-decoration: none;
   color: transparent;
-  background-color: var(--glass-text-fill);
+  background-color: var(--menu-text-fill);
   background-clip: text;
   -webkit-background-clip: text;
   filter:
+    drop-shadow(0 0 1px var(--glass-edge-hi))
     drop-shadow(0 1px 1px var(--glass-text-shadow-hi))
-    drop-shadow(0 2px 8px var(--glass-text-shadow-lo));
+    drop-shadow(0 2px 10px var(--glass-text-shadow-lo));
   transition: filter 0.2s ease;
 }
 
 .nav-overlay__links a:hover {
   filter:
+    drop-shadow(0 0 1px var(--glass-edge-hi))
     drop-shadow(0 1px 1px var(--glass-text-shadow-hi))
-    drop-shadow(0 2px 14px var(--glass-text-shadow-lo));
+    drop-shadow(0 2px 16px var(--glass-text-shadow-lo));
 }
 
 .nav-overlay__links a:focus-visible {
