@@ -54,6 +54,11 @@
   border-radius: var(--radius-md);
   background: transparent;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.nav__hamburger:hover {
+  background: var(--color-yellow);
 }
 
 .nav__hamburger span {
@@ -62,7 +67,11 @@
   height: 2px;
   background: var(--color-text);
   border-radius: 1px;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.3s ease, opacity 0.3s ease, background-color 0.2s ease;
+}
+
+.nav__hamburger:hover span {
+  background: var(--card-text);
 }
 
 .nav__hamburger--open span:nth-child(1) {

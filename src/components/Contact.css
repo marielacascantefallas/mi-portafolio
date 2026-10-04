@@ -138,11 +138,8 @@
 }
 
 .contact__submit {
-  /* The idle/filled colors here are the card's own ink/lilac pair, not the
-     site-wide --color-accent: that token is tuned for the page background,
-     while this button sits on the lilac card itself. */
-  --btn-fill-bg: var(--color-yellow);
-  --btn-fill-color: var(--card-text);
+  /* No --btn-fill-bg/--btn-fill-color override needed: the shared
+     .btn-fill default (index.css) is this exact yellow/ink pair. */
   display: inline-flex;
   align-items: center;
   gap: var(--space-1);

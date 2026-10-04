@@ -79,23 +79,6 @@
   aspect-ratio: 1 / 1;
 }
 
-.about__cv {
-  position: absolute;
-  left: 50%;
-  bottom: 14%;
-  transform: translateX(-50%);
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-  padding: var(--space-2) var(--space-3);
-  font-family: var(--font-mono);
-  font-size: 13px;
-  white-space: nowrap;
-  color: var(--color-accent);
-  border: 1px solid var(--color-accent);
-  background: var(--color-bg);
-}
-
 .about__corner {
   position: absolute;
   bottom: var(--space-6);
@@ -189,8 +172,6 @@
   color: #1C1C1E;
   border: 1px solid #1C1C1E;
   background: var(--color-cream);
-  --btn-fill-bg: #1C1C1E;
-  --btn-fill-color: var(--color-cream);
 }
 
 /* Compact row, no icon chrome — just the 4 areas as plain labels. */

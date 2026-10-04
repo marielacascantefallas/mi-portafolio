@@ -13,8 +13,8 @@
 }
 
 .theme-toggle:hover {
-  background: var(--color-accent);
-  color: var(--color-bg);
+  background: var(--color-yellow);
+  color: var(--card-text);
 }
 
 .theme-toggle:focus-visible {

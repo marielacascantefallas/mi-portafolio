@@ -1,19 +1,10 @@
 import socialClubThumb from '../Socialclub/Mockup4.png'
-import repuestosAltoThumb from '../assets/projects/repuestos-alto.jpg'
-import ticoGuidesThumb from '../assets/projects/ticoguides-cover.png'
 import gexpSoftwareThumb from '../assets/projects/gexp-software.jpg'
+import gexpSoftwareCard from '../assets/projects/gexp-software-card.jpg'
 import biianchiEstudioThumb from '../assets/projects/biianchi-estudio.jpg'
-import goEasyThumb from '../assets/projects/goeasy.jpg'
-import sunriseHillGlampingThumb from '../assets/projects/sunrise-hill-glamping.jpg'
-import denverTransparentMoversThumb from '../assets/projects/denver-transparent-movers.jpg'
-import elMuelleStoreThumb from '../assets/projects/el-muelle-store.jpg'
-
-// Placeholder values for case-study fields that aren't filled in yet —
-// clearly marked so they're obvious to find and replace (Fase 7: "usa
-// imágenes placeholder y texto placeholder claramente marcado").
-const ADD_DURATION = 'Add project duration'
-const ADD_ROLE = 'Add your role'
-const ADD_CHALLENGE = 'Add the main challenge'
+import biianchiEstudioBanner from '../assets/projects/biianchi-estudio-banner.jpg'
+import picoMarVillasThumb from '../assets/projects/pico-mar-villas.jpg'
+import picoMarVillasBanner from '../assets/projects/pico-mar-villas-banner.jpg'
 
 const projects = [
   {
@@ -27,52 +18,28 @@ const projects = [
     accentClass: 'project--social-club',
   },
   {
-    id: 3,
-    title: 'Repuestos Alto',
-    slug: 'repuestos-alto',
-    description:
-      'Website for an automotive parts and LED/3D technology retailer serving the Zona Sur of Costa Rica.',
-    tags: ['Web Development', 'Client Site'],
-    image: repuestosAltoThumb,
-    imageWidth: 1200,
-    imageHeight: 750,
-    link: '/proyectos/repuestos-alto',
-    siteUrl: 'https://www.repuestosalto.com/',
-    duration: ADD_DURATION,
-    role: ADD_ROLE,
-    challenge: ADD_CHALLENGE,
-  },
-  {
-    id: 4,
-    title: 'TicoGuides',
-    slug: 'ticoguides',
-    description:
-      'Travel guide platform showcasing curated experiences and local guides across Costa Rica.',
-    tags: ['Web Development', 'Client Site'],
-    image: ticoGuidesThumb,
-    imageWidth: 933,
-    imageHeight: 721,
-    link: '/proyectos/ticoguides',
-    siteUrl: 'https://ticoguides.com/',
-    duration: ADD_DURATION,
-    role: ADD_ROLE,
-    challenge: ADD_CHALLENGE,
-  },
-  {
     id: 5,
     title: 'GEXP Software',
     slug: 'gexp-software',
     description:
       'Custom software studio site for a team shipping high-converting websites and apps.',
     tags: ['Web Development', 'Client Site'],
+    // Case-study banner — kept as the original site screenshot (per the
+    // user: leave this one as it was).
     image: gexpSoftwareThumb,
     imageWidth: 1200,
     imageHeight: 750,
+    // Carousel card cover (gexp. logo shot) — falls back to `image` above
+    // if unset, see Projects.jsx.
+    cardImage: gexpSoftwareCard,
+    cardImageWidth: 2000,
+    cardImageHeight: 1999,
     link: '/proyectos/gexp-software',
     siteUrl: 'https://gexpsoftware.com/',
-    duration: ADD_DURATION,
-    role: ADD_ROLE,
-    challenge: ADD_CHALLENGE,
+    duration: '2 weeks',
+    role: 'Editing & UX/UI Design',
+    challenge:
+      "GEXP Software needed its own marketing site to read as credibly as the high-converting products the team builds for clients, but the existing copy and layout buried that message under generic software-agency boilerplate. Working within a two-week turnaround, the challenge was editing the content and refining the UX/UI without a full rebuild — sharpening the hierarchy, the service narrative, and the call-to-action path so visitors could tell what the team does, and why it's different, fast.",
   },
   {
     id: 6,
@@ -81,90 +48,44 @@ const projects = [
     description:
       'Creative direction studio building memorable brands through strategy, photography, and design.',
     tags: ['Web Development', 'Client Site'],
-    image: biianchiEstudioThumb,
-    imageWidth: 1200,
-    imageHeight: 750,
+    // Case-study banner (wide homepage screenshot).
+    image: biianchiEstudioBanner,
+    imageWidth: 2000,
+    imageHeight: 1253,
+    // Carousel card cover (vertical brand shot) — falls back to `image`
+    // above if unset, see Projects.jsx.
+    cardImage: biianchiEstudioThumb,
+    cardImageWidth: 1602,
+    cardImageHeight: 2000,
     link: '/proyectos/biianchi-estudio',
     siteUrl: 'https://www.biianchiestudio.com/',
-    duration: ADD_DURATION,
-    role: ADD_ROLE,
-    challenge: ADD_CHALLENGE,
+    duration: '2 weeks',
+    role: 'Photography, Editing & UX/UI Design',
+    challenge:
+      "Built to feature service packages rather than a gallery of past work, Biianchi Estudio's site puts the two founders front and center. The goal for this two-week build was to create an easy-to-navigate layout that reflects their creative style while keeping the presentation clear, polished, and straightforward.",
   },
   {
-    id: 7,
-    title: 'GoEasy',
-    slug: 'goeasy',
+    id: 11,
+    title: 'Pico Mar Villas',
+    slug: 'pico-mar-villas',
     description:
-      'Multi-agent WhatsApp customer service platform for teams handling high volumes of chats.',
+      "Luxury villa booking platform for Costa Rica's Pacific coast, pairing curated homes with a professional concierge service.",
     tags: ['Web Development', 'Client Site'],
-    image: goEasyThumb,
-    imageWidth: 1200,
-    imageHeight: 750,
-    link: '/proyectos/goeasy',
-    siteUrl: 'https://goeasy.chat/',
-    duration: ADD_DURATION,
-    role: ADD_ROLE,
-    challenge: ADD_CHALLENGE,
-  },
-  {
-    id: 8,
-    title: 'Sunrise Hill Glamping',
-    slug: 'sunrise-hill-glamping',
-    description:
-      'Glamping hotel site in Costa Rica showcasing domes, suites, and social spaces with online booking.',
-    tags: ['Web Development', 'Client Site'],
-    image: sunriseHillGlampingThumb,
-    imageWidth: 1200,
-    imageHeight: 750,
-    link: '/proyectos/sunrise-hill-glamping',
-    siteUrl: 'https://sunrisehillglamping.com/',
-    duration: ADD_DURATION,
-    role: ADD_ROLE,
-    challenge: ADD_CHALLENGE,
-  },
-  {
-    id: 9,
-    title: 'Denver Transparent Movers',
-    slug: 'denver-transparent-movers',
-    description:
-      'Site for a licensed Denver moving company highlighting owner-operated service and instant quotes.',
-    tags: ['Web Development', 'Client Site'],
-    image: denverTransparentMoversThumb,
-    imageWidth: 1200,
-    imageHeight: 750,
-    link: '/proyectos/denver-transparent-movers',
-    siteUrl: 'https://www.denvertransparentmovers.com/',
-    duration: ADD_DURATION,
-    role: ADD_ROLE,
-    challenge: ADD_CHALLENGE,
-  },
-  {
-    id: 10,
-    title: 'El Muelle Store',
-    slug: 'el-muelle-store',
-    description:
-      'E-commerce storefront for a Costa Rican apparel brand selling activewear for men, women, and kids.',
-    tags: ['Web Development', 'Client Site'],
-    image: elMuelleStoreThumb,
-    imageWidth: 1200,
-    imageHeight: 750,
-    link: '/proyectos/el-muelle-store',
-    siteUrl: 'https://elmuellestore.com/',
-    duration: ADD_DURATION,
-    role: ADD_ROLE,
-    challenge: ADD_CHALLENGE,
-  },
-  {
-    id: 2,
-    title: 'FitConnect',
-    description:
-      'Mobile app UX design connecting clients with personal trainers — from booking and secure payments to real-time chat and ratings.',
-    tags: ['Mobile App', 'UX Design', 'Booking System'],
-    image: null,
-    link: '#',
-    comingSoon: true,
-    placeholderGradient:
-      'linear-gradient(135deg, #0D2B45 0%, #2E86C1 55%, #D35400 100%)',
+    // Case-study banner (wide homepage screenshot).
+    image: picoMarVillasBanner,
+    imageWidth: 2000,
+    imageHeight: 1188,
+    // Carousel card cover (aerial brand shot) — falls back to `image`
+    // above if unset, see Projects.jsx.
+    cardImage: picoMarVillasThumb,
+    cardImageWidth: 2000,
+    cardImageHeight: 1499,
+    link: '/proyectos/pico-mar-villas',
+    siteUrl: 'https://picomar.com/',
+    duration: '4 weeks',
+    role: 'UX/UI Design',
+    challenge:
+      'The goal for Pico Mar was building a seamless booking engine for their entire villa portfolio. The platform had to process reservations quickly and effortlessly while maintaining a refined aesthetic that highlights the property\'s elegance and prestige.',
   },
 ]
 

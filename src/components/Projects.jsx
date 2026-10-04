@@ -233,8 +233,8 @@ function Projects() {
               aria-label={opensCaseStudy ? `Open ${p.title} case study` : `Show ${p.title}`}
               aria-current={isActive}
             >
-              {p.image ? (
-                <img src={p.image} alt="" loading="lazy" />
+              {p.cardImage || p.image ? (
+                <img src={p.cardImage || p.image} alt="" loading="lazy" />
               ) : (
                 <div
                   className="projects__card-placeholder"

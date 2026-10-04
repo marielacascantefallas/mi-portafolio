@@ -2,7 +2,6 @@ import { memo, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import profilePhoto from '../assets/profile-cutout-real.webp'
-import useFillHover from '../hooks/useFillHover'
 import './About.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -18,7 +17,6 @@ gsap.registerPlugin(ScrollTrigger)
 function About() {
   const sectionRef = useRef(null)
   const photoRef = useRef(null)
-  const { ref: cvRef, onMouseEnter: cvEnter, onMouseLeave: cvLeave } = useFillHover()
 
   // No separate entrance fade here — StackSection.jsx already fades/slides
   // in the whole section on scroll-into-view; a second nested autoAlpha
@@ -96,21 +94,6 @@ function About() {
             height="1080"
             loading="lazy"
           />
-          <a
-            ref={cvRef}
-            onMouseEnter={cvEnter}
-            onMouseLeave={cvLeave}
-            href="/documents/Mariela_Cascante_CV.pdf"
-            download="Mariela_Cascante_CV.pdf"
-            className="about__cv btn-fill"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-              <polyline points="7 10 12 15 17 10" />
-              <line x1="12" y1="15" x2="12" y2="3" />
-            </svg>
-            Download CV
-          </a>
         </div>
 
         <div className="about__corner about__corner--left">
