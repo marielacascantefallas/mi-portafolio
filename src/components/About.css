@@ -54,7 +54,7 @@
   right: 0;
   margin-inline: auto;
   z-index: 2;
-  width: clamp(280px, 38vw, 560px);
+  width: clamp(320px, 46vw, 680px);
   pointer-events: none;
   /* transform (y/yPercent) is owned by the GSAP scroll-scrub in About.jsx —
      it slides up from below into its overlapping resting spot as the
@@ -264,7 +264,7 @@
     bottom: auto;
     left: auto;
     transform: none;
-    width: 260px;
+    width: 300px;
     margin: var(--space-4) auto 0;
   }
 
