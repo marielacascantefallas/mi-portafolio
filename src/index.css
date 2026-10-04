@@ -32,6 +32,11 @@
   --color-yellow: #EFD86D;
   --color-lilac: #AAB6E1;
   --color-cream: #F9F2E2;
+
+  /* Ink color for text/icons placed on a solid --color-yellow fill (the
+     hover state of every .btn-fill button, see below) — fixed across
+     themes since --color-yellow itself doesn't change with the theme. */
+  --card-text: #1C1C1E;
 }
 
 /* ===== Modo oscuro (default) =====
@@ -237,8 +242,10 @@ code {
 /* Rounded, outlined by default; on hover the fill grows in from whichever
    edge the cursor entered, and on mouse-leave it recedes toward whichever
    edge the cursor exited from. Direction is set via a data attribute by
-   the useFillHover hook; --btn-fill-bg lets each section pick its own
-   accent (site orange, or a project's own brand color). */
+   the useFillHover hook. Every button fills with the same --color-yellow
+   (the token the contact form's Send button already used) and readable
+   --card-text ink — --btn-fill-bg/--btn-fill-color exist only so a future
+   one-off could override it, nothing in the site currently does. */
 .btn-fill {
   position: relative;
   isolation: isolate;
@@ -251,7 +258,7 @@ code {
   content: '';
   position: absolute;
   inset: 0;
-  background: var(--btn-fill-bg, var(--color-accent));
+  background: var(--btn-fill-bg, var(--color-yellow));
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.35s ease;
@@ -284,5 +291,5 @@ code {
 }
 
 .btn-fill.is-filled {
-  color: var(--btn-fill-color, var(--color-bg));
+  color: var(--btn-fill-color, var(--card-text));
 }

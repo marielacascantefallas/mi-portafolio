@@ -1,11 +1,9 @@
 import socialClubThumb from '../Socialclub/Mockup4.png'
 import gexpSoftwareThumb from '../assets/projects/gexp-software.jpg'
 import biianchiEstudioThumb from '../assets/projects/biianchi-estudio.jpg'
-
-// Placeholder values for case-study fields that aren't filled in yet —
-// clearly marked so they're obvious to find and replace.
-const ADD_DESCRIPTION = 'Add the project description'
-const ADD_CHALLENGE = 'Add the main challenge'
+import biianchiEstudioBanner from '../assets/projects/biianchi-estudio-banner.jpg'
+import picoMarVillasThumb from '../assets/projects/pico-mar-villas.jpg'
+import picoMarVillasBanner from '../assets/projects/pico-mar-villas-banner.jpg'
 
 const projects = [
   {
@@ -25,9 +23,11 @@ const projects = [
     description:
       'Custom software studio site for a team shipping high-converting websites and apps.',
     tags: ['Web Development', 'Client Site'],
+    // Single image for both the carousel card and the case-study banner —
+    // no separate cardImage override needed here (unlike Biianchi/Pico Mar).
     image: gexpSoftwareThumb,
-    imageWidth: 1200,
-    imageHeight: 750,
+    imageWidth: 2000,
+    imageHeight: 1999,
     link: '/proyectos/gexp-software',
     siteUrl: 'https://gexpsoftware.com/',
     duration: '2 weeks',
@@ -42,32 +42,44 @@ const projects = [
     description:
       'Creative direction studio building memorable brands through strategy, photography, and design.',
     tags: ['Web Development', 'Client Site'],
-    image: biianchiEstudioThumb,
-    imageWidth: 1200,
-    imageHeight: 750,
+    // Case-study banner (wide homepage screenshot).
+    image: biianchiEstudioBanner,
+    imageWidth: 2000,
+    imageHeight: 1253,
+    // Carousel card cover (vertical brand shot) — falls back to `image`
+    // above if unset, see Projects.jsx.
+    cardImage: biianchiEstudioThumb,
+    cardImageWidth: 1602,
+    cardImageHeight: 2000,
     link: '/proyectos/biianchi-estudio',
     siteUrl: 'https://www.biianchiestudio.com/',
     duration: '2 weeks',
     role: 'Photography, Editing & UX/UI Design',
     challenge:
-      "Biianchi Estudio's work spans strategy, photography, and design — but a one-size portfolio grid risked flattening that range into generic \"creative studio\" filler. In two weeks, the challenge was shooting and curating photography that showed the studio's own creative direction at work, then editing and designing the UX/UI so the site read as one cohesive brand statement rather than a loose collection of past projects.",
+      "Built to feature service packages rather than a gallery of past work, Biianchi Estudio's site puts the two founders front and center. The goal for this two-week build was to create an easy-to-navigate layout that reflects their creative style while keeping the presentation clear, polished, and straightforward.",
   },
   {
     id: 11,
     title: 'Pico Mar Villas',
     slug: 'pico-mar-villas',
-    // TODO: description and challenge need real info about the business
-    // (reviewing https://picomar.com/ is blocked from this sandbox) — see
-    // chat for details. image intentionally left unset until the cover
-    // file is provided.
-    description: ADD_DESCRIPTION,
+    description:
+      "Luxury villa booking platform for Costa Rica's Pacific coast, pairing curated homes with a professional concierge service.",
     tags: ['Web Development', 'Client Site'],
-    image: null,
+    // Case-study banner (wide homepage screenshot).
+    image: picoMarVillasBanner,
+    imageWidth: 2000,
+    imageHeight: 1188,
+    // Carousel card cover (aerial brand shot) — falls back to `image`
+    // above if unset, see Projects.jsx.
+    cardImage: picoMarVillasThumb,
+    cardImageWidth: 2000,
+    cardImageHeight: 1499,
     link: '/proyectos/pico-mar-villas',
     siteUrl: 'https://picomar.com/',
     duration: '4 weeks',
     role: 'UX/UI Design',
-    challenge: ADD_CHALLENGE,
+    challenge:
+      'The goal for Pico Mar was building a seamless booking engine for their entire villa portfolio. The platform had to process reservations quickly and effortlessly while maintaining a refined aesthetic that highlights the property\'s elegance and prestige.',
   },
 ]
 

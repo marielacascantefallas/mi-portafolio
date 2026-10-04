@@ -92,11 +92,13 @@
   background: var(--color-bg);
   color: var(--color-text);
   cursor: pointer;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .projects__nav:hover {
-  opacity: 0.75;
+  background: var(--color-yellow);
+  border-color: var(--color-yellow);
+  color: var(--card-text);
 }
 
 .projects__nav:focus-visible {

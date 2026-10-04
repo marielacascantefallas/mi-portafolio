@@ -98,7 +98,6 @@
 }
 
 .case-study__prototype-link {
-  --btn-fill-bg: var(--case-accent);
   margin-top: var(--space-4);
   display: inline-flex;
   align-items: center;
