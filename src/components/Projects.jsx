@@ -228,12 +228,12 @@ export default function Projects() {
         role="group"
         aria-roledescription="carousel"
         aria-label="Projects"
-        tabIndex={0}
         onKeyDown={handleKeyDown}
       >
         {projects.map((p, i) => {
           const diff = circularDiff(i, activeIndex, total)
           const isActive = diff === 0
+          const isReachable = Math.abs(diff) <= 2
           const opensCaseStudy = isActive && p.link && p.link.startsWith('/')
 
           return (
@@ -242,6 +242,7 @@ export default function Projects() {
               type="button"
               className="projects__card"
               style={cardStyle(diff, steps, reducedMotion)}
+              tabIndex={isReachable ? 0 : -1}
               onClick={() => {
                 if (opensCaseStudy) {
                   saveHomeScroll()
