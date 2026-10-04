@@ -192,8 +192,8 @@ export default function SocialClubCaseStudy({ theme, onToggle }) {
         'If I continued this project, the next step would be validating these decisions with real usability testing, and further exploring the collaboration tools (shared moodboards, real-time feedback) that all three personas flagged as a core need.',
       ]}
       nextProject={{
-        title: 'Repuestos Alto',
-        href: '/proyectos/repuestos-alto',
+        title: 'GEXP Software',
+        href: '/proyectos/gexp-software',
       }}
     />
   )
