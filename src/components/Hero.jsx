@@ -1,27 +1,55 @@
-import { forwardRef, memo, useRef } from 'react'
+import { memo, useRef } from 'react'
 import { useGrainCanvas } from '../hooks/useGrainCanvas'
+import GlassLetters from './GlassLetters'
+import {
+  TITLE_VIEWBOX,
+  TITLE_GROUPS,
+  SUBTITLE_VIEWBOX,
+  SUBTITLE_GROUPS,
+} from './heroGlyphPaths'
 import './Hero.css'
 
-// Takes a ref (forwarded from Home) so an Intersection Observer there can
-// tell the Nav when the hero is on screen, for the glass-while-on-hero
-// effect.
-const Hero = forwardRef(function Hero(_props, ref) {
+function Hero() {
   const canvasRef = useRef(null)
   useGrainCanvas(canvasRef)
 
   return (
-    <section className="hero" ref={ref}>
+    <section className="hero">
       <canvas ref={canvasRef} className="hero__canvas" />
       <div className="hero__noise noise-overlay" aria-hidden="true" />
 
       <div className="hero__content">
-        {/* Real text for a11y/SEO — visually hidden. The visible artwork
-            below is the actual glyph shapes (public/hero-title.svg /
-            hero-subtitle.svg) used as a mask, so it's decorative/aria-hidden. */}
+        {/* Real text for a11y/SEO — visually hidden. The visible artwork is
+            the same glyph shapes as two layers: a div masked to their
+            silhouette for the blurred/saturated backdrop (see
+            .hero-glass-backdrop), and an SVG tracing their real outlines
+            on top for the edge glow/bevel/sheen (see GlassLetters.jsx). */}
         <h1 className="sr-only">Mariela Cascante</h1>
-        <div className="hero__title hero-glass-text" aria-hidden="true" />
+        <div className="hero__title-wrap">
+          <div className="hero__title hero-glass-backdrop" aria-hidden="true" />
+          <GlassLetters
+            id="hero-title"
+            className="hero__title-svg"
+            viewBox={TITLE_VIEWBOX}
+            groups={TITLE_GROUPS}
+            edgeStrokeWidth={13}
+            bevelStdDeviation={14}
+            bevelSurfaceScale={16}
+          />
+        </div>
         <p className="sr-only">UX/UI Product Designer</p>
-        <div className="hero__subtitle hero-glass-text" aria-hidden="true" />
+        <div className="hero__subtitle-wrap">
+          <div className="hero__subtitle hero-glass-backdrop" aria-hidden="true" />
+          <GlassLetters
+            id="hero-subtitle"
+            className="hero__subtitle-svg"
+            viewBox={SUBTITLE_VIEWBOX}
+            groups={SUBTITLE_GROUPS}
+            edgeStrokeWidth={2.2}
+            bevelStdDeviation={2.4}
+            bevelSurfaceScale={2.8}
+          />
+        </div>
       </div>
 
       <a href="#projects" className="hero__scroll" aria-label="Scroll to projects">
@@ -40,9 +68,6 @@ const Hero = forwardRef(function Hero(_props, ref) {
       </a>
     </section>
   )
-})
+}
 
-// Only takes a stable ref (from Home's useRef), so Home re-rendering (e.g.
-// the hero-visibility toggle this very ref feeds into, via Nav's glass
-// state) never needs to re-render the heaviest section on the page too.
 export default memo(Hero)

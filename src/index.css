@@ -161,9 +161,9 @@ code {
 
 /* ===== Glass effect ===== */
 /* Shared frosted-glass treatment — translucent, blurred backdrop with a
-   bright inset edge — reused by the nav while the hero is visible and by
-   the hamburger menu overlay (logo/toggle/close button). Light-tinted in
-   dark mode, dark-tinted in light mode: a fixed white tint is nearly
+   bright inset edge — used by the nav logo/actions pill at all times (any
+   section, any background) and by the hamburger menu overlay. Light-tinted
+   in dark mode, dark-tinted in light mode: a fixed white tint is nearly
    invisible over the site's own pale light-mode surfaces (that's what was
    making the menu's glass disappear in light mode), the same reason the
    hero's glass letters are theme-adaptive too (see Hero.css). */
@@ -184,22 +184,40 @@ code {
 }
 
 /* ===== Glass-on-letters tokens =====
-   Shared by the hero title/subtitle (mask-image on vector artwork, see
-   Hero.css) and the menu links (background-clip: text on live text, see
-   Nav.css) — two different mechanisms for the same look. Theme-adaptive
-   for the same reason as .glass above. */
+   Shared by the hero title/subtitle (GlassLetters.jsx + mask-image backdrop,
+   see Hero.css) and the menu links (background-clip: text on live text, see
+   Nav.css) — different mechanisms, same material. Always a light, barely-
+   there white — never a dark tint, in either theme: a dark fill is what
+   made these read as flat grey panels instead of glass. Legibility comes
+   from the edge glow/bevel/shadow below, not from the fill itself.
+   Dark mode gets a bit more intensity across the board, per design. */
 :root {
-  --glass-text-fill: rgba(255, 255, 255, 0.22);
-  --glass-text-fill-fallback: rgba(255, 255, 255, 0.32);
-  --glass-text-shadow-hi: rgba(255, 255, 255, 0.4);
-  --glass-text-shadow-lo: rgba(0, 0, 0, 0.25);
+  --glass-text-fill: rgba(255, 255, 255, 0.14);
+  --glass-text-fill-fallback: rgba(255, 255, 255, 0.4);
+  --glass-text-shadow-hi: rgba(255, 255, 255, 0.55);
+  --glass-text-shadow-lo: rgba(0, 0, 0, 0.3);
+  --glass-edge-hi: rgba(255, 255, 255, 0.85);
+  --glass-edge-mid: rgba(255, 255, 255, 0.22);
+  --glass-sheen: rgba(255, 255, 255, 0.16);
+  --glass-outer-shadow: rgba(0, 0, 0, 0.35);
+  /* The hamburger menu's "Projects/About/Contact" links reuse this same
+     material (background-clip: text + drop-shadow, see Nav.css) but need
+     their own, higher fill: they're live, arbitrary-width text with no
+     per-letter bevel/edge-glow SVG to lean on like the hero title has, so
+     at the hero's barely-there 12-18% they read as nearly invisible —
+     especially in light mode, white-on-cream. Still always white/never a
+     dark tint, same principle as --glass-text-fill, just less subtle. */
+  --menu-text-fill: rgba(255, 255, 255, 0.45);
 }
 
-[data-theme="light"] {
-  --glass-text-fill: rgba(20, 20, 24, 0.14);
-  --glass-text-fill-fallback: rgba(20, 20, 24, 0.26);
-  --glass-text-shadow-hi: rgba(255, 255, 255, 0.55);
-  --glass-text-shadow-lo: rgba(0, 0, 0, 0.22);
+[data-theme="dark"] {
+  --glass-text-fill: rgba(255, 255, 255, 0.18);
+  --glass-text-shadow-hi: rgba(255, 255, 255, 0.7);
+  --glass-edge-hi: rgba(255, 255, 255, 1);
+  --glass-edge-mid: rgba(255, 255, 255, 0.3);
+  --glass-sheen: rgba(255, 255, 255, 0.22);
+  --glass-outer-shadow: rgba(0, 0, 0, 0.45);
+  --menu-text-fill: rgba(255, 255, 255, 0.55);
 }
 
 /* ===== Noise overlay ===== */

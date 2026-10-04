@@ -162,6 +162,6 @@ function Contact() {
   )
 }
 
-// Takes no props, so Home re-rendering (e.g. the hero-visibility toggle
-// that drives Nav's glass state) never needs to re-render this too.
+// Takes no props, so an unrelated Home re-render never needs to re-render
+// this too.
 export default memo(Contact)
