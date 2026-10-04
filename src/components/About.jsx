@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { memo, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import profilePhoto from '../assets/profile-cutout-real.webp'
@@ -15,34 +15,15 @@ gsap.registerPlugin(ScrollTrigger)
 // original "scroll reveal overlap" fix, just re-triggered by Bloque A+B's
 // combined height. Splitting them back into two viewport-sized sections
 // keeps each one inside the safe-window math StackSection.css documents.
-export default function About() {
+function About() {
   const sectionRef = useRef(null)
   const photoRef = useRef(null)
   const { ref: cvRef, onMouseEnter: cvEnter, onMouseLeave: cvLeave } = useFillHover()
 
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-
-    gsap.set(el, { autoAlpha: 0, y: 40 })
-
-    const timer = setTimeout(() => {
-      gsap.to(el, {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.6,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 80%',
-          once: true,
-        },
-      })
-      ScrollTrigger.refresh()
-    }, 100)
-
-    return () => clearTimeout(timer)
-  }, [])
+  // No separate entrance fade here — StackSection.jsx already fades/slides
+  // in the whole section on scroll-into-view; a second nested autoAlpha
+  // tween on this same element was pure redundant compositing cost (two
+  // overlapping opacity animations on nested nodes) for no visual gain.
 
   useEffect(() => {
     const photo = photoRef.current
@@ -107,7 +88,14 @@ export default function About() {
             the transparent WebP lets the letters show through around the
             silhouette, exactly like the reference's photo-over-text effect. */}
         <div className="about__photo-wrap" ref={photoRef}>
-          <img src={profilePhoto} alt="Mariela Cascante" className="about__photo" />
+          <img
+            src={profilePhoto}
+            alt="Mariela Cascante"
+            className="about__photo"
+            width="1080"
+            height="1080"
+            loading="lazy"
+          />
           <a
             ref={cvRef}
             onMouseEnter={cvEnter}
@@ -143,3 +131,7 @@ export default function About() {
     </section>
   )
 }
+
+// Takes no props, so Home re-rendering (e.g. the hero-visibility toggle
+// that drives Nav's glass state) never needs to re-render this too.
+export default memo(About)

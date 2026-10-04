@@ -23,13 +23,19 @@ export default function RevealStagger({
     const container = containerRef.current
     if (!container) return
 
+    const els = itemsRef.current.filter(Boolean)
+    if (!els.length) return
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    // Hide immediately, not inside the timer below — otherwise an item
+    // already in view at mount briefly renders at full opacity before the
+    // timer fires and hides it, a visible flash right before it fades in.
+    gsap.set(els, { autoAlpha: 0, y })
+
+    let tween
     const timer = setTimeout(() => {
-      const els = itemsRef.current.filter(Boolean)
-      if (!els.length) return
-
-      gsap.set(els, { autoAlpha: 0, y })
-
-      gsap.to(els, {
+      tween = gsap.to(els, {
         autoAlpha: 1,
         y: 0,
         duration: 0.6,
@@ -41,10 +47,15 @@ export default function RevealStagger({
           once: true,
         },
       })
-      ScrollTrigger.refresh()
+      // No ScrollTrigger.refresh() — GSAP measures a new trigger when it's
+      // created and already refreshes on load/resize on its own.
     }, 100)
 
-    return () => clearTimeout(timer)
+    return () => {
+      clearTimeout(timer)
+      tween?.scrollTrigger?.kill()
+      tween?.kill()
+    }
   }, [y, stagger, start])
 
   return (

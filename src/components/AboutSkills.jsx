@@ -1,10 +1,6 @@
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { memo } from 'react'
 import useFillHover from '../hooks/useFillHover'
 import './About.css'
-
-gsap.registerPlugin(ScrollTrigger)
 
 const LINKEDIN_URL = 'https://www.linkedin.com/in/mariela-cascante-fallas-aba957208'
 
@@ -28,36 +24,14 @@ const TILTS = [-8, 5, -4, 7, -6, 3, -9, 6, -3, 8, -5, 4, -7]
 // Bloque B — full-bleed solid lilac block. Its own StackSection (see
 // About.jsx for why it's split from Bloque A instead of living in the same
 // section).
-export default function AboutSkills() {
-  const sectionRef = useRef(null)
+function AboutSkills() {
   const { ref: liRef, onMouseEnter: liEnter, onMouseLeave: liLeave } = useFillHover()
 
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-
-    gsap.set(el, { autoAlpha: 0, y: 40 })
-
-    const timer = setTimeout(() => {
-      gsap.to(el, {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.6,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 85%',
-          once: true,
-        },
-      })
-      ScrollTrigger.refresh()
-    }, 100)
-
-    return () => clearTimeout(timer)
-  }, [])
+  // No separate entrance fade here — StackSection.jsx already fades/slides
+  // in the whole section on scroll-into-view.
 
   return (
-    <section className="section about-skills" ref={sectionRef}>
+    <section className="section about-skills">
       <div className="about__block">
         <div className="about__block-head">
           <h3 className="about__block-title">
@@ -99,3 +73,7 @@ export default function AboutSkills() {
     </section>
   )
 }
+
+// Takes no props, so Home re-rendering (e.g. the hero-visibility toggle
+// that drives Nav's glass state) never needs to re-render this too.
+export default memo(AboutSkills)

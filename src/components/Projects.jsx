@@ -1,13 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import projects from '../data/projects'
 import useFillHover from '../hooks/useFillHover'
 import { saveHomeScroll } from '../utils/scrollMemory'
 import './Projects.css'
-
-gsap.registerPlugin(ScrollTrigger)
 
 // Fan/carousel geometry — reference: proyectos.jpg. Position is expressed as
 // signed "steps" from the active card (0 = center/featured); everything
@@ -57,9 +53,8 @@ function cardStyle(diff, steps, reducedMotion) {
 const WHEEL_COOLDOWN_MS = 400
 const SWIPE_THRESHOLD_PX = 40
 
-export default function Projects() {
+function Projects() {
   const navigate = useNavigate()
-  const sectionRef = useRef(null)
   const deckRef = useRef(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
@@ -83,30 +78,8 @@ export default function Projects() {
     }
   }, [])
 
-  useEffect(() => {
-    const el = sectionRef.current
-    if (!el) return
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
-
-    gsap.set(el, { autoAlpha: 0, y: 40 })
-
-    const timer = setTimeout(() => {
-      gsap.to(el, {
-        autoAlpha: 1,
-        y: 0,
-        duration: 0.6,
-        ease: 'power2.out',
-        scrollTrigger: {
-          trigger: el,
-          start: 'top 80%',
-          once: true,
-        },
-      })
-      ScrollTrigger.refresh()
-    }, 100)
-
-    return () => clearTimeout(timer)
-  }, [])
+  // No separate entrance fade here — StackSection.jsx already fades/slides
+  // in the whole section on scroll-into-view.
 
   const total = projects.length
   const goTo = useCallback((i) => setActiveIndex(((i % total) + total) % total), [total])
@@ -125,6 +98,12 @@ export default function Projects() {
     let lastStepAt = 0
 
     const onWheel = (e) => {
+      // A purely horizontal gesture (trackpad shift-scroll, some mice's
+      // horizontal wheel) has deltaY === 0 — `e.deltaY > 0` is false for
+      // that too, which used to read as "scrolling up" and fire goPrev()
+      // on every horizontal swipe over the deck. Leave it alone entirely.
+      if (e.deltaY === 0) return
+
       const goingDown = e.deltaY > 0
       const atStart = activeIndex === 0
       const atEnd = activeIndex === total - 1
@@ -219,7 +198,7 @@ export default function Projects() {
   const steps = isMobile ? MOBILE_STEPS : DESKTOP_STEPS
 
   return (
-    <section id="projects" className="section projects" ref={sectionRef}>
+    <section id="projects" className="section projects">
       <h2 className="sr-only">Projects</h2>
 
       <div
@@ -329,3 +308,9 @@ export default function Projects() {
     </section>
   )
 }
+
+// Takes no props, so Home re-rendering (e.g. the hero-visibility toggle
+// that drives Nav's glass state) never needs to re-render this too — it
+// has its own continuous wheel/touch listeners already, no reason to also
+// thrash on an unrelated parent state change.
+export default memo(Projects)

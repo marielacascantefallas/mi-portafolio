@@ -23,6 +23,8 @@ export default function ProjectCaseStudy({
   duration,
   prototypeLink,
   heroImage,
+  heroImageWidth,
+  heroImageHeight,
   problem,
   opportunity,
   personas = [],
@@ -64,7 +66,13 @@ export default function ProjectCaseStudy({
         {heroImage && (
           <Reveal>
             <div className="case-study__hero-image case-study__hero-image--top">
-              <img src={heroImage} alt={`${title} preview`} loading="lazy" />
+              <img
+                src={heroImage}
+                alt={`${title} preview`}
+                width={heroImageWidth}
+                height={heroImageHeight}
+                loading="lazy"
+              />
             </div>
           </Reveal>
         )}

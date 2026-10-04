@@ -2,6 +2,11 @@ import { useEffect, useRef } from 'react'
 
 const GRAIN_SIZE = 160
 const LERP_FACTOR = 0.06
+// current/target are normalized (0-1) positions — below this distance a
+// frame's redraw would be visually indistinguishable from the last one
+// (well under a pixel even on a large display), so skip it instead of
+// repainting two full-viewport fillRects for a sub-pixel nudge.
+const SETTLE_EPSILON = 0.0005
 
 // Brand yellow/lilac at the center, fading out to each theme's own --color-bg
 // at the edge so the canvas blends seamlessly into the page.
@@ -17,12 +22,14 @@ export function useGrainCanvas(canvasRef) {
   const current = useRef({ x: 0.5, y: 0.5 })
   const grainCanvas = useRef(null)
   const patternRef = useRef(null)
+  const rectRef = useRef(null)
 
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
 
     const ctx = canvas.getContext('2d')
+    const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
 
     // Create offscreen grain canvas (160x160, 1px noise, alpha 18)
     const grain = document.createElement('canvas')
@@ -45,44 +52,40 @@ export function useGrainCanvas(canvasRef) {
     // Create tiling pattern from the grain canvas
     patternRef.current = ctx.createPattern(grain, 'repeat')
 
-    // Resize handler
+    // Resize handler — also caches the canvas's bounding rect so mousemove
+    // never has to call getBoundingClientRect() itself (a layout read that,
+    // fired on every pointer move while GSAP writes inline styles elsewhere
+    // on the page, risks forcing synchronous layout mid-frame).
     const resize = () => {
       canvas.width = canvas.offsetWidth
       canvas.height = canvas.offsetHeight
+      rectRef.current = canvas.getBoundingClientRect()
       // Recreate pattern after resize (context resets)
       patternRef.current = ctx.createPattern(grainCanvas.current, 'repeat')
+      drawFrame()
     }
-    resize()
-    window.addEventListener('resize', resize)
 
-    // Mouse move — store normalized target position
     const onMouseMove = (e) => {
-      const rect = canvas.getBoundingClientRect()
+      const rect = rectRef.current
+      if (!rect) return
       target.current.x = (e.clientX - rect.left) / rect.width
       target.current.y = (e.clientY - rect.top) / rect.height
     }
-    window.addEventListener('mousemove', onMouseMove)
 
-    let raf
-    const render = () => {
+    // One actual canvas repaint — clear, gradient, grain. Pulled out of the
+    // rAF loop so both the loop and a one-off "draw a single static frame"
+    // path (reduced motion, or the initial paint) can share it.
+    const drawFrame = () => {
       const { width, height } = canvas
-
-      // Lerp current position toward target
-      current.current.x = lerp(current.current.x, target.current.x, LERP_FACTOR)
-      current.current.y = lerp(current.current.y, target.current.y, LERP_FACTOR)
-
       const cx = current.current.x * width
       const cy = current.current.y * height
 
-      // Detect theme
       const theme = document.documentElement.getAttribute('data-theme')
       const isDark = theme !== 'light'
       const stops = isDark ? STOPS_DARK : STOPS_LIGHT
 
-      // Clear
       ctx.clearRect(0, 0, width, height)
 
-      // Radial gradient — radius = 90% of longest side
       const radius = Math.max(width, height) * 0.9
       const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius)
       gradient.addColorStop(0, stops[0])
@@ -94,20 +97,86 @@ export function useGrainCanvas(canvasRef) {
       ctx.fillStyle = gradient
       ctx.fillRect(0, 0, width, height)
 
-      // Grain overlay — tiled pattern with theme-dependent opacity
       ctx.globalAlpha = isDark ? 0.5 : 0.18
       ctx.fillStyle = patternRef.current
       ctx.fillRect(0, 0, width, height)
+    }
 
+    let raf = null
+    let visible = false
+    // The animated cursor-follow glow is purely decorative motion — honor
+    // prefers-reduced-motion by painting one still frame instead of
+    // running the loop at all. Mutable (not const) so a live OS-setting
+    // change mid-session is picked up by the closures below.
+    let reducedMotion = reducedMotionQuery.matches
+
+    const render = () => {
+      current.current.x = lerp(current.current.x, target.current.x, LERP_FACTOR)
+      current.current.y = lerp(current.current.y, target.current.y, LERP_FACTOR)
+
+      const dx = Math.abs(current.current.x - target.current.x)
+      const dy = Math.abs(current.current.y - target.current.y)
+
+      // Keep looping (to keep chasing the cursor) even on a settled frame,
+      // but only pay for an actual repaint when the position has moved
+      // enough to matter — most frames during a plain scroll, with no
+      // mouse movement, hit this and cost nothing beyond the rAF tick.
+      if (dx > SETTLE_EPSILON || dy > SETTLE_EPSILON) {
+        drawFrame()
+      }
+
+      if (visible && !reducedMotion) raf = requestAnimationFrame(render)
+    }
+
+    const startLoop = () => {
+      if (raf || reducedMotion) return
       raf = requestAnimationFrame(render)
     }
 
-    raf = requestAnimationFrame(render)
+    const stopLoop = () => {
+      if (raf) cancelAnimationFrame(raf)
+      raf = null
+    }
+
+    // Only animate/repaint while the hero is actually on screen — once it's
+    // scrolled past (even just covered by the next sticky section, which
+    // this canvas doesn't know about on its own) there's no visual reason
+    // to keep redrawing a full-viewport canvas 60 times a second.
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        visible = entry.isIntersecting
+        if (visible) {
+          window.addEventListener('mousemove', onMouseMove, { passive: true })
+          if (reducedMotion) drawFrame()
+          else startLoop()
+        } else {
+          window.removeEventListener('mousemove', onMouseMove)
+          stopLoop()
+        }
+      },
+      { threshold: 0 }
+    )
+    observer.observe(canvas)
+
+    resize()
+    window.addEventListener('resize', resize)
+
+    const onMotionChange = () => {
+      reducedMotion = reducedMotionQuery.matches
+      stopLoop()
+      if (visible) {
+        if (reducedMotion) drawFrame()
+        else startLoop()
+      }
+    }
+    reducedMotionQuery.addEventListener('change', onMotionChange)
 
     return () => {
-      cancelAnimationFrame(raf)
+      stopLoop()
+      observer.disconnect()
       window.removeEventListener('resize', resize)
       window.removeEventListener('mousemove', onMouseMove)
+      reducedMotionQuery.removeEventListener('change', onMotionChange)
     }
   }, [canvasRef])
 }

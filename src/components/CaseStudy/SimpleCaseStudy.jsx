@@ -47,7 +47,13 @@ export default function SimpleCaseStudy({ theme, onToggle, project }) {
         {project.image && (
           <Reveal>
             <div className="case-study__hero-image case-study__hero-image--top">
-              <img src={project.image} alt={`${project.title} preview`} loading="lazy" />
+              <img
+                src={project.image}
+                alt={`${project.title} preview`}
+                width={project.imageWidth}
+                height={project.imageHeight}
+                loading="lazy"
+              />
             </div>
           </Reveal>
         )}
