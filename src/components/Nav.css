@@ -12,19 +12,18 @@
   color: var(--color-text);
   text-decoration: none;
   border-radius: var(--radius-full);
-  transition: background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
+  /* Padding is constant (not conditional on .glass) specifically so it has
+     nothing to transition — animating padding forces a layout pass on
+     every tick of the transition, right as the hero scrolls in/out. Only
+     paint-only properties (background/border; backdrop-filter has no
+     meaningful midpoint to transition) change between states. */
+  padding: 10px 16px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .nav__logo:hover {
   color: var(--color-accent);
   opacity: 1;
-}
-
-/* Glass state — only while the hero section is on screen (see Home.jsx's
-   Intersection Observer). Padding only applies here so the logo doesn't
-   carry empty padding (and the pill shape it implies) outside the hero. */
-.nav__logo.glass {
-  padding: 10px 16px;
 }
 
 /* Actions — fixed top-right */
@@ -37,11 +36,9 @@
   align-items: center;
   gap: var(--space-2);
   border-radius: var(--radius-full);
-  transition: background-color 0.3s ease, border-color 0.3s ease, padding 0.3s ease;
-}
-
-.nav__actions.glass {
+  /* See .nav__logo above: constant padding, nothing left to transition. */
   padding: 8px;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 /* Hamburger — always visible */

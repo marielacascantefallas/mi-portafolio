@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import Reveal from '../Reveal'
 import RevealStagger from '../RevealStagger'
 import ThemeToggle from '../ThemeToggle'
@@ -22,6 +23,8 @@ export default function ProjectCaseStudy({
   duration,
   prototypeLink,
   heroImage,
+  heroImageWidth,
+  heroImageHeight,
   problem,
   opportunity,
   personas = [],
@@ -33,12 +36,21 @@ export default function ProjectCaseStudy({
   takeaways,
   nextProject,
 }) {
+  const navigate = useNavigate()
   const hasPrototypeLink = prototypeLink && prototypeLink !== '#'
   const {
     ref: prototypeRef,
     onMouseEnter: prototypeEnter,
     onMouseLeave: prototypeLeave,
   } = useFillHover()
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') navigate('/')
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [navigate])
 
   return (
     <div className="case-study">
@@ -54,7 +66,13 @@ export default function ProjectCaseStudy({
         {heroImage && (
           <Reveal>
             <div className="case-study__hero-image case-study__hero-image--top">
-              <img src={heroImage} alt={`${title} preview`} loading="lazy" />
+              <img
+                src={heroImage}
+                alt={`${title} preview`}
+                width={heroImageWidth}
+                height={heroImageHeight}
+                loading="lazy"
+              />
             </div>
           </Reveal>
         )}

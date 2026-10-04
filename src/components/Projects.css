@@ -1,73 +1,74 @@
 .projects {
-  padding: var(--space-8) 0;
-}
-
-.projects__heading {
-  max-width: 1120px;
-  margin: 0 auto var(--space-4);
-  padding: 0 var(--space-4);
-}
-
-/* Each project row */
-.project {
-  display: grid;
-  grid-template-columns: 1.4fr 1fr;
-  gap: clamp(2rem, 4vw, 4rem);
+  padding: var(--space-8) var(--space-4);
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  /* Full-bleed + clipped: the fan's far cards (visible and fully-hidden
+     alike) are meant to bleed off the edge of the screen, like the
+     reference — clipping at the viewport edge instead of at the deck's own
+     box means the visible ±2 cards never get cut short, only whatever
+     would've caused horizontal scroll past the viewport does. */
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow-x: hidden;
 }
 
-.project--reverse {
-  grid-template-columns: 1fr 1.4fr;
-}
-
-.project--reverse .project__thumb {
-  order: 2;
-}
-
-.project--reverse .project__info {
-  order: 1;
-}
-
-/* Social Club row uses its own brand purple instead of the site's global
-   orange accent, picked for contrast in both light and dark mode (same
-   values used on the case study page itself). */
-.project--social-club {
-  --project-accent: #4f328c;
-}
-
-[data-theme='dark'] .project--social-club {
-  --project-accent: #7663f2;
-}
-
-/* Thumbnail */
-.project__thumb {
+/* ===== Fan/carousel deck =====
+   All cards share one absolutely-positioned stack, each repositioned by an
+   inline transform computed from its signed distance to the active card
+   (see Projects.jsx) — center full-size and straight, ±1/±2 progressively
+   smaller, rotated, and faded, anything further collapsed into the same
+   hidden slot off to the side. Deck height is set explicitly since
+   position:absolute children contribute none of their own. */
+.projects__deck {
+  position: relative;
   width: 100%;
+  max-width: 1100px;
+  height: clamp(260px, 30vw, 360px);
+  margin: 0 auto var(--space-6);
+  /* Vertical wheel/touch is reinterpreted as carousel navigation in
+     Projects.jsx (Fase 6) — pan-y keeps native vertical touch-scrolling
+     available as the fallback at the first/last card, where the JS handler
+     intentionally does nothing, while horizontal panning is handled
+     entirely by that same JS (so the browser doesn't also try to scroll
+     the page horizontally mid-swipe). */
+  touch-action: pan-y;
+}
+
+.projects__card {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: clamp(190px, 22vw, 270px);
+  aspect-ratio: 3 / 4;
+  border: 0;
+  padding: 0;
+  margin: 0;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  cursor: pointer;
+  background: none;
+  box-shadow: 0 20px 40px color-mix(in srgb, #000 25%, transparent);
 }
 
-.project__thumb-inner {
-  width: 100%;
-  height: 100%;
-  transition: transform 0.6s ease;
+.projects__card:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
-.project__thumb:hover .project__thumb-inner {
-  transform: scale(1.05);
-}
-
-.project__thumb-inner img {
+.projects__card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.project__placeholder {
+.projects__card-placeholder {
   width: 100%;
   height: 100%;
   background: linear-gradient(
@@ -77,28 +78,63 @@
   );
 }
 
-/* Info */
-.project__info {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-2);
+.projects__nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 11;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  border: 1px solid color-mix(in srgb, var(--color-text) 20%, transparent);
+  background: var(--color-bg);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 
-.project__title-row {
+.projects__nav:hover {
+  opacity: 0.75;
+}
+
+.projects__nav:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.projects__nav--prev {
+  left: 0;
+}
+
+.projects__nav--next {
+  right: 0;
+}
+
+/* ===== Info — title, description, tags, CTA for the active card ===== */
+.projects__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  max-width: 640px;
+}
+
+.projects__title-row {
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-wrap: wrap;
   gap: var(--space-2);
 }
 
-.project__title {
-  font-size: clamp(24px, 3vw, 40px);
-  line-height: 1.2;
+.projects__title {
+  font-size: clamp(28px, 4.5vw, 48px);
+  line-height: 1.15;
 }
 
-/* Flags a project that isn't live yet — no case study link, image is a
-   placeholder gradient. Muted on purpose so it doesn't read as a CTA. */
-.project__badge {
+.projects__badge {
   font-family: var(--font-mono);
   font-size: 12px;
   letter-spacing: 0.06em;
@@ -109,54 +145,59 @@
   color: var(--color-text-muted);
 }
 
-.project__desc {
+.projects__desc {
   font-size: 16px;
   line-height: 1.7;
   color: var(--color-text-muted);
-  max-width: 440px;
+  max-width: 480px;
 }
 
-.project__tags {
+.projects__tags {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: var(--space-1);
-  margin-top: var(--space-1);
 }
 
-.project__tag {
+.projects__tag {
   font-family: var(--font-mono);
   font-size: 12px;
-  padding: 4px var(--space-1);
+  padding: 4px var(--space-2);
   border-radius: var(--radius-sm);
-  background: color-mix(in srgb, var(--project-accent, var(--color-accent)) 12%, transparent);
-  color: var(--project-accent, var(--color-accent));
+  background: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  color: var(--color-accent);
 }
 
-.project__link {
+.projects__cta {
+  margin-top: var(--space-2);
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-top: var(--space-1);
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-4);
   font-family: var(--font-mono);
   font-size: 14px;
-  color: var(--project-accent, var(--color-accent));
+  color: var(--color-text);
+  border: 1px solid var(--color-text);
 }
 
-.project__link:hover {
-  opacity: 0.75;
+.projects__cta--disabled {
+  color: var(--color-text-muted);
+  border-color: color-mix(in srgb, var(--color-text) 20%, transparent);
+  cursor: default;
 }
 
-/* Mobile */
-@media (max-width: 768px) {
-  .project,
-  .project--reverse {
-    grid-template-columns: 1fr;
-    min-height: auto;
-    padding: var(--space-4);
+@media (max-width: 640px) {
+  .projects__deck {
+    height: clamp(200px, 56vw, 240px);
+    max-width: 100%;
   }
 
-  .project--reverse .project__thumb,
-  .project--reverse .project__info {
-    order: unset;
+  .projects__card {
+    width: clamp(130px, 36vw, 170px);
+  }
+
+  .projects__nav {
+    width: 36px;
+    height: 36px;
   }
 }

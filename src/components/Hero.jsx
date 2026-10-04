@@ -1,4 +1,4 @@
-import { forwardRef, useRef } from 'react'
+import { forwardRef, memo, useRef } from 'react'
 import { useGrainCanvas } from '../hooks/useGrainCanvas'
 import './Hero.css'
 
@@ -42,4 +42,7 @@ const Hero = forwardRef(function Hero(_props, ref) {
   )
 })
 
-export default Hero
+// Only takes a stable ref (from Home's useRef), so Home re-rendering (e.g.
+// the hero-visibility toggle this very ref feeds into, via Nav's glass
+// state) never needs to re-render the heaviest section on the page too.
+export default memo(Hero)

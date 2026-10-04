@@ -25,10 +25,13 @@ export default function Reveal({
     const el = ref.current
     if (!el) return
 
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
     gsap.set(el, { autoAlpha: 0, y })
 
+    let tween
     const timer = setTimeout(() => {
-      gsap.to(el, {
+      tween = gsap.to(el, {
         autoAlpha: 1,
         y: 0,
         duration,
@@ -40,10 +43,15 @@ export default function Reveal({
           once: true,
         },
       })
-      ScrollTrigger.refresh()
+      // No ScrollTrigger.refresh() — GSAP measures a new trigger when it's
+      // created and already refreshes on load/resize on its own.
     }, 100)
 
-    return () => clearTimeout(timer)
+    return () => {
+      clearTimeout(timer)
+      tween?.scrollTrigger?.kill()
+      tween?.kill()
+    }
   }, [y, duration, delay, start])
 
   return (

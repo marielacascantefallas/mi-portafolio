@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { memo, useState } from 'react'
 import useFillHover from '../hooks/useFillHover'
 import Reveal from './Reveal'
 import './Contact.css'
@@ -12,7 +12,7 @@ const LINKEDIN_URL = 'https://www.linkedin.com/in/mariela-cascante-fallas-aba957
 
 const emptyForm = { firstName: '', lastName: '', email: '', message: '' }
 
-export default function Contact() {
+function Contact() {
   const [form, setForm] = useState(emptyForm)
   const [status, setStatus] = useState('idle') // idle | sending | success | error
   const {
@@ -161,3 +161,7 @@ export default function Contact() {
     </section>
   )
 }
+
+// Takes no props, so Home re-rendering (e.g. the hero-visibility toggle
+// that drives Nav's glass state) never needs to re-render this too.
+export default memo(Contact)

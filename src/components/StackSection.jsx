@@ -31,8 +31,9 @@ export default function StackSection({ children, zIndex, background, className =
 
     gsap.set(el, { autoAlpha: 0, y: 48, scale: 0.97 })
 
+    let tween
     const timer = setTimeout(() => {
-      gsap.to(el, {
+      tween = gsap.to(el, {
         autoAlpha: 1,
         y: 0,
         scale: 1,
@@ -44,10 +45,22 @@ export default function StackSection({ children, zIndex, background, className =
           once: true,
         },
       })
-      ScrollTrigger.refresh()
+      // No ScrollTrigger.refresh() here: GSAP already measures a new
+      // trigger when it's created, and refreshes on its own on `load` and
+      // `resize`. Every section calling refresh() in this same 100ms batch
+      // added up to ~10 redundant full-page remeasures (each one a forced
+      // layout read on every trigger) at mount and on every return from a
+      // case study.
     }, 100)
 
-    return () => clearTimeout(timer)
+    return () => {
+      clearTimeout(timer)
+      // If this section is torn down (e.g. route change) before its
+      // entrance ever fired, kill the tween and its trigger instead of
+      // leaving them registered against a detached node.
+      tween?.scrollTrigger?.kill()
+      tween?.kill()
+    }
   }, [])
 
   return (
