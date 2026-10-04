@@ -5,6 +5,7 @@ import { useLenis } from './hooks/useLenis'
 import Home from './pages/Home'
 import SocialClubCaseStudy from './pages/SocialClubCaseStudy'
 import CaseStudyPage from './pages/CaseStudyPage'
+import MusicPlayer from './components/MusicPlayer'
 import { consumeHomeScroll } from './utils/scrollMemory'
 
 // Resets scroll position (through Lenis, so it stays in sync with
@@ -38,6 +39,7 @@ function App() {
   return (
     <BrowserRouter>
       <ScrollToTop lenisRef={lenisRef} />
+      <MusicPlayer />
       <Routes>
         <Route path="/" element={<Home theme={theme} onToggle={toggle} />} />
         <Route
