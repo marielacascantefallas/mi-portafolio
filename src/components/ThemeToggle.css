@@ -4,10 +4,17 @@
   width: 40px;
   height: 40px;
   padding: 0;
-  border: 1px solid var(--color-accent);
+  /* --color-text, not --color-accent: this button now has to stay legible
+     sitting in the header's glass pill over every section, including the
+     always-lilac AboutSkills block — in dark mode --color-accent IS
+     --color-lilac, so an accent-colored icon there measured a 1:1 contrast
+     ratio against that background (effectively invisible). --color-text is
+     the same neutral tone the "MC" logo and hamburger bars already use,
+     which stays legible everywhere by construction. */
+  border: 1px solid var(--color-text);
   border-radius: var(--radius-md);
   background: transparent;
-  color: var(--color-accent);
+  color: var(--color-text);
   cursor: pointer;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
@@ -18,7 +25,7 @@
 }
 
 .theme-toggle:focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-text);
   outline-offset: 2px;
 }
 

@@ -161,9 +161,9 @@ code {
 
 /* ===== Glass effect ===== */
 /* Shared frosted-glass treatment — translucent, blurred backdrop with a
-   bright inset edge — reused by the nav while the hero is visible and by
-   the hamburger menu overlay (logo/toggle/close button). Light-tinted in
-   dark mode, dark-tinted in light mode: a fixed white tint is nearly
+   bright inset edge — used by the nav logo/actions pill at all times (any
+   section, any background) and by the hamburger menu overlay. Light-tinted
+   in dark mode, dark-tinted in light mode: a fixed white tint is nearly
    invisible over the site's own pale light-mode surfaces (that's what was
    making the menu's glass disappear in light mode), the same reason the
    hero's glass letters are theme-adaptive too (see Hero.css). */

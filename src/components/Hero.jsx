@@ -1,16 +1,13 @@
-import { forwardRef, memo, useRef } from 'react'
+import { memo, useRef } from 'react'
 import { useGrainCanvas } from '../hooks/useGrainCanvas'
 import './Hero.css'
 
-// Takes a ref (forwarded from Home) so an Intersection Observer there can
-// tell the Nav when the hero is on screen, for the glass-while-on-hero
-// effect.
-const Hero = forwardRef(function Hero(_props, ref) {
+function Hero() {
   const canvasRef = useRef(null)
   useGrainCanvas(canvasRef)
 
   return (
-    <section className="hero" ref={ref}>
+    <section className="hero">
       <canvas ref={canvasRef} className="hero__canvas" />
       <div className="hero__noise noise-overlay" aria-hidden="true" />
 
@@ -40,9 +37,6 @@ const Hero = forwardRef(function Hero(_props, ref) {
       </a>
     </section>
   )
-})
+}
 
-// Only takes a stable ref (from Home's useRef), so Home re-rendering (e.g.
-// the hero-visibility toggle this very ref feeds into, via Nav's glass
-// state) never needs to re-render the heaviest section on the page too.
 export default memo(Hero)

@@ -21,6 +21,14 @@
   padding: var(--space-3) var(--space-4);
 }
 
+/* Same glass pill as the home nav's theme toggle (see Nav.css/index.css
+   .glass), just sized to wrap this one button instead of a button group. */
+.case-study__theme-wrap {
+  display: inline-flex;
+  padding: 8px;
+  border-radius: var(--radius-full);
+}
+
 .case-study__back {
   display: inline-flex;
   align-items: center;

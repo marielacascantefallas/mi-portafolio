@@ -58,7 +58,9 @@ export default function ProjectCaseStudy({
         <Link to="/" className="case-study__back">
           ← Back to portfolio
         </Link>
-        <ThemeToggle theme={theme} onToggle={onToggle} />
+        <div className="case-study__theme-wrap glass">
+          <ThemeToggle theme={theme} onToggle={onToggle} />
+        </div>
       </header>
 
       {/* Hero */}

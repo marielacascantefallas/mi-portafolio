@@ -9,7 +9,7 @@ const links = [
   { label: 'Contact', href: '#contact' },
 ]
 
-export default function Nav({ theme, onToggle, glass }) {
+export default function Nav({ theme, onToggle }) {
   const [open, setOpen] = useState(false)
   const overlayRef = useRef(null)
   const linksRef = useRef([])
@@ -54,16 +54,11 @@ export default function Nav({ theme, onToggle, glass }) {
     setOpen((prev) => !prev)
   }
 
-  // Glass while the hero is visible (see Home.jsx), and also while the menu
-  // itself is open — the menu's own grainy backdrop gets the same glass
-  // treatment regardless of scroll position.
-  const showGlass = glass || open
-
   return (
     <>
-      <a href="#" className={`nav__logo${showGlass ? ' glass' : ''}`}>MC</a>
+      <a href="#" className="nav__logo glass">MC</a>
 
-      <div className={`nav__actions${showGlass ? ' glass' : ''}`}>
+      <div className="nav__actions glass">
         <ThemeToggle theme={theme} onToggle={onToggle} />
         <button
           className={`nav__hamburger ${open ? 'nav__hamburger--open' : ''}`}
