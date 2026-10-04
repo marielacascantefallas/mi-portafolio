@@ -50,9 +50,17 @@ function cardStyle(diff, steps, reducedMotion) {
   }
 }
 
+// How far a trackpad/wheel tick or a touch swipe has to add up to before it
+// counts as "go to the next/previous card" — keeps one gesture from firing
+// several steps at once (trackpads in particular send many small deltaY
+// events per scroll).
+const WHEEL_COOLDOWN_MS = 400
+const SWIPE_THRESHOLD_PX = 40
+
 export default function Projects() {
   const navigate = useNavigate()
   const sectionRef = useRef(null)
+  const deckRef = useRef(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
   const [reducedMotion, setReducedMotion] = useState(false)
@@ -105,6 +113,102 @@ export default function Projects() {
   const goPrev = useCallback(() => goTo(activeIndex - 1), [activeIndex, goTo])
   const goNext = useCallback(() => goTo(activeIndex + 1), [activeIndex, goTo])
 
+  // Fase 6: "scroll horizontal ligado al scroll vertical solo mientras el
+  // cursor está sobre los proyectos" — vertical wheel input over the deck
+  // steps through the carousel instead of scrolling the page, but only
+  // between the first and last card: at either end it falls straight
+  // through to the page's normal scroll so the user is never trapped.
+  useEffect(() => {
+    const el = deckRef.current
+    if (!el) return
+
+    let lastStepAt = 0
+
+    const onWheel = (e) => {
+      const goingDown = e.deltaY > 0
+      const atStart = activeIndex === 0
+      const atEnd = activeIndex === total - 1
+
+      if (goingDown && atEnd) return
+      if (!goingDown && atStart) return
+
+      // stopPropagation, not just preventDefault: Lenis drives smooth
+      // scrolling from its own listener on the window, which runs
+      // independently of this element's handler and doesn't check whether
+      // some other listener already called preventDefault — only cutting
+      // off propagation here keeps it from also scrolling the page for the
+      // same wheel event.
+      e.preventDefault()
+      e.stopPropagation()
+
+      const now = performance.now()
+      if (now - lastStepAt < WHEEL_COOLDOWN_MS) return
+      lastStepAt = now
+
+      if (goingDown) goNext()
+      else goPrev()
+    }
+
+    el.addEventListener('wheel', onWheel, { passive: false })
+    return () => el.removeEventListener('wheel', onWheel)
+  }, [activeIndex, total, goNext, goPrev])
+
+  // Same idea for touch: a horizontal swipe over the deck steps through the
+  // carousel; a vertical one is left alone so the page scrolls normally.
+  // Direction is decided from the first few pixels of movement and locked
+  // in for the rest of the gesture, same pattern as a native carousel.
+  useEffect(() => {
+    const el = deckRef.current
+    if (!el) return
+
+    let startX = 0
+    let startY = 0
+    let axis = null // 'x' | 'y' | null (undecided)
+
+    const onTouchStart = (e) => {
+      const t = e.touches[0]
+      startX = t.clientX
+      startY = t.clientY
+      axis = null
+    }
+
+    const onTouchMove = (e) => {
+      const t = e.touches[0]
+      const dx = t.clientX - startX
+      const dy = t.clientY - startY
+
+      if (axis === null && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) {
+        axis = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y'
+      }
+      if (axis === 'x') {
+        // Same reasoning as the wheel handler: stop this from also
+        // reaching Lenis's own touch listener once we've committed to
+        // treating the gesture as a horizontal swipe.
+        e.preventDefault()
+        e.stopPropagation()
+      }
+    }
+
+    const onTouchEnd = (e) => {
+      if (axis !== 'x') return
+      const dx = e.changedTouches[0].clientX - startX
+      if (Math.abs(dx) < SWIPE_THRESHOLD_PX) return
+
+      const swipingLeft = dx < 0
+      if (swipingLeft && activeIndex < total - 1) goNext()
+      else if (!swipingLeft && activeIndex > 0) goPrev()
+    }
+
+    el.addEventListener('touchstart', onTouchStart, { passive: true })
+    el.addEventListener('touchmove', onTouchMove, { passive: false })
+    el.addEventListener('touchend', onTouchEnd)
+    return () => {
+      el.removeEventListener('touchstart', onTouchStart)
+      el.removeEventListener('touchmove', onTouchMove)
+      el.removeEventListener('touchend', onTouchEnd)
+    }
+  }, [activeIndex, total, goNext, goPrev])
+
   const handleKeyDown = (e) => {
     if (e.key === 'ArrowLeft') { e.preventDefault(); goPrev() }
     if (e.key === 'ArrowRight') { e.preventDefault(); goNext() }
@@ -119,6 +223,7 @@ export default function Projects() {
       <h2 className="sr-only">Projects</h2>
 
       <div
+        ref={deckRef}
         className="projects__deck"
         role="group"
         aria-roledescription="carousel"
