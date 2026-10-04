@@ -45,7 +45,7 @@
 }
 
 /* Photo overlaps the headline's bold line and rests on the bottom edge of
-   Bloque A — transparent PNG, no card/border/shadow, so the head and
+   Bloque A — transparent WebP, no card/border/shadow, so the head and
    shoulders visually pass in front of the letters. */
 .about__photo-wrap {
   position: absolute;
@@ -54,7 +54,7 @@
   right: 0;
   margin-inline: auto;
   z-index: 2;
-  width: clamp(240px, 32vw, 460px);
+  width: clamp(280px, 38vw, 560px);
   pointer-events: none;
   /* transform (y/yPercent) is owned by the GSAP scroll-scrub in About.jsx —
      it slides up from below into its overlapping resting spot as the
@@ -264,7 +264,7 @@
     bottom: auto;
     left: auto;
     transform: none;
-    width: 220px;
+    width: 260px;
     margin: var(--space-4) auto 0;
   }
 

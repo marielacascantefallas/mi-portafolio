@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import profilePhoto from '../assets/profile-cutout.png'
+import profilePhoto from '../assets/profile-cutout-real.webp'
 import useFillHover from '../hooks/useFillHover'
 import './About.css'
 
@@ -104,7 +104,7 @@ export default function About() {
         </h2>
 
         {/* Cutout photo centered and overlapping the headline's second line —
-            the transparent PNG lets the letters show through around the
+            the transparent WebP lets the letters show through around the
             silhouette, exactly like the reference's photo-over-text effect. */}
         <div className="about__photo-wrap" ref={photoRef}>
           <img src={profilePhoto} alt="Mariela Cascante" className="about__photo" />
