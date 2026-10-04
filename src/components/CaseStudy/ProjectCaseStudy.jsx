@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import Reveal from '../Reveal'
 import RevealStagger from '../RevealStagger'
 import ThemeToggle from '../ThemeToggle'
@@ -33,12 +34,21 @@ export default function ProjectCaseStudy({
   takeaways,
   nextProject,
 }) {
+  const navigate = useNavigate()
   const hasPrototypeLink = prototypeLink && prototypeLink !== '#'
   const {
     ref: prototypeRef,
     onMouseEnter: prototypeEnter,
     onMouseLeave: prototypeLeave,
   } = useFillHover()
+
+  useEffect(() => {
+    const onKeyDown = (e) => {
+      if (e.key === 'Escape') navigate('/')
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [navigate])
 
   return (
     <div className="case-study">

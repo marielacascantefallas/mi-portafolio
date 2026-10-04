@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import projects from '../data/projects'
 import useFillHover from '../hooks/useFillHover'
+import { saveHomeScroll } from '../utils/scrollMemory'
 import './Projects.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -50,6 +51,7 @@ function cardStyle(diff, steps, reducedMotion) {
 }
 
 export default function Projects() {
+  const navigate = useNavigate()
   const sectionRef = useRef(null)
   const [activeIndex, setActiveIndex] = useState(0)
   const [isMobile, setIsMobile] = useState(false)
@@ -110,7 +112,6 @@ export default function Projects() {
 
   const active = projects[activeIndex]
   const hasCaseStudy = active.link && active.link.startsWith('/')
-  const isExternal = active.link && /^https?:\/\//.test(active.link)
   const steps = isMobile ? MOBILE_STEPS : DESKTOP_STEPS
 
   return (
@@ -128,6 +129,7 @@ export default function Projects() {
         {projects.map((p, i) => {
           const diff = circularDiff(i, activeIndex, total)
           const isActive = diff === 0
+          const opensCaseStudy = isActive && p.link && p.link.startsWith('/')
 
           return (
             <button
@@ -135,8 +137,15 @@ export default function Projects() {
               type="button"
               className="projects__card"
               style={cardStyle(diff, steps, reducedMotion)}
-              onClick={() => goTo(i)}
-              aria-label={`Show ${p.title}`}
+              onClick={() => {
+                if (opensCaseStudy) {
+                  saveHomeScroll()
+                  navigate(p.link)
+                } else {
+                  goTo(i)
+                }
+              }}
+              aria-label={opensCaseStudy ? `Open ${p.title} case study` : `Show ${p.title}`}
               aria-current={isActive}
             >
               {p.image ? (
@@ -195,6 +204,7 @@ export default function Projects() {
             onMouseEnter={ctaEnter}
             onMouseLeave={ctaLeave}
             to={active.link}
+            onClick={saveHomeScroll}
             className="projects__cta btn-fill"
           >
             View case study
@@ -203,23 +213,6 @@ export default function Projects() {
               <polyline points="12 5 19 12 12 19" />
             </svg>
           </Link>
-        )}
-        {isExternal && (
-          <a
-            ref={ctaRef}
-            onMouseEnter={ctaEnter}
-            onMouseLeave={ctaLeave}
-            href={active.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="projects__cta btn-fill"
-          >
-            Visit site
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12" />
-              <polyline points="12 5 19 12 12 19" />
-            </svg>
-          </a>
         )}
         {active.comingSoon && (
           <span className="projects__cta projects__cta--disabled">
