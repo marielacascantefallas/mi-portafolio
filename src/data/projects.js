@@ -1,5 +1,6 @@
 import socialClubThumb from '../Socialclub/Mockup4.png'
 import gexpSoftwareThumb from '../assets/projects/gexp-software.jpg'
+import gexpSoftwareCard from '../assets/projects/gexp-software-card.jpg'
 import biianchiEstudioThumb from '../assets/projects/biianchi-estudio.jpg'
 import biianchiEstudioBanner from '../assets/projects/biianchi-estudio-banner.jpg'
 import picoMarVillasThumb from '../assets/projects/pico-mar-villas.jpg'
@@ -23,11 +24,16 @@ const projects = [
     description:
       'Custom software studio site for a team shipping high-converting websites and apps.',
     tags: ['Web Development', 'Client Site'],
-    // Single image for both the carousel card and the case-study banner —
-    // no separate cardImage override needed here (unlike Biianchi/Pico Mar).
+    // Case-study banner — kept as the original site screenshot (per the
+    // user: leave this one as it was).
     image: gexpSoftwareThumb,
-    imageWidth: 2000,
-    imageHeight: 1999,
+    imageWidth: 1200,
+    imageHeight: 750,
+    // Carousel card cover (gexp. logo shot) — falls back to `image` above
+    // if unset, see Projects.jsx.
+    cardImage: gexpSoftwareCard,
+    cardImageWidth: 2000,
+    cardImageHeight: 1999,
     link: '/proyectos/gexp-software',
     siteUrl: 'https://gexpsoftware.com/',
     duration: '2 weeks',
