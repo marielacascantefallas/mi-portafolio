@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import ThemeToggle from './ThemeToggle'
+import Sparkles from './Sparkles'
 import './Nav.css'
 
 const links = [
@@ -78,6 +79,7 @@ export default function Nav({ theme, onToggle }) {
         style={{ visibility: 'hidden', opacity: 0 }}
       >
         <div className="nav-overlay__noise noise-overlay" aria-hidden="true" />
+        <Sparkles className="nav-overlay__sparkles" active={open} />
         <div className="nav-overlay__content">
           <ul className="nav-overlay__links">
             {links.map((l, i) => (

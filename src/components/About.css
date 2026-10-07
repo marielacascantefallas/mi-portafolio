@@ -8,6 +8,11 @@
    "I'm ui/ux designer" panel). */
 .about__hero {
   position: relative;
+  /* Explicit stacking context (position + z-index), so .about__sparkles'
+     negative z-index below is unambiguously scoped to this box alone —
+     behind the headline/photo/corner content, never behind anything
+     outside .about__hero. */
+  z-index: 0;
   min-height: 92vh;
   max-width: 1200px;
   margin: 0 auto;
@@ -17,6 +22,10 @@
   align-items: center;
   justify-content: flex-start;
   text-align: center;
+}
+
+.about__sparkles {
+  z-index: -1;
 }
 
 .about__headline {

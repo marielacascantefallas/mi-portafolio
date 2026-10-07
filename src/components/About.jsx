@@ -2,6 +2,7 @@ import { memo, useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import profilePhoto from '../assets/profile-cutout-real.webp'
+import Sparkles from './Sparkles'
 import './About.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -77,6 +78,7 @@ function About() {
       ref={sectionRef}
     >
       <div className="about__hero">
+        <Sparkles className="about__sparkles" />
         <h2 className="about__headline">
           <span className="about__headline-light">Designing digital experiences</span>
           <span className="about__headline-bold">centered on people</span>
