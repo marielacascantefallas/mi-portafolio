@@ -1,0 +1,119 @@
+/* ===== Sparkles ===== */
+/* Tunable defaults for every Sparkles instance — override any of these on
+   a wrapping class (.about__sparkles, .nav-overlay__sparkles below) to
+   retune count/size/speed for one usage without touching this file.
+   `count`/`mobileCount` (how many render at all vs. stay visible on
+   mobile) are JS props on Sparkles.jsx instead, since they change how
+   many DOM nodes exist. */
+:root {
+  --sparkle-size-min: 6px;
+  --sparkle-size-max: 16px;
+  --sparkle-duration-min: 4s;
+  --sparkle-duration-max: 9s;
+  --sparkle-opacity-max: 0.8;
+  --sparkle-drift: 14px;
+}
+
+.sparkles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sparkles__star {
+  position: absolute;
+  width: calc(
+    var(--sparkle-size-min) + var(--size-t) * (var(--sparkle-size-max) - var(--sparkle-size-min))
+  );
+  aspect-ratio: 1;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0.3);
+  animation-name: sparkle-twinkle;
+  animation-duration: calc(
+    var(--sparkle-duration-min) + var(--dur-t) * (var(--sparkle-duration-max) - var(--sparkle-duration-min))
+  );
+  animation-delay: var(--delay);
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform, opacity;
+}
+
+.sparkles__star--accent {
+  color: var(--color-accent);
+}
+
+.sparkles__star--yellow {
+  color: var(--color-yellow);
+}
+
+.sparkles__star-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  fill: currentColor;
+}
+
+/* Static glow in dark mode — not part of the animation (filter never
+   changes value, only transform/opacity do), so it costs one extra
+   compositing pass per star, not one per frame. */
+[data-theme='dark'] .sparkles__star-svg {
+  filter: drop-shadow(0 0 3px currentColor);
+}
+
+@keyframes sparkle-twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3) rotate(0deg);
+  }
+  15% {
+    opacity: var(--sparkle-opacity-max);
+    transform: translate(
+        calc(-50% + var(--drift-x) * var(--sparkle-drift) * 0.3),
+        calc(-50% + var(--drift-y) * var(--sparkle-drift) * 0.3)
+      )
+      scale(1) rotate(10deg);
+  }
+  50% {
+    opacity: calc(var(--sparkle-opacity-max) * 0.5);
+    transform: translate(
+        calc(-50% + var(--drift-x) * var(--sparkle-drift)),
+        calc(-50% + var(--drift-y) * var(--sparkle-drift))
+      )
+      scale(0.8) rotate(-8deg);
+  }
+  85% {
+    opacity: var(--sparkle-opacity-max);
+    transform: translate(
+        calc(-50% + var(--drift-x) * var(--sparkle-drift) * 0.6),
+        calc(-50% + var(--drift-y) * var(--sparkle-drift) * 0.6)
+      )
+      scale(1.1) rotate(6deg);
+  }
+}
+
+/* Pausing (not unmounting) freezes every star mid-loop and resumes right
+   where it left off — cheaper than a remount and avoids a pop back to a
+   fixed start frame. will-change is dropped while paused so an inactive
+   field (off-screen About, or the menu closed) doesn't keep ~20 promoted
+   compositing layers alive for nothing. */
+.sparkles--paused .sparkles__star {
+  animation-play-state: paused;
+  will-change: auto;
+}
+
+@media (max-width: 640px) {
+  .sparkles__star--desktop-only {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sparkles__star {
+    animation: none;
+    opacity: calc(var(--sparkle-opacity-max) * 0.45);
+    transform: translate(-50%, -50%) scale(0.85);
+    will-change: auto;
+  }
+}

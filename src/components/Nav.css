@@ -105,6 +105,10 @@
   pointer-events: none;
 }
 
+.nav-overlay__sparkles {
+  z-index: 0;
+}
+
 .nav-overlay__content {
   position: relative;
   z-index: 1;
