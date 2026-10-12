@@ -1,8 +1,8 @@
 import socialClubThumb from '../Socialclub/Mockup4.png'
 import gexpSoftwareThumb from '../assets/projects/gexp-software.jpg'
 import gexpSoftwareCard from '../assets/projects/gexp-software-card.jpg'
-import biianchiEstudioThumb from '../assets/projects/biianchi-estudio.jpg'
-import biianchiEstudioBanner from '../assets/projects/biianchi-estudio-banner.jpg'
+import mrsRentACarThumb from '../assets/projects/mrs-rent-a-car.jpg'
+import mrsRentACarBanner from '../assets/projects/mrs-rent-a-car-banner.jpg'
 import picoMarVillasThumb from '../assets/projects/pico-mar-villas.jpg'
 import picoMarVillasBanner from '../assets/projects/pico-mar-villas-banner.jpg'
 
@@ -42,27 +42,27 @@ const projects = [
       "GEXP Software needed its own marketing site to read as credibly as the high-converting products the team builds for clients, but the existing copy and layout buried that message under generic software-agency boilerplate. Working within a two-week turnaround, the challenge was editing the content and refining the UX/UI without a full rebuild — sharpening the hierarchy, the service narrative, and the call-to-action path so visitors could tell what the team does, and why it's different, fast.",
   },
   {
-    id: 6,
-    title: 'Biianchi Estudio',
-    slug: 'biianchi-estudio',
+    id: 12,
+    title: 'MRS Rent a Car',
+    slug: 'mrs-rent-a-car',
     description:
-      'Creative direction studio building memorable brands through strategy, photography, and design.',
+      'Bilingual car rental and private airport transfer site for a local company in Pérez Zeledón, Costa Rica.',
     tags: ['Web Development', 'Client Site'],
-    // Case-study banner (wide homepage screenshot).
-    image: biianchiEstudioBanner,
+    // Case-study banner (vehicle carousel, captured at 2x from the live site).
+    image: mrsRentACarBanner,
     imageWidth: 2000,
-    imageHeight: 1253,
-    // Carousel card cover (vertical brand shot) — falls back to `image`
-    // above if unset, see Projects.jsx.
-    cardImage: biianchiEstudioThumb,
-    cardImageWidth: 1602,
+    imageHeight: 1250,
+    // Carousel card cover (logo + Grand Vitara on the brand green) — falls
+    // back to `image` above if unset, see Projects.jsx.
+    cardImage: mrsRentACarThumb,
+    cardImageWidth: 1600,
     cardImageHeight: 2000,
-    link: '/proyectos/biianchi-estudio',
-    siteUrl: 'https://www.biianchiestudio.com/',
+    link: '/proyectos/mrs-rent-a-car',
+    siteUrl: 'https://mrsrentacar.com/',
     duration: '2 weeks',
-    role: 'Photography, Editing & UX/UI Design',
+    role: 'UX/UI Design & Web Development',
     challenge:
-      "Built to feature service packages rather than a gallery of past work, Biianchi Estudio's site puts the two founders front and center. The goal for this two-week build was to create an easy-to-navigate layout that reflects their creative style while keeping the presentation clear, polished, and straightforward.",
+      "MRS Rent a Car needed a site that could turn local and international travelers into WhatsApp bookings without the friction of a traditional reservation system. The goal was a bilingual, mobile-first experience that showcases the fleet with clear daily prices, explains requirements like the no-credit-card deposit upfront, and presents the private airport transfers, all wrapped in a bold, friendly brand that feels rooted in Costa Rica's southern zone.",
   },
   {
     id: 11,
