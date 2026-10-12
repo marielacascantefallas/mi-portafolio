@@ -52,11 +52,11 @@ const projects = [
     image: mrsRentACarBanner,
     imageWidth: 2000,
     imageHeight: 1250,
-    // Carousel card cover (logo + Grand Vitara on the brand green) — falls
-    // back to `image` above if unset, see Projects.jsx.
+    // Carousel card cover (brand photo supplied by the user) — falls back
+    // to `image` above if unset, see Projects.jsx.
     cardImage: mrsRentACarThumb,
-    cardImageWidth: 1600,
-    cardImageHeight: 2000,
+    cardImageWidth: 1584,
+    cardImageHeight: 1224,
     link: '/proyectos/mrs-rent-a-car',
     siteUrl: 'https://mrsrentacar.com/',
     duration: '2 weeks',
