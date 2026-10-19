@@ -5,8 +5,29 @@ import mrsRentACarThumb from '../assets/projects/mrs-rent-a-car.jpg'
 import mrsRentACarBanner from '../assets/projects/mrs-rent-a-car-banner.jpg'
 import picoMarVillasThumb from '../assets/projects/pico-mar-villas.jpg'
 import picoMarVillasBanner from '../assets/projects/pico-mar-villas-banner.jpg'
+import tramaBanner from '../assets/projects/trama-banner.jpg'
+import tramaCard from '../assets/projects/trama-card.jpg'
 
 const projects = [
+  {
+    id: 13,
+    title: 'Trama Design System',
+    slug: 'trama',
+    description:
+      'A multi-brand design system that powers two B2B products from one set of tokens and components, built from Figma to a live Storybook.',
+    tags: ['Design Systems', 'Accessibility', 'React'],
+    // Case-study banner (Hilo light + Ruta dark), rendered from the real
+    // components. Has its own rich page: src/pages/TramaCaseStudy.jsx.
+    image: tramaBanner,
+    imageWidth: 2000,
+    imageHeight: 950,
+    // Carousel card cover: the same screens in the four themes.
+    cardImage: tramaCard,
+    cardImageWidth: 2000,
+    cardImageHeight: 1500,
+    link: '/proyectos/trama',
+    siteUrl: 'https://marielacascantefallas.github.io/trama-design-system/',
+  },
   {
     id: 1,
     title: 'Social Club',
