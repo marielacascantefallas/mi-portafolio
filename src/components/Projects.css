@@ -203,3 +203,117 @@
     height: 36px;
   }
 }
+
+/* ===== Other work: compact strip under the featured case studies ===== */
+.other-work {
+  max-width: 1120px;
+  text-align: left;
+  margin: var(--space-8) auto 0;
+  padding-top: var(--space-6);
+  border-top: 1px solid color-mix(in srgb, var(--color-text) 12%, transparent);
+}
+
+.other-work__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+
+.other-work__title {
+  font-size: clamp(22px, 2.4vw, 28px);
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .other-work__head {
+    flex-direction: column;
+    gap: 4px;
+  }
+}
+
+.other-work__sub {
+  font-size: 15px;
+  color: var(--color-text-muted);
+}
+
+.other-work__list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.other-work__card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.other-work__thumb {
+  display: block;
+  aspect-ratio: 4 / 3;
+  margin-bottom: var(--space-1);
+  overflow: hidden;
+  border-radius: var(--radius-md);
+  background: color-mix(in srgb, var(--color-text) 6%, transparent);
+}
+
+.other-work__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.other-work__card:hover .other-work__thumb img,
+.other-work__card:focus-visible .other-work__thumb img {
+  transform: scale(1.04);
+}
+
+.other-work__card:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-md);
+}
+
+.other-work__kind {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.other-work__name {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.other-work__desc {
+  display: -webkit-box;
+  overflow: hidden;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+@media (max-width: 1000px) {
+  .other-work__list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .other-work__thumb img {
+    transition: none;
+  }
+}

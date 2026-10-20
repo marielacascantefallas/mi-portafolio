@@ -89,6 +89,9 @@ const projects = [
   {
     id: 1,
     title: 'Social Club',
+    // Shown in the “Other work” strip under the featured case studies.
+    other: true,
+    kind: 'Concept',
     description:
       'A conceptual social platform built for creatives who want to share and curate their work away from algorithmic noise.',
     tags: ['UX/UI Design', 'Branding', 'Concept Development'],
@@ -99,6 +102,9 @@ const projects = [
   {
     id: 5,
     title: 'GEXP Software',
+    // Shown in the “Other work” strip under the featured case studies.
+    other: true,
+    kind: 'Client site',
     slug: 'gexp-software',
     description:
       'Custom software studio site for a team shipping high-converting websites and apps.',
@@ -123,6 +129,9 @@ const projects = [
   {
     id: 12,
     title: 'MRS Rent a Car',
+    // Shown in the “Other work” strip under the featured case studies.
+    other: true,
+    kind: 'Client site',
     slug: 'mrs-rent-a-car',
     description:
       'Bilingual car rental and private airport transfer site for a local company in Pérez Zeledón, Costa Rica.',
@@ -146,6 +155,9 @@ const projects = [
   {
     id: 11,
     title: 'Pico Mar Villas',
+    // Shown in the “Other work” strip under the featured case studies.
+    other: true,
+    kind: 'Client site',
     slug: 'pico-mar-villas',
     description:
       "Luxury villa booking platform for Costa Rica's Pacific coast, pairing curated homes with a professional concierge service.",

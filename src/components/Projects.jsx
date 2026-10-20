@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import projects from '../data/projects'
+import allProjects from '../data/projects'
 import useFillHover from '../hooks/useFillHover'
 import { saveHomeScroll } from '../utils/scrollMemory'
 import './Projects.css'
@@ -52,6 +52,14 @@ function cardStyle(diff, steps, reducedMotion) {
 // events per scroll).
 const WHEEL_COOLDOWN_MS = 400
 const SWIPE_THRESHOLD_PX = 40
+
+// The carousel holds the deep case studies; everything marked `other` goes to
+// the compact strip below it.
+const projects = allProjects.filter((p) => !p.other)
+const OTHER_ORDER = ['pico-mar-villas', 'mrs-rent-a-car', 'gexp-software']
+const otherWork = allProjects
+  .filter((p) => p.other)
+  .sort((a, b) => (OTHER_ORDER.indexOf(a.slug) + 1 || 99) - (OTHER_ORDER.indexOf(b.slug) + 1 || 99))
 
 function Projects() {
   const navigate = useNavigate()
@@ -305,6 +313,30 @@ function Projects() {
           </span>
         )}
       </div>
+      {otherWork.length > 0 && (
+        <div className="other-work" aria-labelledby="other-work-title">
+          <div className="other-work__head">
+            <h3 id="other-work-title" className="other-work__title">
+              Other work
+            </h3>
+            <p className="other-work__sub">Client sites and earlier projects</p>
+          </div>
+          <ul className="other-work__list">
+            {otherWork.map((p) => (
+              <li key={p.id}>
+                <Link to={p.link} onClick={saveHomeScroll} className="other-work__card">
+                  <span className="other-work__thumb">
+                    <img src={p.cardImage || p.image} alt="" loading="lazy" />
+                  </span>
+                  <span className="other-work__kind">{p.kind}</span>
+                  <span className="other-work__name">{p.title}</span>
+                  <span className="other-work__desc">{p.description}</span>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </section>
   )
 }
