@@ -64,6 +64,7 @@ const projects = [
     cardImageWidth: 2000,
     cardImageHeight: 1500,
     link: '/proyectos/ruta',
+    siteUrl: 'https://marielacascantefallas.github.io/trama-design-system/ruta/',
   },
   {
     id: 1,

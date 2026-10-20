@@ -21,6 +21,7 @@ import '../components/CaseStudy/HiloCaseStudy.css'
 // sunset orange so the page carries the product's own brand.
 
 const STORYBOOK_URL = 'https://marielacascantefallas.github.io/trama-design-system/'
+const PROTOTYPE_URL = 'https://marielacascantefallas.github.io/trama-design-system/ruta/'
 
 const SECTIONS = [
   { id: 'context', label: 'Context' },
@@ -205,7 +206,7 @@ export default function RutaCaseStudy({ theme, onToggle }) {
           <p className="case-study__tagline">
             Ruta is a booking panel for small boat tour operators in Costa Rica. It brings bookings from every channel
             into one day, keeps capacity honest per boat, reconciles SINPE deposits and moves a whole departure when
-            the weather turns. It is the second product built on Trama.
+            the weather turns. It is the second product built on Trama, designed in Figma and built as a working prototype.
           </p>
           <ul className="trama-cs__tags" aria-label="Disciplines">
             {['Product Design', 'B2B SaaS', 'Operations', 'Mobile', 'Design Systems'].map((t) => (
@@ -218,7 +219,7 @@ export default function RutaCaseStudy({ theme, onToggle }) {
           <dl className="trama-cs__meta">
             <div>
               <dt>Role</dt>
-              <dd>Product Designer: research framing, flows, AI rules and UI</dd>
+              <dd>Product Designer: flows, AI rules, UI and front-end prototype</dd>
             </div>
             <div>
               <dt>Type</dt>
@@ -230,7 +231,7 @@ export default function RutaCaseStudy({ theme, onToggle }) {
             </div>
             <div>
               <dt>Tools</dt>
-              <dd>Figma, Trama, Claude Code</dd>
+              <dd>Figma, Trama, React, Claude Code</dd>
             </div>
             <div>
               <dt>Timeline</dt>
@@ -238,17 +239,19 @@ export default function RutaCaseStudy({ theme, onToggle }) {
             </div>
           </dl>
           <div className="trama-cs__links">
-            <Link
+            <a
               ref={sysRef}
               onMouseEnter={sysEnter}
               onMouseLeave={sysLeave}
-              to="/proyectos/trama"
+              href={PROTOTYPE_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="case-study__prototype-link btn-fill"
             >
+              Try the prototype ↗
+            </a>
+            <Link to="/proyectos/trama" className="case-study__prototype-link">
               See the design system
-            </Link>
-            <Link to="/proyectos/hilo" className="case-study__prototype-link">
-              See Hilo, the first product
             </Link>
           </div>
         </Reveal>
@@ -443,7 +446,8 @@ export default function RutaCaseStudy({ theme, onToggle }) {
               <SectionHead id="accessibility" eyebrow="09 · Accessibility" title="Readable in the office and in the sun" />
               <p className="case-study__section-text">
                 Every color comes from Trama’s tokens, already checked against WCAG 2.2 AA in Ruta’s light and dark
-                themes. On top of that, the screens follow a few rules of their own.
+                themes. I tested the prototype with the keyboard and with automated checks on every screen, the two
+                dialogs and the mobile views: zero violations.
               </p>
             </Reveal>
             <Reveal>
@@ -453,17 +457,19 @@ export default function RutaCaseStudy({ theme, onToggle }) {
                 <li>Mobile check-in uses the 48 px size and light mode, for one-handed use outdoors</li>
                 <li>Every AI-filled field is labeled under the field, not only with a color</li>
                 <li>The weather warning names its source and time, so people can judge it</li>
+                <li>The booking panel and the reschedule dialog trap focus, close with Esc and return focus</li>
               </ul>
             </Reveal>
           </section>
 
           <section className="case-study__section" id="next" tabIndex={-1} aria-labelledby="next-label">
             <Reveal>
-              <SectionHead id="next" eyebrow="10 · What’s next" title="From Figma to the dock" />
+              <SectionHead id="next" eyebrow="10 · What’s next" title="From the prototype to the dock" />
               <p className="case-study__section-text">
-                The next step is a working prototype, like Hilo’s, and a test with two operators during whale season:
-                one morning in the office and one check-in on the dock. I want to know whether the coordinator trusts
-                the AI drafts and whether the guide can check in a full boat in under five minutes.
+                The prototype runs the whole morning: create the AI-drafted booking, confirm a deposit, check in the
+                9:30 boat and move the afternoon departure for weather. The next step is to test it with two operators
+                during whale season. I want to know whether the coordinator trusts the AI drafts and whether the guide
+                can check in a full boat in under five minutes.
               </p>
               <h3 className="trama-cs__subhead">What I learned</h3>
               <ul className="trama-cs__checklist">
@@ -472,6 +478,9 @@ export default function RutaCaseStudy({ theme, onToggle }) {
                 ))}
               </ul>
               <div className="trama-cs__links">
+                <a href={PROTOTYPE_URL} target="_blank" rel="noopener noreferrer" className="case-study__prototype-link btn-fill">
+                  Try the prototype ↗
+                </a>
                 <a href={STORYBOOK_URL} target="_blank" rel="noopener noreferrer" className="case-study__prototype-link">
                   Components in Storybook ↗
                 </a>
