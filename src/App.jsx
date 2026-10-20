@@ -8,6 +8,7 @@ import CaseStudyPage from './pages/CaseStudyPage'
 import TramaCaseStudy from './pages/TramaCaseStudy'
 import HiloCaseStudy from './pages/HiloCaseStudy'
 import RutaCaseStudy from './pages/RutaCaseStudy'
+import GoEasyCaseStudy from './pages/GoEasyCaseStudy'
 import MusicPlayer from './components/MusicPlayer'
 import { consumeHomeScroll } from './utils/scrollMemory'
 
@@ -60,6 +61,10 @@ function App() {
         <Route
           path="/proyectos/ruta"
           element={<RutaCaseStudy theme={theme} onToggle={toggle} />}
+        />
+        <Route
+          path="/proyectos/goeasy-chat"
+          element={<GoEasyCaseStudy theme={theme} onToggle={toggle} />}
         />
         <Route
           path="/proyectos/:slug"

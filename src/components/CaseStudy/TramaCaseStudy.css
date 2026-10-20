@@ -397,3 +397,10 @@
     grid-template-columns: 40px minmax(0, 1fr);
   }
 }
+
+/* Links inside running text: underlined so they don't rely on color (WCAG 1.4.1) */
+.trama-cs .case-study__section-text a {
+  color: var(--case-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

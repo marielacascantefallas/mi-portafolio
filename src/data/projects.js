@@ -11,8 +11,28 @@ import hiloBanner from '../assets/projects/hilo-banner.jpg'
 import hiloCard from '../assets/projects/hilo-card.jpg'
 import rutaBanner from '../assets/projects/ruta-banner.jpg'
 import rutaCard from '../assets/projects/ruta-card.jpg'
+import goeasyBanner from '../assets/projects/goeasy-banner.jpg'
+import goeasyCard from '../assets/projects/goeasy-card.jpg'
 
 const projects = [
+  {
+    id: 16,
+    title: 'GoEasy Chat',
+    slug: 'goeasy-chat',
+    description:
+      'A shipped desktop app that lets an accounting firm answer clients from one WhatsApp number on several computers. 50+ active users.',
+    tags: ['Product Design', 'B2B SaaS', 'Shipped'],
+    // Rich page: src/pages/GoEasyCaseStudy.jsx. Client screens are private,
+    // so the images are the case study's own diagrams.
+    image: goeasyBanner,
+    imageWidth: 2000,
+    imageHeight: 950,
+    cardImage: goeasyCard,
+    cardImageWidth: 2000,
+    cardImageHeight: 1500,
+    link: '/proyectos/goeasy-chat',
+    siteUrl: 'https://goeasy.chat/',
+  },
   {
     id: 13,
     title: 'Trama Design System',

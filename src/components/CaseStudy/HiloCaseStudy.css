@@ -97,3 +97,148 @@
 [data-theme='dark'] .ruta-cs {
   --case-accent: #fca06d;
 }
+
+/* GoEasy Chat: diagrams drawn in HTML instead of client screens.
+   Accent is a deep green on cream and a soft green on dark, both above 4.5:1. */
+.goeasy-cs {
+  --case-accent: #2e6b46;
+}
+
+[data-theme='dark'] .goeasy-cs {
+  --case-accent: #8fd3a8;
+}
+
+.goeasy-cs__compare {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: stretch;
+  gap: var(--space-2);
+}
+
+.goeasy-cs__compare figcaption {
+  grid-column: 1 / -1;
+}
+
+.goeasy-cs__panel {
+  padding: var(--space-3);
+  border: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent);
+  border-radius: var(--radius-lg);
+}
+
+.goeasy-cs__panel--after {
+  border-color: var(--case-accent);
+  background: color-mix(in srgb, var(--case-accent) 7%, transparent);
+}
+
+.goeasy-cs__panel h3 {
+  margin-top: 6px;
+  font-size: 18px;
+  line-height: 1.3;
+}
+
+.goeasy-cs__panel ul {
+  margin: var(--space-2) 0 0;
+  padding-left: 18px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.goeasy-cs__tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--case-accent);
+}
+
+.goeasy-cs__arrow {
+  align-self: center;
+  font-size: 24px;
+  color: var(--color-text-muted);
+}
+
+.goeasy-cs__model {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--space-4) var(--space-3);
+  border-radius: var(--radius-lg);
+  background: color-mix(in srgb, var(--color-text) 5%, transparent);
+}
+
+.goeasy-cs__node {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 220px;
+  padding: 14px 18px;
+  border: 1px solid color-mix(in srgb, var(--color-text) 16%, transparent);
+  border-radius: var(--radius-md, 12px);
+  background: var(--color-bg);
+  text-align: center;
+}
+
+.goeasy-cs__node strong {
+  font-size: 16px;
+}
+
+.goeasy-cs__node > span {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.goeasy-cs__node--number {
+  border-color: var(--case-accent);
+}
+
+.goeasy-cs__node--owner {
+  border-width: 2px;
+  border-color: var(--case-accent);
+}
+
+.goeasy-cs__node ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.goeasy-cs__node li {
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--case-accent) 12%, transparent);
+  font-size: 13px;
+}
+
+.goeasy-cs__down {
+  width: 2px;
+  height: 28px;
+  background: var(--case-accent);
+}
+
+.goeasy-cs__people {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.goeasy-cs__timeline {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (max-width: 760px) {
+  .goeasy-cs__compare,
+  .goeasy-cs__people {
+    grid-template-columns: 1fr;
+  }
+
+  .goeasy-cs__arrow {
+    transform: rotate(90deg);
+    justify-self: center;
+  }
+}
