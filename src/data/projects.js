@@ -7,6 +7,8 @@ import picoMarVillasThumb from '../assets/projects/pico-mar-villas.jpg'
 import picoMarVillasBanner from '../assets/projects/pico-mar-villas-banner.jpg'
 import tramaBanner from '../assets/projects/trama-banner.jpg'
 import tramaCard from '../assets/projects/trama-card.jpg'
+import hiloBanner from '../assets/projects/hilo-banner.jpg'
+import hiloCard from '../assets/projects/hilo-card.jpg'
 
 const projects = [
   {
@@ -27,6 +29,23 @@ const projects = [
     cardImageHeight: 1500,
     link: '/proyectos/trama',
     siteUrl: 'https://marielacascantefallas.github.io/trama-design-system/',
+  },
+  {
+    id: 14,
+    title: 'Hilo',
+    slug: 'hilo',
+    description:
+      'A shared WhatsApp inbox for accounting firms, with an AI that suggests and a person who decides. Designed and prototyped with Trama.',
+    tags: ['Product Design', 'AI UX', 'B2B SaaS'],
+    // Rich page: src/pages/HiloCaseStudy.jsx. Images come from the live prototype.
+    image: hiloBanner,
+    imageWidth: 2000,
+    imageHeight: 950,
+    cardImage: hiloCard,
+    cardImageWidth: 2000,
+    cardImageHeight: 1500,
+    link: '/proyectos/hilo',
+    siteUrl: 'https://marielacascantefallas.github.io/trama-design-system/hilo/',
   },
   {
     id: 1,

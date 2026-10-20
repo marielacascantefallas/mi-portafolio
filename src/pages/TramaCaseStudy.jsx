@@ -515,9 +515,10 @@ export default function TramaCaseStudy({ theme, onToggle }) {
             <Reveal>
               <SectionHead id="next" eyebrow="10 · What’s next" title="Putting Trama to work" />
               <p className="case-study__section-text">
-                Trama is the foundation for the two products I am designing now: Hilo’s full inbox, with an AI copilot
-                that summarizes conversations and flags urgent clients, and Ruta’s booking panel. Both will be built
-                only with Trama’s components, which is the real test of the system.
+                Trama is the foundation for two products. <Link to="/proyectos/hilo">Hilo</Link>, a shared WhatsApp
+                inbox with an AI that summarizes conversations and flags urgent clients, is already designed and
+                prototyped only with Trama’s components, and it added five new ones back to the system. Ruta’s booking
+                panel is next.
               </p>
               <h3 className="trama-cs__subhead">What I learned</h3>
               <ul className="trama-cs__checklist">

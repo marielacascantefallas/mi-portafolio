@@ -6,6 +6,7 @@ import Home from './pages/Home'
 import SocialClubCaseStudy from './pages/SocialClubCaseStudy'
 import CaseStudyPage from './pages/CaseStudyPage'
 import TramaCaseStudy from './pages/TramaCaseStudy'
+import HiloCaseStudy from './pages/HiloCaseStudy'
 import MusicPlayer from './components/MusicPlayer'
 import { consumeHomeScroll } from './utils/scrollMemory'
 
@@ -50,6 +51,10 @@ function App() {
         <Route
           path="/proyectos/trama"
           element={<TramaCaseStudy theme={theme} onToggle={toggle} />}
+        />
+        <Route
+          path="/proyectos/hilo"
+          element={<HiloCaseStudy theme={theme} onToggle={toggle} />}
         />
         <Route
           path="/proyectos/:slug"
