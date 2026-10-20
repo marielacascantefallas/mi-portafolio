@@ -9,6 +9,8 @@ import tramaBanner from '../assets/projects/trama-banner.jpg'
 import tramaCard from '../assets/projects/trama-card.jpg'
 import hiloBanner from '../assets/projects/hilo-banner.jpg'
 import hiloCard from '../assets/projects/hilo-card.jpg'
+import rutaBanner from '../assets/projects/ruta-banner.jpg'
+import rutaCard from '../assets/projects/ruta-card.jpg'
 
 const projects = [
   {
@@ -46,6 +48,22 @@ const projects = [
     cardImageHeight: 1500,
     link: '/proyectos/hilo',
     siteUrl: 'https://marielacascantefallas.github.io/trama-design-system/hilo/',
+  },
+  {
+    id: 15,
+    title: 'Ruta',
+    slug: 'ruta',
+    description:
+      'A booking panel for boat tour operators: every channel in one day, honest capacity per boat, SINPE deposits and weather changes handled in one step.',
+    tags: ['Product Design', 'B2B SaaS', 'Mobile'],
+    // Rich page: src/pages/RutaCaseStudy.jsx. Images are the Figma screens.
+    image: rutaBanner,
+    imageWidth: 2000,
+    imageHeight: 950,
+    cardImage: rutaCard,
+    cardImageWidth: 2000,
+    cardImageHeight: 1500,
+    link: '/proyectos/ruta',
   },
   {
     id: 1,

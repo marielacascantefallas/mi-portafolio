@@ -87,3 +87,13 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Ruta uses the same blocks with its own accent: sunset 700 on the cream
+   background and sunset 300 on the dark one, both above 4.5:1. */
+.ruta-cs {
+  --case-accent: #a23612;
+}
+
+[data-theme='dark'] .ruta-cs {
+  --case-accent: #fca06d;
+}

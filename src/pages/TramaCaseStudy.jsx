@@ -517,8 +517,9 @@ export default function TramaCaseStudy({ theme, onToggle }) {
               <p className="case-study__section-text">
                 Trama is the foundation for two products. <Link to="/proyectos/hilo">Hilo</Link>, a shared WhatsApp
                 inbox with an AI that summarizes conversations and flags urgent clients, is already designed and
-                prototyped only with Trama’s components, and it added five new ones back to the system. Ruta’s booking
-                panel is next.
+                prototyped only with Trama’s components, and it added five new ones back to the system.{' '}
+                <Link to="/proyectos/ruta">Ruta</Link>, the booking panel, followed with the same components in its own
+                brand.
               </p>
               <h3 className="trama-cs__subhead">What I learned</h3>
               <ul className="trama-cs__checklist">
