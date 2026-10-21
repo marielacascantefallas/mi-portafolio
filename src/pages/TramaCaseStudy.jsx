@@ -399,7 +399,7 @@ export default function TramaCaseStudy({ theme, onToggle }) {
                   src={a11yImg}
                   alt="Before and after: the disabled field's helper text goes from a pale 2.7 to 1 contrast to a readable 6.9 to 1"
                   width={1800}
-                  height={400}
+                  height={356}
                   loading="lazy"
                 />
                 <figcaption>
