@@ -2,19 +2,25 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mariela Cascante — Portfolio</title>
-  </head>
-  <body>
     <script>
-      (function() {
-        var t = localStorage.getItem('theme');
-        if (!t) t = window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', t);
+      // Dark from 6 p.m. to 6 a.m. in the visitor's local time.
+      (function () {
+        var h = new Date().getHours();
+        document.documentElement.setAttribute('data-theme', h >= 18 || h < 6 ? 'dark' : 'light');
       })();
     </script>
-    <div id="root"></div>
+    <title>Mariela Cascante | Product Designer and UX/UI Designer in Costa Rica</title>
+    <meta name="description" content="" />
+    <link rel="canonical" href="https://marielacascante.com/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#f2f2f3" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f0f10" media="(prefers-color-scheme: dark)" />
+    <meta name="author" content="Mariela Cascante" />
+    <!--seo-->
+  </head>
+  <body>
+    <div id="root"><!--app--></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

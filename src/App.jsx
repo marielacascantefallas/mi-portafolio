@@ -1,78 +1,69 @@
 import { useEffect } from 'react'
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom'
-import { useTheme } from './hooks/useTheme'
-import { useLenis } from './hooks/useLenis'
-import Home from './pages/Home'
-import SocialClubCaseStudy from './pages/SocialClubCaseStudy'
-import CaseStudyPage from './pages/CaseStudyPage'
-import TramaCaseStudy from './pages/TramaCaseStudy'
-import HiloCaseStudy from './pages/HiloCaseStudy'
-import RutaCaseStudy from './pages/RutaCaseStudy'
-import GoEasyCaseStudy from './pages/GoEasyCaseStudy'
-import MusicPlayer from './components/MusicPlayer'
-import { consumeHomeScroll } from './utils/scrollMemory'
+import { Navigate, Route, Routes, useLocation, useParams } from 'react-router-dom'
+import Desk from './desk/Desk'
+import { AboutWindow, ContactWindow, WorkWindow } from './desk/Windows'
+import CaseWindow from './desk/CaseWindow'
+import { metaFor } from './seo'
 
-// Resets scroll position (through Lenis, so it stays in sync with
-// ScrollTrigger) whenever the route changes — except landing back on "/"
-// right after leaving it for a case study, where the home page's scroll
-// position is restored instead (Fase 7: "al volver se conserve la posición
-// del scroll"). Projects.jsx saves that position just before navigating
-// away; consumeHomeScroll only ever returns a value in that exact case, so
-// a fresh/direct visit to "/" still starts at the top as before.
-function ScrollToTop({ lenisRef }) {
+function OldCaseRoute() {
+  const { slug } = useParams()
+  return <Navigate to={`/work/${slug}`} replace />
+}
+
+// Keeps the title and description right while moving between windows.
+function Meta() {
   const { pathname } = useLocation()
-
   useEffect(() => {
-    if (pathname === '/') {
-      const savedY = consumeHomeScroll()
-      if (savedY !== null) {
-        lenisRef.current?.scrollTo(savedY, { immediate: true })
-        return
-      }
-    }
-    lenisRef.current?.scrollTo(0, { immediate: true })
-  }, [pathname, lenisRef])
-
+    const m = metaFor(pathname)
+    document.title = m.title
+    document.querySelector('meta[name="description"]')?.setAttribute('content', m.description)
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', m.url)
+    if (!pathname.startsWith('/work/')) window.scrollTo(0, 0)
+  }, [pathname])
   return null
 }
 
-function App() {
-  const { theme, toggle } = useTheme()
-  const lenisRef = useLenis()
-
+export default function App() {
   return (
-    <BrowserRouter>
-      <ScrollToTop lenisRef={lenisRef} />
-      <MusicPlayer />
+    <>
+      <Meta />
       <Routes>
-        <Route path="/" element={<Home theme={theme} onToggle={toggle} />} />
+        <Route path="/" element={<Desk home />} />
         <Route
-          path="/proyectos/social-club"
-          element={<SocialClubCaseStudy theme={theme} onToggle={toggle} />}
+          path="/work"
+          element={
+            <Desk>
+              <WorkWindow />
+            </Desk>
+          }
         />
         <Route
-          path="/proyectos/trama"
-          element={<TramaCaseStudy theme={theme} onToggle={toggle} />}
+          path="/about"
+          element={
+            <Desk>
+              <AboutWindow />
+            </Desk>
+          }
         />
         <Route
-          path="/proyectos/hilo"
-          element={<HiloCaseStudy theme={theme} onToggle={toggle} />}
+          path="/contact"
+          element={
+            <Desk>
+              <ContactWindow />
+            </Desk>
+          }
         />
         <Route
-          path="/proyectos/ruta"
-          element={<RutaCaseStudy theme={theme} onToggle={toggle} />}
+          path="/work/:slug"
+          element={
+            <Desk page>
+              <CaseWindow />
+            </Desk>
+          }
         />
-        <Route
-          path="/proyectos/goeasy-chat"
-          element={<GoEasyCaseStudy theme={theme} onToggle={toggle} />}
-        />
-        <Route
-          path="/proyectos/:slug"
-          element={<CaseStudyPage theme={theme} onToggle={toggle} />}
-        />
+        <Route path="/proyectos/:slug" element={<OldCaseRoute />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </BrowserRouter>
+    </>
   )
 }
-
-export default App

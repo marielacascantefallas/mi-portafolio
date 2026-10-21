@@ -27,12 +27,12 @@ export default function Reveal({
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
-    gsap.set(el, { autoAlpha: 0, y })
+    gsap.set(el, { opacity: 0, y })
 
     let tween
     const timer = setTimeout(() => {
       tween = gsap.to(el, {
-        autoAlpha: 1,
+        opacity: 1,
         y: 0,
         duration,
         delay,

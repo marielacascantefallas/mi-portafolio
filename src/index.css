@@ -1,9 +1,10 @@
-@import 'lenis/dist/lenis.css';
+@import '@fontsource-variable/geist';
 
-/* ===== Design System Tokens ===== */
-
+/* ===== Tokens =====
+   Grayscale only (white, black and grays), Geist everywhere. The theme is
+   set from the visitor's local time before the first paint (index.html):
+   dark from 6 p.m. to 6 a.m., light the rest of the day. */
 :root {
-  /* Espaciado (base 8px) */
   --space-1: 8px;
   --space-2: 16px;
   --space-3: 24px;
@@ -11,89 +12,66 @@
   --space-6: 48px;
   --space-8: 64px;
 
-  /* Border radius — escala continua estilo Apple HIG */
-  --radius-sm: 12px;
-  --radius-md: 16px;
+  --radius-sm: 10px;
+  --radius-md: 14px;
   --radius-lg: 20px;
-  --radius-xl: 28px;
+  --radius-xl: 26px;
   --radius-full: 9999px;
 
-  /* Tipografía — Helvetica en todo el sitio. El título del hero ya no usa
-     una fuente CSS: es artwork vectorial (public/hero-title.svg) usado
-     como mask-image, ver Hero.css. */
-  --font-display: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --font-mono: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  --font-body: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-display: 'Geist Variable', 'Helvetica Neue', Arial, sans-serif;
+  --font-body: var(--font-display);
+  --font-mono: var(--font-display);
 
-  /* Transición de tema */
-  --theme-transition: color 0.3s ease, background-color 0.3s ease;
-
-  /* Paleta de marca (mismo valor en ambos modos) */
-  --color-yellow: #EFD86D;
-  --color-lilac: #AAB6E1;
-  --color-cream: #F9F2E2;
-
-  /* Ink color for text/icons placed on a solid --color-yellow fill (the
-     hover state of every .btn-fill button, see below) — fixed across
-     themes since --color-yellow itself doesn't change with the theme. */
-  --card-text: #1C1C1E;
+  --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-/* ===== Modo oscuro (default) =====
-   Fondo neutro oscuro propuesto (#1C1C1E) + texto crema + los acentos de
-   marca tal cual, que sobre este fondo ya cumplen AA (~8.5:1 el lila,
-   ~12:1 el amarillo). */
-[data-theme="dark"] {
-  --color-bg: #1C1C1E;
-  --color-accent: var(--color-lilac);
-  --color-text: var(--color-cream);
-  --color-text-muted: #B8AF9C;
-  color-scheme: dark;
-}
-
-/* ===== Modo claro =====
-   Fondo crema + texto tinta casi negra. El lila y el amarillo puros, sobre
-   crema, no llegan a 3:1 (son dos tonos pastel muy cercanos en luminancia),
-   así que --color-accent usa un matiz más oscuro del mismo lila para texto,
-   íconos y bordes (6.5:1 en crema). Los tonos puros (--color-yellow /
-   --color-lilac) se reservan para bloques sólidos y pills con texto oscuro
-   encima, nunca como texto suelto sobre el fondo. */
-[data-theme="light"] {
-  --color-bg: var(--color-cream);
-  --color-accent: #46548C;
-  --color-text: #1C1C1E;
-  --color-text-muted: #6B6558;
+[data-theme='light'] {
+  --color-bg: #f2f2f3;
+  --color-text: #111111;
+  --color-text-muted: #4d4d4d;
+  --color-accent: #111111;
+  --color-line: rgba(0, 0, 0, 0.12);
+  --color-field: rgba(255, 255, 255, 0.72);
+  --color-field-line: rgba(0, 0, 0, 0.32);
+  --win-bg: rgba(250, 250, 250, 0.94);
+  --win-line: rgba(0, 0, 0, 0.1);
+  --win-shadow: 0 30px 80px rgba(0, 0, 0, 0.18);
+  --icon-label: rgba(255, 255, 255, 0.92);
+  /* Legacy names still read by the case study CSS. */
+  --color-yellow: #111111;
+  --color-lilac: #d9d9db;
+  --card-text: #ffffff;
+  --case-accent: #111111;
+  --section-bg-a: transparent;
+  --section-bg-b: rgba(0, 0, 0, 0.03);
   color-scheme: light;
 }
 
-/* Alternating section backgrounds for the stacked-sections layout (see
-   StackSection.jsx / Home.jsx) — section 1 (About) uses the site default,
-   section 2 (Projects) the alternate, section 3 (Contact) back to default.
-   Light mode alternates with plain white; dark mode can't use white, so it
-   alternates with a dark tone pulled slightly toward the lilac brand color
-   instead — distinguishable from the default dark bg, still coherent with
-   the palette, and text contrast is barely affected (same as the Fase 4
-   tints this replaces). The footer and the hero's own animated background
-   are intentionally not part of this. */
-:root {
-  --section-bg-a: var(--color-bg);
+[data-theme='dark'] {
+  --color-bg: #0f0f10;
+  --color-text: #f3f3f3;
+  --color-text-muted: #b3b3b3;
+  --color-accent: #f3f3f3;
+  --color-line: rgba(255, 255, 255, 0.14);
+  --color-field: rgba(0, 0, 0, 0.35);
+  --color-field-line: rgba(255, 255, 255, 0.34);
+  --win-bg: rgba(28, 28, 30, 0.95);
+  --win-line: rgba(255, 255, 255, 0.12);
+  --win-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+  --icon-label: rgba(18, 18, 20, 0.9);
+  --color-yellow: #f3f3f3;
+  --color-lilac: #3a3a3d;
+  --card-text: #111111;
+  --case-accent: #f3f3f3;
+  --section-bg-a: transparent;
+  --section-bg-b: rgba(255, 255, 255, 0.04);
+  color-scheme: dark;
 }
 
-[data-theme="dark"] {
-  --section-bg-b: color-mix(in srgb, var(--color-lilac) 10%, var(--color-bg));
-}
-
-[data-theme="light"] {
-  --section-bg-b: #ffffff;
-}
-
-/* ===== Reset & base ===== */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
 }
 
 body {
@@ -103,35 +81,18 @@ body {
   line-height: 1.5;
   color: var(--color-text);
   background-color: var(--color-bg);
-  transition: var(--theme-transition);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#root {
-  min-height: 100svh;
-}
-
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   color: var(--color-text);
   margin: 0;
-}
-
-h1 {
-  font-size: 48px;
-  line-height: 1.1;
-}
-
-h2 {
-  font-size: 36px;
-  line-height: 1.2;
-}
-
-h3 {
-  font-size: 24px;
-  line-height: 1.3;
 }
 
 p {
@@ -141,109 +102,13 @@ p {
 
 a {
   color: var(--color-accent);
-  text-decoration: none;
-  transition: opacity 0.2s ease;
 }
 
-a:hover {
-  opacity: 0.8;
+:focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 3px;
 }
 
-code {
-  font-family: var(--font-mono);
-  font-size: 13px;
-  line-height: 1.4;
-}
-
-.section {
-  scroll-margin-top: 72px;
-}
-
-/* ===== Glass effect ===== */
-/* Shared frosted-glass treatment — translucent, blurred backdrop with a
-   bright inset edge — used by the nav logo/actions pill at all times (any
-   section, any background) and by the hamburger menu overlay. Light-tinted
-   in dark mode, dark-tinted in light mode: a fixed white tint is nearly
-   invisible over the site's own pale light-mode surfaces (that's what was
-   making the menu's glass disappear in light mode), the same reason the
-   hero's glass letters are theme-adaptive too (see Hero.css). */
-.glass {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
-
-[data-theme="light"] .glass {
-  background: rgba(20, 20, 24, 0.07);
-  border: 1px solid rgba(20, 20, 24, 0.14);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.5),
-    inset 0 -1px 1px rgba(0, 0, 0, 0.05);
-}
-
-/* ===== Glass-on-letters tokens =====
-   Shared by the hero title/subtitle (GlassLetters.jsx + mask-image backdrop,
-   see Hero.css) and the menu links (background-clip: text on live text, see
-   Nav.css) — different mechanisms, same material. Always a light, barely-
-   there white — never a dark tint, in either theme: a dark fill is what
-   made these read as flat grey panels instead of glass. Legibility comes
-   from the edge glow/bevel/shadow below, not from the fill itself.
-   Dark mode gets a bit more intensity across the board, per design. */
-:root {
-  --glass-text-fill: rgba(255, 255, 255, 0.14);
-  --glass-text-fill-fallback: rgba(255, 255, 255, 0.4);
-  --glass-text-shadow-hi: rgba(255, 255, 255, 0.55);
-  --glass-text-shadow-lo: rgba(0, 0, 0, 0.3);
-  --glass-edge-hi: rgba(255, 255, 255, 0.85);
-  --glass-edge-mid: rgba(255, 255, 255, 0.22);
-  --glass-sheen: rgba(255, 255, 255, 0.16);
-  --glass-outer-shadow: rgba(0, 0, 0, 0.35);
-  /* The hamburger menu's "Projects/About/Contact" links reuse this same
-     material (background-clip: text + drop-shadow, see Nav.css) but need
-     their own, higher fill: they're live, arbitrary-width text with no
-     per-letter bevel/edge-glow SVG to lean on like the hero title has, so
-     at the hero's barely-there 12-18% they read as nearly invisible —
-     especially in light mode, white-on-cream. Still always white/never a
-     dark tint, same principle as --glass-text-fill, just less subtle. */
-  --menu-text-fill: rgba(255, 255, 255, 0.45);
-}
-
-[data-theme="dark"] {
-  --glass-text-fill: rgba(255, 255, 255, 0.18);
-  --glass-text-shadow-hi: rgba(255, 255, 255, 0.7);
-  --glass-edge-hi: rgba(255, 255, 255, 1);
-  --glass-edge-mid: rgba(255, 255, 255, 0.3);
-  --glass-sheen: rgba(255, 255, 255, 0.22);
-  --glass-outer-shadow: rgba(0, 0, 0, 0.45);
-  --menu-text-fill: rgba(255, 255, 255, 0.55);
-}
-
-/* ===== Noise overlay ===== */
-/* Cheap full-bleed grain: a tiled SVG feTurbulence filter, no raster asset
-   and no per-frame JS cost. Shared by the hero background and the
-   hamburger menu overlay; each positions/sizes it, this just supplies the
-   look. mix-blend-mode: overlay darkens/lightens a lot against a dark base
-   but barely moves the needle on a near-white one (its math is confined to
-   roughly the top 10% of the range there) — that's what was making the
-   grain invisible in light mode. multiply fixes that by actually darkening
-   the light surface where the noise is dark. */
-.noise-overlay {
-  opacity: 0.75;
-  mix-blend-mode: overlay;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-repeat: repeat;
-  background-size: 160px 160px;
-}
-
-[data-theme="light"] .noise-overlay {
-  mix-blend-mode: multiply;
-}
-
-/* Visually hidden but still available to screen readers — used where a
-   real heading is needed for a11y but the visible text is decorative
-   (e.g. Contact's giant background word is aria-hidden). */
 .sr-only {
   position: absolute;
   width: 1px;
@@ -256,58 +121,77 @@ code {
   border: 0;
 }
 
-/* ===== Directional-fill buttons ===== */
-/* Rounded, outlined by default; on hover the fill grows in from whichever
-   edge the cursor entered, and on mouse-leave it recedes toward whichever
-   edge the cursor exited from. Direction is set via a data attribute by
-   the useFillHover hook. Every button fills with the same --color-yellow
-   (the token the contact form's Send button already used) and readable
-   --card-text ink — --btn-fill-bg/--btn-fill-color exist only so a future
-   one-off could override it, nothing in the site currently does. */
-.btn-fill {
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -100px;
+  z-index: 100;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: var(--color-text);
+  color: var(--color-bg);
+  font-weight: 500;
+}
+
+.skip-link:focus {
+  top: 16px;
+}
+
+/* ===== Liquid glass =====
+   Used by the top pills, the speaker, the footer groups and the windows.
+   Text on it is always the theme ink, so contrast holds over the photo. */
+.glass {
   position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  border-radius: var(--radius-full);
-  transition: color 0.35s ease;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.46), rgba(255, 255, 255, 0.2));
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.06),
+    inset 0 0 12px rgba(255, 255, 255, 0.25),
+    0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme='dark'] .glass {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05));
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.25),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.3),
+    0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* Dark glass for anything that always sits on the dark part of the photo. */
+.glass--dark,
+[data-theme='dark'] .glass--dark {
+  color: #ffffff;
+  background: linear-gradient(180deg, rgba(40, 40, 44, 0.6), rgba(20, 20, 22, 0.5));
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.3),
+    inset 0 -1px 2px rgba(0, 0, 0, 0.3),
+    0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.glass--dark a {
+  color: #ffffff;
+}
+
+/* Kept for the case study pages: the fill button is now a plain ink button. */
+.btn-fill {
+  border-radius: var(--radius-sm);
 }
 
 .btn-fill::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--btn-fill-bg, var(--color-yellow));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.35s ease;
-  z-index: -1;
+  content: none;
 }
 
-.btn-fill[data-fill-dir='left']::before,
-.btn-fill[data-fill-dir='right']::before {
-  transform: scaleX(0);
-}
-
-.btn-fill[data-fill-dir='top']::before,
-.btn-fill[data-fill-dir='bottom']::before {
-  transform: scaleY(0);
-}
-
-.btn-fill[data-fill-dir='left']::before { transform-origin: left; }
-.btn-fill[data-fill-dir='right']::before { transform-origin: right; }
-.btn-fill[data-fill-dir='top']::before { transform-origin: top; }
-.btn-fill[data-fill-dir='bottom']::before { transform-origin: bottom; }
-
-.btn-fill.is-filled[data-fill-dir='left']::before,
-.btn-fill.is-filled[data-fill-dir='right']::before {
-  transform: scaleX(1);
-}
-
-.btn-fill.is-filled[data-fill-dir='top']::before,
-.btn-fill.is-filled[data-fill-dir='bottom']::before {
-  transform: scaleY(1);
-}
-
-.btn-fill.is-filled {
-  color: var(--btn-fill-color, var(--card-text));
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
 }

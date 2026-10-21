@@ -13,6 +13,8 @@ import rutaBanner from '../assets/projects/ruta-banner.jpg'
 import rutaCard from '../assets/projects/ruta-card.jpg'
 import goeasyBanner from '../assets/projects/goeasy-banner.jpg'
 import goeasyCard from '../assets/projects/goeasy-card.jpg'
+const THUMBS = import.meta.glob('../assets/thumbs/*.webp', { eager: true, import: 'default' })
+const thumb = (slug) => THUMBS[`../assets/thumbs/${slug}.webp`]
 
 const projects = [
   {
@@ -30,7 +32,7 @@ const projects = [
     cardImage: goeasyCard,
     cardImageWidth: 2000,
     cardImageHeight: 1500,
-    link: '/proyectos/goeasy-chat',
+    link: '/work/goeasy-chat',
     siteUrl: 'https://goeasy.chat/',
   },
   {
@@ -49,7 +51,7 @@ const projects = [
     cardImage: tramaCard,
     cardImageWidth: 2000,
     cardImageHeight: 1500,
-    link: '/proyectos/trama',
+    link: '/work/trama',
     siteUrl: 'https://marielacascantefallas.github.io/trama-design-system/',
   },
   {
@@ -66,7 +68,7 @@ const projects = [
     cardImage: hiloCard,
     cardImageWidth: 2000,
     cardImageHeight: 1500,
-    link: '/proyectos/hilo',
+    link: '/work/hilo',
     siteUrl: 'https://marielacascantefallas.github.io/trama-design-system/hilo/',
   },
   {
@@ -83,12 +85,13 @@ const projects = [
     cardImage: rutaCard,
     cardImageWidth: 2000,
     cardImageHeight: 1500,
-    link: '/proyectos/ruta',
+    link: '/work/ruta',
     siteUrl: 'https://marielacascantefallas.github.io/trama-design-system/ruta/',
   },
   {
     id: 1,
     title: 'Social Club',
+    slug: 'social-club',
     // Shown in the “Other work” strip under the featured case studies.
     other: true,
     kind: 'Concept',
@@ -96,7 +99,7 @@ const projects = [
       'A conceptual social platform built for creatives who want to share and curate their work away from algorithmic noise.',
     tags: ['UX/UI Design', 'Branding', 'Concept Development'],
     image: socialClubThumb,
-    link: '/proyectos/social-club',
+    link: '/work/social-club',
     accentClass: 'project--social-club',
   },
   {
@@ -119,7 +122,7 @@ const projects = [
     cardImage: gexpSoftwareCard,
     cardImageWidth: 2000,
     cardImageHeight: 1999,
-    link: '/proyectos/gexp-software',
+    link: '/work/gexp-software',
     siteUrl: 'https://gexpsoftware.com/',
     duration: '2 weeks',
     role: 'Editing & UX/UI Design',
@@ -145,7 +148,7 @@ const projects = [
     cardImage: mrsRentACarThumb,
     cardImageWidth: 1584,
     cardImageHeight: 1224,
-    link: '/proyectos/mrs-rent-a-car',
+    link: '/work/mrs-rent-a-car',
     siteUrl: 'https://mrsrentacar.com/',
     duration: '2 weeks',
     role: 'UX/UI Design & Web Development',
@@ -171,7 +174,7 @@ const projects = [
     cardImage: picoMarVillasThumb,
     cardImageWidth: 2000,
     cardImageHeight: 1499,
-    link: '/proyectos/pico-mar-villas',
+    link: '/work/pico-mar-villas',
     siteUrl: 'https://picomar.com/',
     duration: '4 weeks',
     role: 'UX/UI Design',
@@ -179,5 +182,58 @@ const projects = [
       'The goal for Pico Mar was building a seamless booking engine for their entire villa portfolio. The platform had to process reservations quickly and effortlessly while maintaining a refined aesthetic that highlights the property\'s elegance and prestige.',
   },
 ]
+
+// Categories used by the Work window filter, in the order she listed them.
+export const CATEGORIES = [
+  'UX Architecture',
+  'Web Platforms',
+  'SaaS Infrastructure',
+  'AI Systems',
+  'User Research',
+  'Web Design',
+  'UX/UI Design',
+  'Branding',
+]
+
+export const categorySlug = (c) => c.toLowerCase().replace(/\//g, '-').replace(/\s+/g, '-')
+
+// Desktop and Work window data: order, short kind, categories (confirmed by
+// Mariella) and the cover used as the desktop file icon.
+const DESK = {
+  trama: { name: 'Trama', kind: 'Design system', categories: ['UX Architecture', 'SaaS Infrastructure', 'UX/UI Design'] },
+  hilo: { kind: 'AI product', categories: ['UX Architecture', 'SaaS Infrastructure', 'AI Systems', 'User Research', 'UX/UI Design'] },
+  ruta: { kind: 'B2B product', categories: ['SaaS Infrastructure', 'User Research', 'UX/UI Design'] },
+  'goeasy-chat': { kind: 'Shipped product', categories: ['UX Architecture', 'SaaS Infrastructure', 'UX/UI Design'] },
+  'social-club': { kind: 'Concept', categories: ['Branding', 'UX/UI Design', 'UX Architecture', 'User Research'] },
+  'pico-mar-villas': { kind: 'Client site', categories: ['Web Platforms', 'Web Design', 'UX/UI Design'] },
+  'mrs-rent-a-car': { kind: 'Client site', categories: ['Web Platforms', 'Web Design', 'UX/UI Design'] },
+  'gexp-software': { kind: 'Client site', categories: ['Web Design', 'Branding', 'UX/UI Design'] },
+}
+
+const LAB = {
+  id: 17,
+  title: 'Lab',
+  name: 'Lab',
+  slug: 'lab',
+  kind: 'Experiments',
+  description:
+    'Three small experiments built on Trama: a theme generator that checks contrast, undo versus confirm, and how to show what an AI summary is based on.',
+  categories: ['AI Systems', 'User Research', 'UX/UI Design'],
+  cover: thumb('lab'),
+  externalUrl: 'https://marielacascantefallas.github.io/trama-design-system/lab/temas/',
+}
+
+const ORDER = ['trama', 'hilo', 'ruta', 'goeasy-chat', 'social-club', 'pico-mar-villas', 'mrs-rent-a-car', 'gexp-software']
+
+export const deskProjects = [
+  ...ORDER.map((slug) => {
+    const p = projects.find((x) => x.slug === slug)
+    return { name: p.title, ...p, ...DESK[slug], cover: thumb(slug) }
+  }),
+  LAB,
+]
+
+// Projects with a case study page, in desktop order (drives "Next project").
+export const caseProjects = deskProjects.filter((p) => p.link)
 
 export default projects

@@ -31,12 +31,12 @@ export default function RevealStagger({
     // Hide immediately, not inside the timer below — otherwise an item
     // already in view at mount briefly renders at full opacity before the
     // timer fires and hides it, a visible flash right before it fades in.
-    gsap.set(els, { autoAlpha: 0, y })
+    gsap.set(els, { opacity: 0, y })
 
     let tween
     const timer = setTimeout(() => {
       tween = gsap.to(els, {
-        autoAlpha: 1,
+        opacity: 1,
         y: 0,
         duration: 0.6,
         stagger,

@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Reveal from '../components/Reveal'
-import ThemeToggle from '../components/ThemeToggle'
 import useFillHover from '../hooks/useFillHover'
-import projects from '../data/projects'
+import { caseProjects as projects } from '../data/projects'
 import bannerImg from '../assets/projects/trama-banner.jpg'
 import buttonsImg from '../assets/projects/trama-buttons.jpg'
 import a11yImg from '../assets/projects/trama-a11y.jpg'
@@ -109,14 +108,11 @@ const LEARNINGS = [
   'Personality lives in very few tokens. A brand ramp and two radii were enough to make two products feel different.',
 ]
 
-function SectionHead({ id, eyebrow, title }) {
+function SectionHead({ id, title }) {
   return (
-    <>
-      <p className="case-study__section-label" id={`${id}-label`}>
-        {eyebrow}
-      </p>
-      <h2 className="case-study__section-heading">{title}</h2>
-    </>
+    <h2 className="case-study__section-heading" id={`${id}-label`}>
+      {title}
+    </h2>
   )
 }
 
@@ -141,14 +137,14 @@ function ExternalLinks({ storybookRef, storybookEnter, storybookLeave }) {
   )
 }
 
-export default function TramaCaseStudy({ theme, onToggle }) {
+export default function TramaCaseStudy() {
   const navigate = useNavigate()
   const { ref: storybookRef, onMouseEnter: storybookEnter, onMouseLeave: storybookLeave } = useFillHover()
   const { ref: closingRef, onMouseEnter: closingEnter, onMouseLeave: closingLeave } = useFillHover()
 
   useEffect(() => {
     const onKeyDown = (e) => {
-      if (e.key === 'Escape') navigate('/')
+      if (e.key === 'Escape') navigate('/work')
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -169,14 +165,6 @@ export default function TramaCaseStudy({ theme, onToggle }) {
 
   return (
     <div className="case-study trama-cs">
-      <header className="case-study__header">
-        <Link to="/" className="case-study__back">
-          ← Back to portfolio
-        </Link>
-        <div className="case-study__theme-wrap glass">
-          <ThemeToggle theme={theme} onToggle={onToggle} />
-        </div>
-      </header>
 
       {/* Hero */}
       <section className="case-study__hero">
@@ -192,7 +180,6 @@ export default function TramaCaseStudy({ theme, onToggle }) {
         </Reveal>
 
         <Reveal delay={0.05}>
-          <p className="case-study__eyebrow">Case Study · Trama Design System</p>
           <h1 className="case-study__title">One system, two products</h1>
           <p className="case-study__tagline">
             Trama is a multi-brand design system I designed and built end to end: one set of tokens and components
@@ -251,7 +238,7 @@ export default function TramaCaseStudy({ theme, onToggle }) {
           {/* 01 Context */}
           <section className="case-study__section" id="context" tabIndex={-1} aria-labelledby="context-label">
             <Reveal>
-              <SectionHead id="context" eyebrow="01 · Context" title="Built on what I learned shipping real products" />
+              <SectionHead id="context" title="Built on what I learned shipping real products" />
               <p className="case-study__section-text">
                 At GEXP Software I designed GoEasy Chat, a desktop SaaS that centralizes WhatsApp conversations for
                 accounting teams. It has 50+ active users today and cuts in half the time staff spend scrolling to
@@ -271,7 +258,6 @@ export default function TramaCaseStudy({ theme, onToggle }) {
             <Reveal>
               <SectionHead
                 id="problem"
-                eyebrow="02 · The problem"
                 title="Small B2B teams end up building the same interface twice"
               />
               <p className="case-study__section-text">
@@ -294,7 +280,7 @@ export default function TramaCaseStudy({ theme, onToggle }) {
           {/* 03 Numbers */}
           <section className="case-study__section" id="numbers" tabIndex={-1} aria-labelledby="numbers-label">
             <Reveal>
-              <SectionHead id="numbers" eyebrow="03 · By the numbers" title="What the first version delivers" />
+              <SectionHead id="numbers" title="What the first version delivers" />
             </Reveal>
             <Reveal delay={0.05}>
               <ul className="trama-cs__stats">
@@ -311,7 +297,7 @@ export default function TramaCaseStudy({ theme, onToggle }) {
           {/* 04 Approach */}
           <section className="case-study__section" id="approach" tabIndex={-1} aria-labelledby="approach-label">
             <Reveal>
-              <SectionHead id="approach" eyebrow="04 · Approach" title="Tokens in three layers" />
+              <SectionHead id="approach" title="Tokens in three layers" />
               <p className="case-study__section-text">
                 Every visual decision is a token, and components only read the top layer. Switching brand or color
                 scheme just repoints the layers underneath, so the same button becomes Hilo’s indigo or Ruta’s sunset
@@ -351,7 +337,7 @@ export default function TramaCaseStudy({ theme, onToggle }) {
           {/* 05 Decisions */}
           <section className="case-study__section" id="decisions" tabIndex={-1} aria-labelledby="decisions-label">
             <Reveal>
-              <SectionHead id="decisions" eyebrow="05 · Key decisions" title="The choices that shaped the system" />
+              <SectionHead id="decisions" title="The choices that shaped the system" />
             </Reveal>
             <ol className="trama-cs__decisions">
               {DECISIONS.map((d, i) => (
@@ -378,7 +364,6 @@ export default function TramaCaseStudy({ theme, onToggle }) {
             <Reveal>
               <SectionHead
                 id="accessibility"
-                eyebrow="06 · Accessibility"
                 title="Accessibility as a build step, not an audit"
               />
               <p className="case-study__section-text">
@@ -421,7 +406,7 @@ export default function TramaCaseStudy({ theme, onToggle }) {
           {/* 07 Components */}
           <section className="case-study__section" id="components" tabIndex={-1} aria-labelledby="components-label">
             <Reveal>
-              <SectionHead id="components" eyebrow="07 · Components" title="Five components, every state" />
+              <SectionHead id="components" title="Five components, every state" />
               <p className="case-study__section-text">
                 The first set covers what both products need on day one. Each component has every size and state
                 designed in Figma and built in React with the same names, so a variant in the design file is a prop
@@ -458,7 +443,7 @@ export default function TramaCaseStudy({ theme, onToggle }) {
             aria-labelledby="design-to-code-label"
           >
             <Reveal>
-              <SectionHead id="design-to-code" eyebrow="08 · Design to code" title="One source of truth, five steps" />
+              <SectionHead id="design-to-code" title="One source of truth, five steps" />
               <p className="case-study__section-text">
                 The names match end to end. <code>color/action/primary</code> in Figma is{' '}
                 <code>var(--color-action-primary)</code> in code, so a developer inspecting a design in Dev Mode sees
@@ -495,7 +480,7 @@ export default function TramaCaseStudy({ theme, onToggle }) {
           {/* 09 AI */}
           <section className="case-study__section" id="ai" tabIndex={-1} aria-labelledby="ai-label">
             <Reveal>
-              <SectionHead id="ai" eyebrow="09 · AI workflow" title="AI-assisted, designer-led" />
+              <SectionHead id="ai" title="AI-assisted, designer-led" />
               <p className="case-study__section-text">
                 I worked with Claude on the parts that are repetitive or easy to get wrong by hand: creating
                 variables through the Figma API, writing the Style Dictionary build, scaffolding components and
@@ -513,12 +498,12 @@ export default function TramaCaseStudy({ theme, onToggle }) {
           {/* 10 Next */}
           <section className="case-study__section" id="next" tabIndex={-1} aria-labelledby="next-label">
             <Reveal>
-              <SectionHead id="next" eyebrow="10 · What’s next" title="Putting Trama to work" />
+              <SectionHead id="next" title="Putting Trama to work" />
               <p className="case-study__section-text">
-                Trama is the foundation for two products. <Link to="/proyectos/hilo">Hilo</Link>, a shared WhatsApp
+                Trama is the foundation for two products. <Link to="/work/hilo">Hilo</Link>, a shared WhatsApp
                 inbox with an AI that summarizes conversations and flags urgent clients, is already designed and
                 prototyped only with Trama’s components, and it added five new ones back to the system.{' '}
-                <Link to="/proyectos/ruta">Ruta</Link>, the booking panel, followed with the same components in its own
+                <Link to="/work/ruta">Ruta</Link>, the booking panel, followed with the same components in its own
                 brand.
               </p>
               <h3 className="trama-cs__subhead">What I learned</h3>
@@ -553,7 +538,7 @@ export default function TramaCaseStudy({ theme, onToggle }) {
         {nextHasPage ? (
           <Link to={next.link} className="case-study__next-link">
             <h3 className="case-study__next-title">{next.title}</h3>
-            View case study →
+            View case study
           </Link>
         ) : (
           <h3 className="case-study__next-title case-study__next-title--placeholder">More case studies coming soon</h3>

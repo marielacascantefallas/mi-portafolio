@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Reveal from '../components/Reveal'
-import ThemeToggle from '../components/ThemeToggle'
 import useFillHover from '../hooks/useFillHover'
-import projects from '../data/projects'
+import { caseProjects as projects } from '../data/projects'
 import bannerImg from '../assets/projects/hilo-banner.jpg'
 import inboxImg from '../assets/projects/hilo-inbox.jpg'
 import clientImg from '../assets/projects/hilo-client.jpg'
@@ -135,14 +134,11 @@ const LEARNINGS = [
   'Real content finds problems placeholder text hides: long client names, tax terms and amounts in colones broke three layouts.',
 ]
 
-function SectionHead({ id, eyebrow, title }) {
+function SectionHead({ id, title }) {
   return (
-    <>
-      <p className="case-study__section-label" id={`${id}-label`}>
-        {eyebrow}
-      </p>
-      <h2 className="case-study__section-heading">{title}</h2>
-    </>
+    <h2 className="case-study__section-heading" id={`${id}-label`}>
+      {title}
+    </h2>
   )
 }
 
@@ -157,14 +153,14 @@ function Figure({ img, alt, caption, width = 2000, height = 1330 }) {
   )
 }
 
-export default function HiloCaseStudy({ theme, onToggle }) {
+export default function HiloCaseStudy() {
   const navigate = useNavigate()
   const { ref: protoRef, onMouseEnter: protoEnter, onMouseLeave: protoLeave } = useFillHover()
   const { ref: closingRef, onMouseEnter: closingEnter, onMouseLeave: closingLeave } = useFillHover()
 
   useEffect(() => {
     const onKeyDown = (e) => {
-      if (e.key === 'Escape') navigate('/')
+      if (e.key === 'Escape') navigate('/work')
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -185,14 +181,6 @@ export default function HiloCaseStudy({ theme, onToggle }) {
 
   return (
     <div className="case-study trama-cs hilo-cs">
-      <header className="case-study__header">
-        <Link to="/" className="case-study__back">
-          ← Back to portfolio
-        </Link>
-        <div className="case-study__theme-wrap glass">
-          <ThemeToggle theme={theme} onToggle={onToggle} />
-        </div>
-      </header>
 
       <section className="case-study__hero">
         <Reveal>
@@ -207,7 +195,6 @@ export default function HiloCaseStudy({ theme, onToggle }) {
         </Reveal>
 
         <Reveal delay={0.05}>
-          <p className="case-study__eyebrow">Case Study · Hilo</p>
           <h1 className="case-study__title">The AI suggests, a person decides</h1>
           <p className="case-study__tagline">
             Hilo is a shared WhatsApp inbox for small accounting firms in Costa Rica, with an AI layer that summarizes
@@ -256,7 +243,7 @@ export default function HiloCaseStudy({ theme, onToggle }) {
             >
               Try the prototype ↗
             </a>
-            <Link to="/proyectos/trama" className="case-study__prototype-link">
+            <Link to="/work/trama" className="case-study__prototype-link">
               See the design system
             </Link>
           </div>
@@ -280,7 +267,7 @@ export default function HiloCaseStudy({ theme, onToggle }) {
         <div className="trama-cs__content">
           <section className="case-study__section" id="context" tabIndex={-1} aria-labelledby="context-label">
             <Reveal>
-              <SectionHead id="context" eyebrow="01 · Context" title="Where accounting firms really talk to clients" />
+              <SectionHead id="context" title="Where accounting firms really talk to clients" />
               <p className="case-study__section-text">
                 In Costa Rica, small accounting firms run on WhatsApp. Clients send invoices, ask how much they owe in
                 taxes and remind their accountant of deadlines, all in one chat on one shared phone.
@@ -295,7 +282,7 @@ export default function HiloCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="problem" tabIndex={-1} aria-labelledby="problem-label">
             <Reveal>
-              <SectionHead id="problem" eyebrow="02 · The problem" title="When everyone can answer, nobody does" />
+              <SectionHead id="problem" title="When everyone can answer, nobody does" />
               <p className="case-study__section-text">
                 A shared inbox has no owner per chat. Two people answer the same client, or nobody does. The owner
                 only finds out a client was waiting when that client calls, upset, on the day a tax filing is due.
@@ -313,7 +300,7 @@ export default function HiloCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="numbers" tabIndex={-1} aria-labelledby="numbers-label">
             <Reveal>
-              <SectionHead id="numbers" eyebrow="03 · By the numbers" title="What the prototype covers" />
+              <SectionHead id="numbers" title="What the prototype covers" />
             </Reveal>
             <Reveal delay={0.05}>
               <ul className="trama-cs__stats">
@@ -329,7 +316,7 @@ export default function HiloCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="users" tabIndex={-1} aria-labelledby="users-label">
             <Reveal>
-              <SectionHead id="users" eyebrow="04 · Who it’s for" title="Two people, two different questions" />
+              <SectionHead id="users" title="Two people, two different questions" />
               <div className="hilo-cs__roles">
                 <div>
                   <h3>The agent</h3>
@@ -353,7 +340,7 @@ export default function HiloCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="ai" tabIndex={-1} aria-labelledby="ai-label">
             <Reveal>
-              <SectionHead id="ai" eyebrow="05 · The AI layer" title="One rule: the AI suggests, a person decides" />
+              <SectionHead id="ai" title="One rule: the AI suggests, a person decides" />
               <p className="case-study__section-text">
                 I wrote the rules before drawing any screen. For each thing the AI could do, I asked what a mistake
                 would cost and whether it can be undone. Only one action passed that test to run on its own.
@@ -385,7 +372,7 @@ export default function HiloCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="screens" tabIndex={-1} aria-labelledby="screens-label">
             <Reveal>
-              <SectionHead id="screens" eyebrow="06 · Key screens" title="From the next reply to the whole team" />
+              <SectionHead id="screens" title="From the next reply to the whole team" />
               <p className="case-study__section-text">
                 Every screen uses real content: Costa Rican tax filings (D-104, CCSS payroll), amounts in colones and
                 names that are long enough to break a layout. All of them come from the working prototype.
@@ -404,7 +391,7 @@ export default function HiloCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="decisions" tabIndex={-1} aria-labelledby="decisions-label">
             <Reveal>
-              <SectionHead id="decisions" eyebrow="07 · Key decisions" title="The choices that shaped Hilo" />
+              <SectionHead id="decisions" title="The choices that shaped Hilo" />
             </Reveal>
             <ol className="trama-cs__decisions">
               {DECISIONS.map((d, i) => (
@@ -423,7 +410,7 @@ export default function HiloCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="system" tabIndex={-1} aria-labelledby="system-label">
             <Reveal>
-              <SectionHead id="system" eyebrow="08 · Built with Trama" title="The product fed the system back" />
+              <SectionHead id="system" title="The product fed the system back" />
               <p className="case-study__section-text">
                 Hilo is built only with Trama’s components and tokens. When a screen needed something the system didn’t
                 have, I added it to Trama first, in Figma and in React with Storybook docs, and then used it in Hilo.
@@ -447,7 +434,7 @@ export default function HiloCaseStudy({ theme, onToggle }) {
             aria-labelledby="accessibility-label"
           >
             <Reveal>
-              <SectionHead id="accessibility" eyebrow="09 · Accessibility" title="Usable with a keyboard and a screen reader" />
+              <SectionHead id="accessibility" title="Usable with a keyboard and a screen reader" />
               <p className="case-study__section-text">
                 Trama already covered contrast and focus. The product added the harder part: flows. I tested them with
                 the keyboard and with automated checks on every screen, the dialog and the mobile views.
@@ -466,7 +453,7 @@ export default function HiloCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="next" tabIndex={-1} aria-labelledby="next-label">
             <Reveal>
-              <SectionHead id="next" eyebrow="10 · What’s next" title="Testing it with real firms" />
+              <SectionHead id="next" title="Testing it with real firms" />
               <p className="case-study__section-text">
                 The next step is to put the prototype in front of three accounting firms and watch them assign and
                 answer a morning’s chats. The questions I most want answered: do agents trust the summaries enough to
@@ -504,7 +491,7 @@ export default function HiloCaseStudy({ theme, onToggle }) {
         {nextHasPage ? (
           <Link to={next.link} className="case-study__next-link">
             <h3 className="case-study__next-title">{next.title}</h3>
-            View case study →
+            View case study
           </Link>
         ) : (
           <h3 className="case-study__next-title case-study__next-title--placeholder">More case studies coming soon</h3>

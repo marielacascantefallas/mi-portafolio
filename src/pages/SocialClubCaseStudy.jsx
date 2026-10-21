@@ -81,11 +81,9 @@ const lowfiThumbs = [
   { src: lowfi404, alt: 'Lowfi wireframe — 404 error screen' },
 ]
 
-export default function SocialClubCaseStudy({ theme, onToggle }) {
+export default function SocialClubCaseStudy() {
   return (
     <ProjectCaseStudy
-      theme={theme}
-      onToggle={onToggle}
       title="Social Club"
       tagline="A social platform built for creatives who want to share and curate their work away from algorithmic noise."
       scope="End-to-End App Concept"
@@ -193,7 +191,7 @@ export default function SocialClubCaseStudy({ theme, onToggle }) {
       ]}
       nextProject={{
         title: 'GEXP Software',
-        href: '/proyectos/gexp-software',
+        href: '/work/gexp-software',
       }}
     />
   )

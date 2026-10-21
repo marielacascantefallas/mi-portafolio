@@ -1,8 +1,7 @@
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Reveal from '../components/Reveal'
-import ThemeToggle from '../components/ThemeToggle'
-import projects from '../data/projects'
+import { caseProjects as projects } from '../data/projects'
 import '../components/CaseStudy/ProjectCaseStudy.css'
 import '../components/CaseStudy/TramaCaseStudy.css'
 import '../components/CaseStudy/HiloCaseStudy.css'
@@ -54,14 +53,11 @@ const LEARNINGS = [
   'Permissions are a design problem, not a settings page. Deciding who sees what shaped every screen of the app.',
 ]
 
-function SectionHead({ id, eyebrow, title }) {
+function SectionHead({ id, title }) {
   return (
-    <>
-      <p className="case-study__section-label" id={`${id}-label`}>
-        {eyebrow}
-      </p>
-      <h2 className="case-study__section-heading">{title}</h2>
-    </>
+    <h2 className="case-study__section-heading" id={`${id}-label`}>
+      {title}
+    </h2>
   )
 }
 
@@ -154,12 +150,12 @@ function Timeline() {
   )
 }
 
-export default function GoEasyCaseStudy({ theme, onToggle }) {
+export default function GoEasyCaseStudy() {
   const navigate = useNavigate()
 
   useEffect(() => {
     const onKeyDown = (e) => {
-      if (e.key === 'Escape') navigate('/')
+      if (e.key === 'Escape') navigate('/work')
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -180,18 +176,9 @@ export default function GoEasyCaseStudy({ theme, onToggle }) {
 
   return (
     <div className="case-study trama-cs goeasy-cs">
-      <header className="case-study__header">
-        <Link to="/" className="case-study__back">
-          ← Back to portfolio
-        </Link>
-        <div className="case-study__theme-wrap glass">
-          <ThemeToggle theme={theme} onToggle={onToggle} />
-        </div>
-      </header>
 
       <section className="case-study__hero">
         <Reveal>
-          <p className="case-study__eyebrow">Case Study · GoEasy Chat · Shipped product</p>
           <h1 className="case-study__title">One WhatsApp number, a whole accounting team</h1>
           <p className="case-study__tagline">
             I led the design of GoEasy Chat at GEXP Software: a desktop app that lets an accounting firm answer clients
@@ -232,7 +219,7 @@ export default function GoEasyCaseStudy({ theme, onToggle }) {
             <a href="https://goeasy.chat/" target="_blank" rel="noopener noreferrer" className="case-study__prototype-link">
               Public site ↗
             </a>
-            <Link to="/proyectos/hilo" className="case-study__prototype-link">
+            <Link to="/work/hilo" className="case-study__prototype-link">
               See Hilo, the redesign concept
             </Link>
           </div>
@@ -256,7 +243,7 @@ export default function GoEasyCaseStudy({ theme, onToggle }) {
         <div className="trama-cs__content">
           <section className="case-study__section" id="context" tabIndex={-1} aria-labelledby="context-label">
             <Reveal>
-              <SectionHead id="context" eyebrow="01 · Context" title="Accounting runs on WhatsApp" />
+              <SectionHead id="context" title="Accounting runs on WhatsApp" />
               <p className="case-study__section-text">
                 In Costa Rica, a small accounting firm talks to its clients on WhatsApp: invoices, tax questions,
                 payroll, reminders. MAV Digital had one business number and a team of accountants who all needed it,
@@ -267,7 +254,7 @@ export default function GoEasyCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="problem" tabIndex={-1} aria-labelledby="problem-label">
             <Reveal>
-              <SectionHead id="problem" eyebrow="02 · The problem" title="Everyone shared one inbox, and nobody owned it" />
+              <SectionHead id="problem" title="Everyone shared one inbox, and nobody owned it" />
               <p className="case-study__section-text">
                 With one shared WhatsApp, every accountant scrolled through every client to find their own, and the
                 owner had no clear view of which clients belonged to each person. The tools that solve this cost the
@@ -285,7 +272,7 @@ export default function GoEasyCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="numbers" tabIndex={-1} aria-labelledby="numbers-label">
             <Reveal>
-              <SectionHead id="numbers" eyebrow="03 · Results" title="What it changed" />
+              <SectionHead id="numbers" title="What it changed" />
             </Reveal>
             <Reveal delay={0.05}>
               <ul className="trama-cs__stats">
@@ -307,7 +294,7 @@ export default function GoEasyCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="users" tabIndex={-1} aria-labelledby="users-label">
             <Reveal>
-              <SectionHead id="users" eyebrow="04 · Who it’s for" title="Two roles, two views of the same inbox" />
+              <SectionHead id="users" title="Two roles, two views of the same inbox" />
               <div className="hilo-cs__roles">
                 <div>
                   <h3>The owner</h3>
@@ -325,7 +312,7 @@ export default function GoEasyCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="model" tabIndex={-1} aria-labelledby="model-label">
             <Reveal>
-              <SectionHead id="model" eyebrow="05 · How it works" title="Visibility follows ownership" />
+              <SectionHead id="model" title="Visibility follows ownership" />
               <p className="case-study__section-text">
                 The core of the product is a simple rule: a client belongs to one accountant, and you see the clients
                 you own. The owner sits above that rule and sees everything.
@@ -338,7 +325,7 @@ export default function GoEasyCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="decisions" tabIndex={-1} aria-labelledby="decisions-label">
             <Reveal>
-              <SectionHead id="decisions" eyebrow="06 · Key decisions" title="The choices that shaped GoEasy Chat" />
+              <SectionHead id="decisions" title="The choices that shaped GoEasy Chat" />
             </Reveal>
             <ol className="trama-cs__decisions">
               {DECISIONS.map((d, i) => (
@@ -357,7 +344,7 @@ export default function GoEasyCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="launch" tabIndex={-1} aria-labelledby="launch-label">
             <Reveal>
-              <SectionHead id="launch" eyebrow="07 · Shipping it" title="The design was ready early; access took longer" />
+              <SectionHead id="launch" title="The design was ready early; access took longer" />
               <p className="case-study__section-text">
                 The project took 8 to 12 weeks. The design was nearly finished early, because it was built on the
                 studio’s design system. Most of the remaining time went to WhatsApp access approvals, which had to be
@@ -371,7 +358,7 @@ export default function GoEasyCaseStudy({ theme, onToggle }) {
 
           <section className="case-study__section" id="next" tabIndex={-1} aria-labelledby="next-label">
             <Reveal>
-              <SectionHead id="next" eyebrow="08 · What I learned" title="And what I would design next" />
+              <SectionHead id="next" title="And what I would design next" />
               <ul className="trama-cs__checklist">
                 {LEARNINGS.map((l) => (
                   <li key={l}>{l}</li>
@@ -380,8 +367,8 @@ export default function GoEasyCaseStudy({ theme, onToggle }) {
               <p className="case-study__section-text">
                 After GoEasy Chat, I asked what the same product would look like for any service team, with an AI that
                 summarizes conversations and flags clients with a deadline today. That became{' '}
-                <Link to="/proyectos/hilo">Hilo</Link>, built on my own design system,{' '}
-                <Link to="/proyectos/trama">Trama</Link>.
+                <Link to="/work/hilo">Hilo</Link>, built on my own design system,{' '}
+                <Link to="/work/trama">Trama</Link>.
               </p>
             </Reveal>
           </section>
@@ -393,7 +380,7 @@ export default function GoEasyCaseStudy({ theme, onToggle }) {
         {nextHasPage ? (
           <Link to={next.link} className="case-study__next-link">
             <h3 className="case-study__next-title">{next.title}</h3>
-            View case study →
+            View case study
           </Link>
         ) : (
           <h3 className="case-study__next-title case-study__next-title--placeholder">More case studies coming soon</h3>

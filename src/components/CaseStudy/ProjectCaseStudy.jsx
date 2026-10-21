@@ -2,7 +2,6 @@ import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Reveal from '../Reveal'
 import RevealStagger from '../RevealStagger'
-import ThemeToggle from '../ThemeToggle'
 import useFillHover from '../../hooks/useFillHover'
 import './ProjectCaseStudy.css'
 
@@ -13,9 +12,6 @@ import './ProjectCaseStudy.css'
 // animations as the rest of the site. Any project page can be built on top
 // of this by supplying a new set of props.
 export default function ProjectCaseStudy({
-  theme,
-  onToggle,
-  eyebrow = 'Case Study',
   title,
   tagline,
   scope,
@@ -46,7 +42,7 @@ export default function ProjectCaseStudy({
 
   useEffect(() => {
     const onKeyDown = (e) => {
-      if (e.key === 'Escape') navigate('/')
+      if (e.key === 'Escape') navigate('/work')
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -54,14 +50,6 @@ export default function ProjectCaseStudy({
 
   return (
     <div className="case-study">
-      <header className="case-study__header">
-        <Link to="/" className="case-study__back">
-          ← Back to portfolio
-        </Link>
-        <div className="case-study__theme-wrap glass">
-          <ThemeToggle theme={theme} onToggle={onToggle} />
-        </div>
-      </header>
 
       {/* Hero */}
       <section className="case-study__hero">
@@ -80,7 +68,6 @@ export default function ProjectCaseStudy({
         )}
 
         <Reveal delay={0.05}>
-          <p className="case-study__eyebrow">{eyebrow}</p>
           <h1 className="case-study__title">{title}</h1>
           <p className="case-study__tagline">{tagline}</p>
         </Reveal>
@@ -363,7 +350,7 @@ export default function ProjectCaseStudy({
         {nextProject?.href && nextProject.href !== '#' ? (
           <Link to={nextProject.href} className="case-study__next-link">
             <h3 className="case-study__next-title">{nextProject.title}</h3>
-            View case study →
+            View case study
           </Link>
         ) : (
           <h3 className="case-study__next-title case-study__next-title--placeholder">

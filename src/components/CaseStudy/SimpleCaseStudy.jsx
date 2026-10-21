@@ -1,9 +1,8 @@
 import { useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import Reveal from '../Reveal'
-import ThemeToggle from '../ThemeToggle'
 import useFillHover from '../../hooks/useFillHover'
-import projects from '../../data/projects'
+import { caseProjects as projects } from '../../data/projects'
 import '../../components/CaseStudy/ProjectCaseStudy.css'
 
 // Lightweight case study template for client-site projects — reuses the
@@ -14,7 +13,7 @@ import '../../components/CaseStudy/ProjectCaseStudy.css'
 // site" button when it's a live web project. Content for duration/role/
 // challenge is placeholder (see src/data/projects.js) until the real
 // numbers are filled in.
-export default function SimpleCaseStudy({ theme, onToggle, project }) {
+export default function SimpleCaseStudy({ project }) {
   const navigate = useNavigate()
   const {
     ref: siteRef,
@@ -24,7 +23,7 @@ export default function SimpleCaseStudy({ theme, onToggle, project }) {
 
   useEffect(() => {
     const onKeyDown = (e) => {
-      if (e.key === 'Escape') navigate('/')
+      if (e.key === 'Escape') navigate('/work')
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
@@ -36,14 +35,6 @@ export default function SimpleCaseStudy({ theme, onToggle, project }) {
 
   return (
     <div className="case-study">
-      <header className="case-study__header">
-        <Link to="/" className="case-study__back">
-          ← Back to portfolio
-        </Link>
-        <div className="case-study__theme-wrap glass">
-          <ThemeToggle theme={theme} onToggle={onToggle} />
-        </div>
-      </header>
 
       <section className="case-study__hero">
         {project.image && (
@@ -61,7 +52,6 @@ export default function SimpleCaseStudy({ theme, onToggle, project }) {
         )}
 
         <Reveal delay={0.05}>
-          <p className="case-study__eyebrow">Case Study</p>
           <h1 className="case-study__title">{project.title}</h1>
           <p className="case-study__tagline">{project.description}</p>
         </Reveal>
@@ -105,11 +95,11 @@ export default function SimpleCaseStudy({ theme, onToggle, project }) {
       </section>
 
       <Reveal as="section" className="case-study__next">
-        <p className="case-study__next-label">Next project</p>
+        <h2 className="case-study__next-label">Next project</h2>
         {nextHasPage ? (
           <Link to={next.link} className="case-study__next-link">
             <h3 className="case-study__next-title">{next.title}</h3>
-            View case study →
+            View case study
           </Link>
         ) : (
           <h3 className="case-study__next-title case-study__next-title--placeholder">
