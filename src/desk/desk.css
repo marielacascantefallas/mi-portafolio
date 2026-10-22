@@ -1073,3 +1073,225 @@
     border-color: rgba(255, 255, 255, 0.16);
   }
 }
+
+/* ===== Menu (phones) and phone home ===== */
+.desk__menu {
+  display: contents;
+}
+
+.desk__burger,
+.desk__menu-links,
+.phone-stack {
+  display: none;
+}
+
+.burger {
+  position: relative;
+  display: block;
+  width: 20px;
+  height: 12px;
+}
+
+.burger i {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  border-radius: 1px;
+  background: currentColor;
+  transition: transform 0.25s var(--ease-out), top 0.25s var(--ease-out);
+}
+
+.burger i:first-child {
+  top: 2px;
+}
+
+.burger i:last-child {
+  top: 9px;
+}
+
+.desk__burger[aria-expanded='true'] .burger i:first-child {
+  top: 5.5px;
+  transform: rotate(45deg);
+}
+
+.desk__burger[aria-expanded='true'] .burger i:last-child {
+  top: 5.5px;
+  transform: rotate(-45deg);
+}
+
+@media (max-width: 860px), (max-height: 620px) {
+  .desk__top,
+  .desk--page .desk__top {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 16px 16px 0;
+    z-index: 50;
+  }
+
+  .desk__burger {
+    display: inline-flex;
+    justify-content: center;
+    width: 48px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    font: inherit;
+  }
+
+  /* The menu drops from the burger as one glass panel. */
+  .desk__menu {
+    display: none;
+    position: absolute;
+    top: 72px;
+    left: 16px;
+    right: 16px;
+    z-index: 60;
+    flex-direction: column;
+    gap: 14px;
+    padding: 14px;
+    border-radius: 24px;
+    background: var(--win-bg);
+    border: 1px solid var(--win-line);
+    backdrop-filter: blur(28px) saturate(140%);
+    -webkit-backdrop-filter: blur(28px) saturate(140%);
+    box-shadow: var(--win-shadow);
+    transform-origin: top right;
+    animation: menu-in 0.28s var(--ease-out);
+  }
+
+  .desk__menu.is-open {
+    display: flex;
+  }
+
+  .desk__menu .speaker {
+    order: 2;
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .desk__menu nav {
+    order: 1;
+  }
+
+  .desk__menu .desk__nav {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .desk__menu .desk__nav .pill {
+    width: 100%;
+    min-height: 56px;
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    border-radius: 16px;
+  }
+
+  .desk__menu-links {
+    order: 3;
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 4px 6px 2px;
+  }
+
+  .desk__menu-links a {
+    color: var(--color-text);
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+
+  /* Footer content lives in the menu on phones. */
+  .desk__foot,
+  .desk--page .desk__foot {
+    display: none;
+  }
+
+  /* Phone home: the projects stack, swiped like the Work window. */
+  .desk--home {
+    height: 100svh;
+    overflow: hidden;
+  }
+
+  .desk--home .desk__files {
+    display: none;
+  }
+
+  .desk--home .desk__content {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    padding: 0;
+  }
+
+  .phone-stack {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 16px 20px;
+  }
+
+  .phone-stack .work__stage {
+    flex: 1 1 auto;
+    height: 0;
+    min-height: 220px;
+    order: -1;
+  }
+
+  .phone-stack .card-wrap {
+    width: min(78vw, 360px);
+  }
+
+  .phone-stack .work__info {
+    position: relative;
+    z-index: 2;
+    flex: none;
+    gap: 2px;
+    border-radius: 22px;
+    padding: 16px 18px 18px;
+    background: var(--win-bg);
+    border: 1px solid var(--win-line);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: var(--win-shadow);
+  }
+
+  .phone-stack .work__hint,
+  .work .work__hint {
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .phone-stack .work__name {
+    font-size: 28px;
+  }
+
+  .phone-stack .work__cats {
+    max-width: none;
+  }
+
+  /* No filters on phones. */
+  .work__filters {
+    display: none;
+  }
+
+  .work .work__stage {
+    height: 340px;
+  }
+}
+
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}

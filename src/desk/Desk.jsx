@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import portrait from '../assets/portrait-blur.webp'
 import { deskProjects, CATEGORIES, categorySlug } from '../data/projects'
 import Speaker from './Speaker'
 import Preview from './Preview'
+import ProjectStack from './ProjectStack'
 import { markFirstPaint } from './WindowShell'
 import './desk.css'
 
@@ -59,6 +60,31 @@ export default function Desk({ children, page = false, home = false }) {
   const [opened, setOpened] = useState(null)
   // A preview belongs to the page it was opened on.
   const preview = opened && opened.path === location.pathname ? opened : null
+  // The phone menu also closes itself when the page changes.
+  const [menuAt, setMenuAt] = useState(null)
+  const menuOpen = menuAt === location.pathname
+  const burgerRef = useRef(null)
+  const menuRef = useRef(null)
+
+  useEffect(() => {
+    if (!menuOpen) return
+    const onKey = (e) => {
+      if (e.key === 'Escape') {
+        e.preventDefault()
+        setMenuAt(null)
+        burgerRef.current?.focus()
+      }
+    }
+    const onDown = (e) => {
+      if (!menuRef.current?.contains(e.target) && !burgerRef.current?.contains(e.target)) setMenuAt(null)
+    }
+    window.addEventListener('keydown', onKey)
+    window.addEventListener('pointerdown', onDown)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      window.removeEventListener('pointerdown', onDown)
+    }
+  }, [menuOpen])
 
   useEffect(() => {
     markFirstPaint()
@@ -80,7 +106,7 @@ export default function Desk({ children, page = false, home = false }) {
   const Who = home ? 'h1' : 'p'
 
   return (
-    <div className={`desk${page ? ' desk--page' : ''}${children ? ' has-window' : ''}`}>
+    <div className={`desk${page ? ' desk--page' : ''}${home ? ' desk--home' : ''}${children ? ' has-window' : ''}`}>
       <a className="skip-link" href="#content">
         Skip to content
       </a>
@@ -90,22 +116,50 @@ export default function Desk({ children, page = false, home = false }) {
         <Link to="/" className="pill glass desk__role" aria-label="Product Designer, home">
           Product Designer
         </Link>
-        <Speaker />
-        <nav aria-label="Main">
-          <ul className="desk__nav">
-            {[
-              ['work', 'Work'],
-              ['about', 'About'],
-              ['contact', 'Contact'],
-            ].map(([to, label]) => (
-              <li key={to}>
-                <NavLink to={`/${to}`} className="pill glass" data-origin={to} end>
-                  {label}
-                </NavLink>
-              </li>
-            ))}
+        <button
+          ref={burgerRef}
+          type="button"
+          className="pill glass desk__burger"
+          aria-expanded={menuOpen}
+          aria-controls="site-menu"
+          onClick={() => setMenuAt(menuOpen ? null : location.pathname)}
+        >
+          <span className="burger" aria-hidden="true">
+            <i />
+            <i />
+          </span>
+          <span className="sr-only">Menu</span>
+        </button>
+        <div id="site-menu" ref={menuRef} className={`desk__menu${menuOpen ? ' is-open' : ''}`}>
+          <Speaker />
+          <nav aria-label="Main">
+            <ul className="desk__nav">
+              {[
+                ['work', 'Work'],
+                ['about', 'About'],
+                ['contact', 'Contact'],
+              ].map(([to, label]) => (
+                <li key={to}>
+                  <NavLink to={`/${to}`} className="pill glass" data-origin={to} end>
+                    {label}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          <ul className="desk__menu-links">
+            <li>
+              <a href={LINKEDIN_URL} target="_blank" rel="noopener noreferrer me">
+                LinkedIn
+              </a>
+            </li>
+            <li>
+              <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer me">
+                GitHub
+              </a>
+            </li>
           </ul>
-        </nav>
+        </div>
       </header>
 
       <main id="content" tabIndex={-1} className="desk__content">
@@ -114,6 +168,14 @@ export default function Desk({ children, page = false, home = false }) {
             <ul className="desk__group desk__group--left">{renderFiles(left)}</ul>
             <ul className="desk__group desk__group--right">{renderFiles(right)}</ul>
           </nav>
+        )}
+        {home && (
+          <section className="phone-stack" aria-labelledby="phone-title">
+            <h1 id="phone-title" className="sr-only">
+              Mariela Cascante, Product Designer and UX/UI Designer in Costa Rica
+            </h1>
+            <ProjectStack list={deskProjects} label="Projects" />
+          </section>
         )}
         {children}
       </main>

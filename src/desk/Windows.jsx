@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { CATEGORIES, categorySlug, deskProjects } from '../data/projects'
 import { Lights, useGrowFromNav } from './WindowShell'
+import ProjectStack from './ProjectStack'
 
 function useRouteWindow(name) {
   const ref = useRef(null)
@@ -34,74 +35,6 @@ export function WorkWindow() {
   const catSlug = params.get('category')
   const category = CATEGORIES.find((c) => categorySlug(c) === catSlug) || null
   const list = category ? deskProjects.filter((p) => p.categories.includes(category)) : deskProjects
-  // The position resets when the category changes.
-  const [pos, setPos] = useState({ cat: catSlug, i: 0 })
-  const index = pos.cat === catSlug ? pos.i : 0
-  const setIndex = (v) =>
-    setPos((s) => {
-      const cur = s.cat === catSlug ? s.i : 0
-      return { cat: catSlug, i: typeof v === 'function' ? v(cur) : v }
-    })
-  const i = Math.min(index, list.length - 1)
-  const stageRef = useRef(null)
-  const navigate = useNavigate()
-
-  // Wheel and trackpad move one project per notch, right away. A short
-  // gap between steps keeps trackpad momentum from skipping several.
-  useEffect(() => {
-    const el = stageRef.current
-    if (!el) return
-    let acc = 0
-    let last = 0
-    const onWheel = (e) => {
-      e.preventDefault()
-      acc += e.deltaY
-      const now = performance.now()
-      if (Math.abs(acc) >= 30 && now - last > 110) {
-        const dir = acc > 0 ? 1 : -1
-        setIndex((k) => Math.max(0, Math.min(list.length - 1, Math.min(k, list.length - 1) + dir)))
-        acc = 0
-        last = now
-      }
-    }
-    let startY = null
-    const onDown = (e) => {
-      startY = e.clientY
-    }
-    const onMove = (e) => {
-      if (startY === null) return
-      const d = startY - e.clientY
-      if (Math.abs(d) > 50) {
-        setIndex((k) => Math.max(0, Math.min(list.length - 1, k + (d > 0 ? 1 : -1))))
-        startY = e.clientY
-      }
-    }
-    const onUp = () => {
-      startY = null
-    }
-    el.addEventListener('wheel', onWheel, { passive: false })
-    el.addEventListener('pointerdown', onDown)
-    window.addEventListener('pointermove', onMove)
-    window.addEventListener('pointerup', onUp)
-    return () => {
-      el.removeEventListener('wheel', onWheel)
-      el.removeEventListener('pointerdown', onDown)
-      window.removeEventListener('pointermove', onMove)
-      window.removeEventListener('pointerup', onUp)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [list.length, catSlug])
-
-  const onKeyDown = (e) => {
-    const k = { ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 }[e.key]
-    if (!k) return
-    e.preventDefault()
-    const next = Math.max(0, Math.min(list.length - 1, i + k))
-    setIndex(next)
-    stageRef.current?.querySelectorAll('.card')[next]?.focus({ preventScroll: true })
-  }
-
-  const current = list[i]
   const setCategory = (c) => {
     const next = new URLSearchParams(params)
     if (c) next.set('category', categorySlug(c))
@@ -116,67 +49,7 @@ export function WorkWindow() {
         Work by Mariela Cascante, Product Designer in Costa Rica
       </h1>
       <div className="work__grid">
-        <div className="work__info" aria-live="polite">
-          <p className="work__hint">Scroll, swipe or use the arrow keys to browse</p>
-          {current && (
-            <>
-              <h2 className="work__name">{current.title}</h2>
-              <p className="work__kind">{current.kind}</p>
-              <p className="work__cats">{current.categories.join(', ')}</p>
-              {current.link ? (
-                <Link className="btn" to={current.link}>
-                  Open case study
-                </Link>
-              ) : (
-                <a className="btn" href={current.externalUrl} target="_blank" rel="noopener noreferrer">
-                  Open the Lab<span className="sr-only"> (opens in a new tab)</span>
-                </a>
-              )}
-            </>
-          )}
-        </div>
-
-        <div className="work__stage" ref={stageRef} onKeyDown={onKeyDown}>
-          <ul aria-label={category ? `Projects in ${category}` : 'All projects'}>
-            {list.map((p, k) => {
-              const d = k - i
-              const a = Math.abs(d)
-              return (
-                <li
-                  key={p.slug}
-                  className="card-wrap"
-                  style={{
-                    transform: `translateY(${d * 64}%) translateZ(${-a * 90}px) rotateX(${-d * 28}deg) scale(${1 - a * 0.06})`,
-                    opacity: a > 2 ? 0 : 1 - a * 0.16,
-                    zIndex: 10 - a,
-                    visibility: a > 2 ? 'hidden' : 'visible',
-                  }}
-                >
-                  <a
-                    className="card"
-                    href={p.link || p.externalUrl}
-                    aria-current={d === 0 ? 'true' : undefined}
-                    tabIndex={d === 0 ? 0 : -1}
-                    onFocus={() => setIndex(k)}
-                    onClick={(e) => {
-                      if (d !== 0) {
-                        e.preventDefault()
-                        setIndex(k)
-                      } else if (p.link) {
-                        e.preventDefault()
-                        navigate(p.link)
-                      }
-                    }}
-                    {...(p.link ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
-                  >
-                    <img src={p.cover} alt="" width="1000" height="750" loading={a > 1 ? 'lazy' : 'eager'} />
-                    <span className="sr-only">{p.title}</span>
-                  </a>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
+        <ProjectStack list={list} resetKey={catSlug || 'all'} label={category ? `Projects in ${category}` : 'All projects'} />
 
         <div className="work__filters" role="group" aria-labelledby="filter-title">
           <p className="win__label" id="filter-title">
