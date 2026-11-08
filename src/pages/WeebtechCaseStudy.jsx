@@ -14,7 +14,7 @@ import aboutPoster from '../assets/projects/weebtech/video/weebtech-mockup-about
 import reelVideo from '../assets/projects/weebtech/video/weebtech-reel-preview.mp4'
 import reelPoster from '../assets/projects/weebtech/video/weebtech-reel-preview-poster.webp'
 
-// Weebtech: the studio Mariela co-founded. Brand identity, research, offer,
+// Weebtech: client project. Brand identity, research, offer,
 // website and the Scan tool. Every slide of the case study deck is shown,
 // in the order of the story; videos are the site and brand animations.
 
@@ -88,7 +88,7 @@ const DECISIONS = [
     why: 'Owners who manage their own marketing need proof before they buy. A public quick check on the site and a full Scan from the internal panel show where a business appears on Google and in AI answers, in plain language.',
   },
   {
-    title: 'Present an established studio, not two founders',
+    title: 'Present an established studio',
     why: 'The site presents Weebtech as a Costa Rican agency that brings together specialists in marketing, software and design, without founder avatars or case studies yet. The message is the capability, not the size of the team.',
   },
   {
@@ -103,7 +103,7 @@ const DECISIONS = [
 
 const LEARNINGS = [
   'Check names before designing anything. “zaaz”, “thintech” and “smoothtech” were all taken, and weebtech.com was already registered, so availability now comes before sketches.',
-  'Read a name in every market it will live in. “Weeb” is English slang for an anime fan; knowing it early let us decide on purpose instead of finding out from a client.',
+  'Read a name in every market it will live in. “Weeb” is English slang for an anime fan; flagging it early let the client decide on purpose instead of finding out later.',
   'Use public research honestly until you have your own. The user data in this case comes from published studies with their sample sizes; interviews with Weebtech’s first clients will replace them.',
   'A studio that sells visibility has to be its own best case. The site was built with schema, an llms.txt file, separate English and Spanish pages and real HTML under every 3D scene.',
 ]
@@ -179,9 +179,9 @@ export default function WeebtechCaseStudy() {
         <Reveal>
           <h1 className="case-study__title">Weebtech: search visibility for the AI era</h1>
           <p className="case-study__tagline">
-            Weebtech is a studio I co-founded in Costa Rica with a senior systems engineer. It helps businesses get
-            found, both on Google and in the AI answers their customers now rely on. I led the research, naming, brand
-            identity, offer and website, and designed the Scan tool that checks how visible a business is.
+            Weebtech is a Costa Rican studio that helps businesses get found, both on Google and in the AI answers
+            their customers now rely on. I led the research, naming, brand identity, offer and website for the client,
+            and designed the Scan tool that checks how visible a business is.
           </p>
           <ul className="trama-cs__tags" aria-label="Disciplines">
             {['Brand Identity', 'UX Research', 'Strategy', 'Web Design', '3D Website', 'Product Design'].map((t) => (
@@ -194,11 +194,11 @@ export default function WeebtechCaseStudy() {
           <dl className="trama-cs__meta">
             <div>
               <dt>Role</dt>
-              <dd>Co-founder and design lead</dd>
+              <dd>Lead designer: research, brand and UX/UI</dd>
             </div>
             <div>
               <dt>Client</dt>
-              <dd>Weebtech, my own studio</dd>
+              <dd>Weebtech, a web, SEO and AI search studio in Costa Rica</dd>
             </div>
             <div>
               <dt>Scope</dt>
@@ -206,7 +206,7 @@ export default function WeebtechCaseStudy() {
             </div>
             <div>
               <dt>Team</dt>
-              <dd>Me on design, a senior systems engineer on development</dd>
+              <dd>Me on design, the client’s engineer on development</dd>
             </div>
             <div>
               <dt>Year</dt>
@@ -241,12 +241,12 @@ export default function WeebtechCaseStudy() {
         <div className="trama-cs__content">
           <section className="case-study__section" id="context" tabIndex={-1} aria-labelledby="context-label">
             <Reveal>
-              <SectionHead id="context" title="Two people, one studio, a new way of searching" />
+              <SectionHead id="context" title="A new studio for a new way of searching" />
               <p className="case-study__section-text">
-                We were two: a senior systems engineer and me, a senior designer, both in Costa Rica. We wanted a
-                company that offers websites, SaaS, SEO, GEO and AEO, works in English and Spanish and can serve
-                clients anywhere. Before designing anything, we needed to know where that business would earn the most
-                and what people actually need from it.
+                The client came with a new company: a Costa Rican studio offering websites, SaaS, SEO, GEO and AEO,
+                working in English and Spanish and serving clients anywhere. It had no name, brand or website yet.
+                Before designing anything, I needed to know where that business would earn the most and what people
+                actually need from it.
               </p>
               <p className="case-study__section-text">
                 Weebtech is the result: a studio that brings web design, software development and SEO, GEO and AEO
@@ -254,7 +254,7 @@ export default function WeebtechCaseStudy() {
                 owners can focus on running their business, not chasing traffic.
               </p>
               <p className="trama-cs__goal">
-                <strong>Goal:</strong> a business model with the best return for a team of two, a brand that feels like
+                <strong>Goal:</strong> a business model with the best return for a small senior team, a brand that feels like
                 an established studio, and a website that proves the service by being found itself.
               </p>
               <Slide n={2} alt="Intro slide: Weebtech is a bilingual studio that helps businesses get found, both on Google and in the AI answers their customers now rely on. Client: Weebtech, service: brand identity, year: 2026, design by Mariella." />
@@ -263,7 +263,7 @@ export default function WeebtechCaseStudy() {
 
           <section className="case-study__section" id="research" tabIndex={-1} aria-labelledby="research-label">
             <Reveal>
-              <SectionHead id="research" title="We studied how people search today" />
+              <SectionHead id="research" title="How people search today" />
               <p className="case-study__section-text">
                 The desk research showed that ranking on Google is no longer enough. People get answers from AI
                 summaries and often never click, and most small businesses are not set up to appear there. It shaped
@@ -314,7 +314,7 @@ export default function WeebtechCaseStudy() {
                       <th scope="col">Market</th>
                       <th scope="col">Ticket</th>
                       <th scope="col">Competition</th>
-                      <th scope="col">Our advantage</th>
+                      <th scope="col">Weebtech’s advantage</th>
                       <th scope="col">Verdict</th>
                     </tr>
                   </thead>
@@ -528,7 +528,7 @@ export default function WeebtechCaseStudy() {
               <SectionHead id="identity" title="A spark where design, code and search meet" />
               <p className="case-study__section-text">
                 The company started as “zaaz”. That name, and others like “thintech” and “smoothtech”, were not
-                available, so we chose Weebtech. The symbol is a spark built from six rounded arms that meet at a single
+                available, so the client chose Weebtech. The symbol is a spark built from six rounded arms that meet at a single
                 point: the moment a business gets found, with design, code and search converging into one clear signal.
                 Its three axes and balanced rotation reflect the two languages and two disciplines behind the studio,
                 working as one, and soft curves turn technical precision into something warm and approachable.
@@ -699,8 +699,9 @@ export default function WeebtechCaseStudy() {
                 ))}
               </ul>
               <p className="case-study__section-text">
-                Next, Weebtech’s first clients come from the work I already know: tourism in Costa Rica, like{' '}
-                <Link to="/work/mrs-rent-a-car">MRS Rent a Car</Link>, and service businesses in the US.
+                Next, Weebtech starts with the two markets the research pointed to: tourism in Costa Rica, a field I
+                know from projects like <Link to="/work/mrs-rent-a-car">MRS Rent a Car</Link>, and service businesses in
+                the US.
               </p>
               <Slide n={23} alt="Closing slide: thanks for staying till the end, in three lime pills. Mariella, marielacascante.com." />
             </Reveal>

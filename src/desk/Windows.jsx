@@ -126,12 +126,6 @@ export function AboutWindow() {
                 <li>
                   <span className="xp__when">Present</span>
                   <span>
-                    Weebtech<small>Co-founder, Design Lead</small>
-                  </span>
-                </li>
-                <li>
-                  <span className="xp__when">Present</span>
-                  <span>
                     Freelance<small>Product Designer, UX/UI Designer</small>
                   </span>
                 </li>
