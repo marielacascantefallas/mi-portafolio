@@ -28,12 +28,10 @@ function useAutoTheme() {
 
 function DeskFile({ project, selected, onOpen }) {
   const navigate = useNavigate()
-  const href = project.link || project.externalUrl
   const open = (e) => {
     e.preventDefault()
     if (selected) {
-      if (project.link) navigate(project.link)
-      else window.open(project.externalUrl, '_blank', 'noopener')
+      navigate(project.link)
       return
     }
     onOpen(project, e.currentTarget)
@@ -41,9 +39,9 @@ function DeskFile({ project, selected, onOpen }) {
   return (
     <li className={`file${selected ? ' is-selected' : ''}`}>
       <a
-        href={href}
+        href={project.link}
         onClick={open}
-        onDoubleClick={() => project.link && navigate(project.link)}
+        onDoubleClick={() => navigate(project.link)}
         aria-haspopup="dialog"
         aria-label={`${project.name}, open preview`}
       >

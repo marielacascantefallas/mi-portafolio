@@ -13,10 +13,29 @@ import rutaBanner from '../assets/projects/ruta-banner.jpg'
 import rutaCard from '../assets/projects/ruta-card.jpg'
 import goeasyBanner from '../assets/projects/goeasy-banner.jpg'
 import goeasyCard from '../assets/projects/goeasy-card.jpg'
+import weebtechBanner from '../assets/projects/weebtech-banner.jpg'
+import weebtechCard from '../assets/projects/weebtech-card.jpg'
 const THUMBS = import.meta.glob('../assets/thumbs/*.webp', { eager: true, import: 'default' })
 const thumb = (slug) => THUMBS[`../assets/thumbs/${slug}.webp`]
 
 const projects = [
+  {
+    id: 18,
+    title: 'Weebtech',
+    slug: 'weebtech',
+    description:
+      'Brand identity, research and website for Weebtech, a Costa Rican studio that helps businesses get found on Google and in AI answers.',
+    tags: ['Brand Identity', 'UX Research', 'Web Design'],
+    // Rich page: src/pages/WeebtechCaseStudy.jsx. Images are the case study
+    // slides and the website and brand videos.
+    image: weebtechBanner,
+    imageWidth: 2000,
+    imageHeight: 950,
+    cardImage: weebtechCard,
+    cardImageWidth: 2000,
+    cardImageHeight: 1500,
+    link: '/work/weebtech',
+  },
   {
     id: 16,
     title: 'GoEasy Chat',
@@ -200,6 +219,7 @@ export const categorySlug = (c) => c.toLowerCase().replace(/\//g, '-').replace(/
 // Desktop and Work window data: order, short kind, categories (confirmed by
 // Mariella) and the cover used as the desktop file icon.
 const DESK = {
+  weebtech: { kind: 'Brand and website', categories: ['Branding', 'User Research', 'Web Design', 'Web Platforms', 'UX/UI Design'] },
   trama: { name: 'Trama', kind: 'Design system', categories: ['UX Architecture', 'SaaS Infrastructure', 'UX/UI Design'] },
   hilo: { kind: 'AI product', categories: ['UX Architecture', 'SaaS Infrastructure', 'AI Systems', 'User Research', 'UX/UI Design'] },
   ruta: { kind: 'B2B product', categories: ['SaaS Infrastructure', 'User Research', 'UX/UI Design'] },
@@ -210,27 +230,13 @@ const DESK = {
   'gexp-software': { kind: 'Client site', categories: ['Web Design', 'Branding', 'UX/UI Design'] },
 }
 
-const LAB = {
-  id: 17,
-  title: 'Lab',
-  name: 'Lab',
-  slug: 'lab',
-  kind: 'Experiments',
-  description:
-    'Three small experiments built on Trama: a theme generator that checks contrast, undo versus confirm, and how to show what an AI summary is based on.',
-  categories: ['AI Systems', 'User Research', 'UX/UI Design'],
-  cover: thumb('lab'),
-  externalUrl: 'https://marielacascantefallas.github.io/trama-design-system/lab/temas/',
-}
-
-const ORDER = ['trama', 'hilo', 'ruta', 'goeasy-chat', 'social-club', 'pico-mar-villas', 'mrs-rent-a-car', 'gexp-software']
+const ORDER = ['weebtech', 'trama', 'hilo', 'ruta', 'goeasy-chat', 'social-club', 'pico-mar-villas', 'mrs-rent-a-car', 'gexp-software']
 
 export const deskProjects = [
   ...ORDER.map((slug) => {
     const p = projects.find((x) => x.slug === slug)
     return { name: p.title, ...p, ...DESK[slug], cover: thumb(slug) }
   }),
-  LAB,
 ]
 
 // Projects with a case study page, in desktop order (drives "Next project").

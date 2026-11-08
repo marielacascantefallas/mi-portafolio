@@ -5,11 +5,13 @@ import TramaCaseStudy from '../pages/TramaCaseStudy'
 import HiloCaseStudy from '../pages/HiloCaseStudy'
 import RutaCaseStudy from '../pages/RutaCaseStudy'
 import GoEasyCaseStudy from '../pages/GoEasyCaseStudy'
+import WeebtechCaseStudy from '../pages/WeebtechCaseStudy'
 import SocialClubCaseStudy from '../pages/SocialClubCaseStudy'
 import SimpleCaseStudy from '../components/CaseStudy/SimpleCaseStudy'
 import { Lights } from './WindowShell'
 
 const RICH = {
+  weebtech: WeebtechCaseStudy,
   trama: TramaCaseStudy,
   hilo: HiloCaseStudy,
   ruta: RutaCaseStudy,

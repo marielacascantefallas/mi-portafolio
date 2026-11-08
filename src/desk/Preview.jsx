@@ -15,10 +15,7 @@ export default function Preview({ project, origin, onClose }) {
   }, [origin, project.slug])
 
   const close = () => shrinkTo(ref.current, origin, onClose)
-  const openCase = () => {
-    if (project.link) navigate(project.link)
-    else window.open(project.externalUrl, '_blank', 'noopener')
-  }
+  const openCase = () => navigate(project.link)
 
   useEffect(() => {
     const onKey = (e) => {
@@ -43,15 +40,9 @@ export default function Preview({ project, origin, onClose }) {
         </h2>
         <p className="preview__kind">{project.kind}</p>
         <p className="preview__desc">{project.description}</p>
-        {project.link ? (
-          <Link className="btn" to={project.link}>
-            Open case study
-          </Link>
-        ) : (
-          <a className="btn" href={project.externalUrl} target="_blank" rel="noopener noreferrer">
-            Open the Lab<span className="sr-only"> (opens in a new tab)</span>
-          </a>
-        )}
+        <Link className="btn" to={project.link}>
+          Open case study
+        </Link>
       </div>
     </section>
   )

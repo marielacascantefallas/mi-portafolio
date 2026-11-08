@@ -1,0 +1,132 @@
+/* Weebtech case study, on top of ProjectCaseStudy.css and TramaCaseStudy.css.
+   Accent is a darker moss on light (5.6:1) and the brand lime on dark (12:1). */
+.wb-cs {
+  --case-accent: #5f6a12;
+}
+
+[data-theme='dark'] .wb-cs {
+  --case-accent: #d4e701;
+}
+
+.wb-cs__slide + .wb-cs__slide,
+.wb-cs__video + .wb-cs__slide,
+.wb-cs__video + .wb-cs__video,
+.wb-cs__slide + .wb-cs__video {
+  margin-top: var(--space-3);
+}
+
+.wb-cs__video video {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1340 / 800;
+  border-radius: var(--radius-lg);
+  background: #000;
+}
+
+.wb-cs__stats {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.wb-cs__source {
+  margin-top: auto;
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--color-text-muted);
+}
+
+.wb-cs__h3 {
+  margin: var(--space-6) 0 var(--space-2);
+  font-size: 20px;
+  line-height: 1.3;
+}
+
+.wb-cs__board {
+  margin-top: var(--space-4);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+}
+
+.wb-cs__board > div {
+  padding: var(--space-2);
+  border-top: 3px solid var(--case-accent);
+  background: color-mix(in srgb, var(--color-text) 5%, transparent);
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.wb-cs__board h3 {
+  margin: 0 0 var(--space-1);
+  font-size: 15px;
+}
+
+.wb-cs__board ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.wb-cs__board li + li {
+  margin-top: 6px;
+}
+
+.wb-cs__swatches {
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--space-2);
+}
+
+.wb-cs__swatches li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.wb-cs__swatches li > span:last-child {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+.wb-cs__chip {
+  display: block;
+  height: 64px;
+  margin-bottom: 6px;
+  border-radius: var(--radius-md);
+  border: 1px solid color-mix(in srgb, var(--color-text) 14%, transparent);
+}
+
+.wb-cs__sources {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 900px) {
+  .wb-cs__stats,
+  .wb-cs__board {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .wb-cs__swatches {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .wb-cs__stats,
+  .wb-cs__board {
+    grid-template-columns: 1fr;
+  }
+
+  .wb-cs__swatches {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

@@ -12,7 +12,7 @@ const PAGES = {
   '/work': {
     title: 'Work | Mariela Cascante, Product Designer in Costa Rica',
     description:
-      'Case studies by Mariela Cascante, product designer in Costa Rica: a multi-brand design system, an AI inbox for accounting firms, a booking panel for tour operators and client websites.',
+      'Case studies by Mariela Cascante, product designer in Costa Rica: the brand and website of Weebtech, a search visibility studio, a multi-brand design system, an AI inbox for accounting firms, a booking panel for tour operators and client websites.',
   },
   '/about': {
     title: 'About | Mariela Cascante, UX/UI Designer in Costa Rica',

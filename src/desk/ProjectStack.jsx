@@ -103,15 +103,9 @@ export default function ProjectStack({ list, resetKey = 'all', label = 'All proj
             <H className="work__name">{current.title}</H>
             <p className="work__kind">{current.kind}</p>
             <p className="work__cats">{current.categories.join(', ')}</p>
-            {current.link ? (
-              <Link className="btn" to={current.link}>
-                Open case study
-              </Link>
-            ) : (
-              <a className="btn" href={current.externalUrl} target="_blank" rel="noopener noreferrer">
-                Open the Lab<span className="sr-only"> (opens in a new tab)</span>
-              </a>
-            )}
+            <Link className="btn" to={current.link}>
+              Open case study
+            </Link>
           </>
         )}
       </div>
@@ -134,7 +128,7 @@ export default function ProjectStack({ list, resetKey = 'all', label = 'All proj
               >
                 <a
                   className="card"
-                  href={p.link || p.externalUrl}
+                  href={p.link}
                   aria-current={d === 0 ? 'true' : undefined}
                   tabIndex={d === 0 ? 0 : -1}
                   onFocus={() => go(k)}
@@ -142,12 +136,11 @@ export default function ProjectStack({ list, resetKey = 'all', label = 'All proj
                     if (d !== 0) {
                       e.preventDefault()
                       go(k)
-                    } else if (p.link) {
+                    } else {
                       e.preventDefault()
                       navigate(p.link)
                     }
                   }}
-                  {...(p.link ? {} : { target: '_blank', rel: 'noopener noreferrer' })}
                 >
                   <img src={p.cover} alt="" width="800" height="600" loading={a > 1 ? 'lazy' : 'eager'} draggable="false" />
                   <span className="sr-only">{p.title}</span>
