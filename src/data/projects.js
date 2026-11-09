@@ -201,23 +201,24 @@ const projects = [
     kind: 'Client site',
     slug: 'pico-mar-villas',
     description:
-      "Luxury villa booking platform for Costa Rica's Pacific coast, pairing curated homes with a professional concierge service.",
-    tags: ['Web Development', 'Client Site'],
+      'Research, UX/UI, web development and content for the redesign of picomar.com, a luxury villa and concierge company in Uvita, Costa Rica.',
+    tags: ['UX Research', 'UX/UI Design', 'Web Development'],
     // Case-study banner (wide homepage screenshot).
     image: picoMarVillasBanner,
     imageWidth: 2000,
     imageHeight: 1188,
-    // Carousel card cover (aerial brand shot) — falls back to `image`
-    // above if unset, see Projects.jsx.
+    // Rich page: src/pages/PicoMarCaseStudy.jsx.
+    // Carousel card cover (laptop mockup supplied by the user) — falls back
+    // to `image` above if unset, see Projects.jsx.
     cardImage: picoMarVillasThumb,
     cardImageWidth: 2000,
-    cardImageHeight: 1499,
+    cardImageHeight: 1500,
     link: '/work/pico-mar-villas',
     siteUrl: 'https://picomar.com/',
     duration: '4 weeks',
-    role: 'UX/UI Design',
+    role: 'Research, UX/UI, Web Development, Content & SEO',
     challenge:
-      'The goal for Pico Mar was building a seamless booking engine for their entire villa portfolio. The platform had to process reservations quickly and effortlessly while maintaining a refined aesthetic that highlights the property\'s elegance and prestige.',
+      "Picomar manages more than forty luxury villas in Uvita and includes a concierge in every stay, but guests met those homes one listing at a time on the big platforms. The redesign had to show the whole collection with live prices, a clear quote and a real person one message away, so guests book direct.",
   },
 ]
 
@@ -245,7 +246,7 @@ const DESK = {
   ruta: { kind: 'B2B product', categories: ['SaaS Infrastructure', 'User Research', 'UX/UI Design'] },
   'goeasy-chat': { kind: 'Shipped product', categories: ['UX Architecture', 'SaaS Infrastructure', 'UX/UI Design'] },
   'social-club': { kind: 'Concept', categories: ['Branding', 'UX/UI Design', 'UX Architecture', 'User Research'] },
-  'pico-mar-villas': { kind: 'Client site', categories: ['Web Platforms', 'Web Design', 'UX/UI Design'] },
+  'pico-mar-villas': { kind: 'Booking website', categories: ['User Research', 'Web Platforms', 'Web Design', 'UX/UI Design'] },
   'mrs-rent-a-car': { kind: 'Brand and website', categories: ['Branding', 'User Research', 'Web Design', 'Web Platforms', 'UX/UI Design'] },
   'gexp-software': { kind: 'Client site', categories: ['Web Design', 'Branding', 'UX/UI Design'] },
 }

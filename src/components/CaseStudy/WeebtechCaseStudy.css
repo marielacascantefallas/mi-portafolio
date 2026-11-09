@@ -170,3 +170,26 @@
 [data-theme='dark'] .ce-cs {
   --case-accent: #ffc75a;
 }
+
+/* Picomar case study: deep gold on light (6:1), brand gold on dark. */
+.pm-cs {
+  --case-accent: #7a5c14;
+}
+
+[data-theme='dark'] .pm-cs {
+  --case-accent: #e6c56f;
+}
+
+.pm-cs .wb-cs__video video {
+  aspect-ratio: 1340 / 838;
+}
+
+.pm-cs .pm-cs__phone {
+  max-width: 340px;
+  margin-inline: auto;
+}
+
+.pm-cs .pm-cs__phone video {
+  aspect-ratio: 540 / 1170;
+  border-radius: 28px;
+}
