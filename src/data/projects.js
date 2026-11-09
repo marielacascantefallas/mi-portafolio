@@ -156,21 +156,22 @@ const projects = [
     kind: 'Client site',
     slug: 'mrs-rent-a-car',
     description:
-      'Bilingual car rental and private airport transfer site for a local company in Pérez Zeledón, Costa Rica.',
-    tags: ['Web Development', 'Client Site'],
+      'Research, brand identity, brandbook and website for a car rental and airport transfer company in Pérez Zeledón, Costa Rica.',
+    tags: ['Brand Identity', 'UX Research', 'Web Design'],
     // Case-study banner (vehicle carousel, captured at 2x from the live site).
     image: mrsRentACarBanner,
     imageWidth: 2000,
     imageHeight: 1250,
-    // Carousel card cover (brand photo supplied by the user) — falls back
+    // Rich page: src/pages/MrsCaseStudy.jsx.
+    // Carousel card cover (business card photo supplied by the user) — falls back
     // to `image` above if unset, see Projects.jsx.
     cardImage: mrsRentACarThumb,
-    cardImageWidth: 1584,
-    cardImageHeight: 1224,
+    cardImageWidth: 2000,
+    cardImageHeight: 1500,
     link: '/work/mrs-rent-a-car',
     siteUrl: 'https://mrsrentacar.com/',
     duration: '2 weeks',
-    role: 'UX/UI Design & Web Development',
+    role: 'Research, Brand Identity, UX/UI & Web Development',
     challenge:
       "MRS Rent a Car needed a site that could turn local and international travelers into WhatsApp bookings without the friction of a traditional reservation system. The goal was a bilingual, mobile-first experience that showcases the fleet with clear daily prices, explains requirements like the no-credit-card deposit upfront, and presents the private airport transfers, all wrapped in a bold, friendly brand that feels rooted in Costa Rica's southern zone.",
   },
@@ -226,7 +227,7 @@ const DESK = {
   'goeasy-chat': { kind: 'Shipped product', categories: ['UX Architecture', 'SaaS Infrastructure', 'UX/UI Design'] },
   'social-club': { kind: 'Concept', categories: ['Branding', 'UX/UI Design', 'UX Architecture', 'User Research'] },
   'pico-mar-villas': { kind: 'Client site', categories: ['Web Platforms', 'Web Design', 'UX/UI Design'] },
-  'mrs-rent-a-car': { kind: 'Client site', categories: ['Web Platforms', 'Web Design', 'UX/UI Design'] },
+  'mrs-rent-a-car': { kind: 'Brand and website', categories: ['Branding', 'User Research', 'Web Design', 'Web Platforms', 'UX/UI Design'] },
   'gexp-software': { kind: 'Client site', categories: ['Web Design', 'Branding', 'UX/UI Design'] },
 }
 

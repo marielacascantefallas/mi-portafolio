@@ -130,3 +130,34 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* MRS Rent a Car case study reuses the Weebtech layout with its own accent. */
+.mrs-cs {
+  --case-accent: #1f3f1f;
+}
+
+[data-theme='dark'] .mrs-cs {
+  --case-accent: #ffd401;
+}
+
+.wb-cs__pair {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.wb-cs__pair .wb-cs__slide {
+  margin: 0;
+}
+
+.wb-cs__slide + .wb-cs__pair,
+.wb-cs__pair + .wb-cs__slide {
+  margin-top: var(--space-3);
+}
+
+@media (max-width: 560px) {
+  .wb-cs__pair {
+    grid-template-columns: 1fr;
+  }
+}

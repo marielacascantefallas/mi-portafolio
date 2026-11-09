@@ -6,12 +6,14 @@ import HiloCaseStudy from '../pages/HiloCaseStudy'
 import RutaCaseStudy from '../pages/RutaCaseStudy'
 import GoEasyCaseStudy from '../pages/GoEasyCaseStudy'
 import WeebtechCaseStudy from '../pages/WeebtechCaseStudy'
+import MrsCaseStudy from '../pages/MrsCaseStudy'
 import SocialClubCaseStudy from '../pages/SocialClubCaseStudy'
 import SimpleCaseStudy from '../components/CaseStudy/SimpleCaseStudy'
 import { Lights } from './WindowShell'
 
 const RICH = {
   weebtech: WeebtechCaseStudy,
+  'mrs-rent-a-car': MrsCaseStudy,
   trama: TramaCaseStudy,
   hilo: HiloCaseStudy,
   ruta: RutaCaseStudy,
