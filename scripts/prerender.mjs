@@ -32,7 +32,7 @@ const person = {
     'Product Design', 'UX/UI Design', 'UX Architecture', 'Design Systems', 'User Research', 'UX Writing',
     'SaaS', 'AI Systems', 'Web Design', 'Branding', 'Figma', 'React', 'Storybook',
   ],
-  sameAs: ['https://www.linkedin.com/in/mariela-cascante-fallas-aba957208', 'https://github.com/marielacascantefallas'],
+  sameAs: ['https://www.linkedin.com/in/mariela-cascante-fallas-aba957208', 'https://github.com/marielacascantefallas', 'https://www.behance.net/mariellacascante'],
 }
 
 function jsonLd(route, m) {

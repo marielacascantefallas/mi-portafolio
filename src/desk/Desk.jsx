@@ -10,6 +10,7 @@ import './desk.css'
 
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/mariela-cascante-fallas-aba957208'
 export const GITHUB_URL = 'https://github.com/marielacascantefallas'
+export const BEHANCE_URL = 'https://www.behance.net/mariellacascante'
 
 // Dark from 6 p.m. to 6 a.m. in the visitor's own time zone. index.html sets
 // it before the first paint; this keeps it right if the page stays open.
@@ -156,6 +157,11 @@ export default function Desk({ children, page = false, home = false }) {
                 GitHub
               </a>
             </li>
+            <li>
+              <a href={BEHANCE_URL} target="_blank" rel="noopener noreferrer me">
+                Behance
+              </a>
+            </li>
           </ul>
         </div>
       </header>
@@ -206,6 +212,11 @@ export default function Desk({ children, page = false, home = false }) {
           <li>
             <a href={GITHUB_URL} target="_blank" rel="noopener noreferrer me">
               GitHub
+            </a>
+          </li>
+          <li>
+            <a href={BEHANCE_URL} target="_blank" rel="noopener noreferrer me">
+              Behance
             </a>
           </li>
         </ul>
