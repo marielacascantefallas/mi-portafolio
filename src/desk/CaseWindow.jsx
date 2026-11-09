@@ -7,6 +7,7 @@ import RutaCaseStudy from '../pages/RutaCaseStudy'
 import GoEasyCaseStudy from '../pages/GoEasyCaseStudy'
 import WeebtechCaseStudy from '../pages/WeebtechCaseStudy'
 import MrsCaseStudy from '../pages/MrsCaseStudy'
+import CafeEsperanzaCaseStudy from '../pages/CafeEsperanzaCaseStudy'
 import SocialClubCaseStudy from '../pages/SocialClubCaseStudy'
 import SimpleCaseStudy from '../components/CaseStudy/SimpleCaseStudy'
 import { Lights } from './WindowShell'
@@ -14,6 +15,7 @@ import { Lights } from './WindowShell'
 const RICH = {
   weebtech: WeebtechCaseStudy,
   'mrs-rent-a-car': MrsCaseStudy,
+  'cafe-esperanza': CafeEsperanzaCaseStudy,
   trama: TramaCaseStudy,
   hilo: HiloCaseStudy,
   ruta: RutaCaseStudy,

@@ -15,10 +15,28 @@ import goeasyBanner from '../assets/projects/goeasy-banner.jpg'
 import goeasyCard from '../assets/projects/goeasy-card.jpg'
 import weebtechBanner from '../assets/projects/weebtech-banner.jpg'
 import weebtechCard from '../assets/projects/weebtech-card.jpg'
+import cafeEsperanzaBanner from '../assets/projects/cafe-esperanza-banner.jpg'
+import cafeEsperanzaCard from '../assets/projects/cafe-esperanza-card.jpg'
 const THUMBS = import.meta.glob('../assets/thumbs/*.webp', { eager: true, import: 'default' })
 const thumb = (slug) => THUMBS[`../assets/thumbs/${slug}.webp`]
 
 const projects = [
+  {
+    id: 19,
+    title: 'Café Esperanza',
+    slug: 'cafe-esperanza',
+    description:
+      'Research, naming, brand identity, brandbook and packaging for a family coffee farm in Valencia de Páramo, Pérez Zeledón, Costa Rica.',
+    tags: ['Brand Identity', 'Packaging', 'Art Direction'],
+    // Rich page: src/pages/CafeEsperanzaCaseStudy.jsx.
+    image: cafeEsperanzaBanner,
+    imageWidth: 2000,
+    imageHeight: 950,
+    cardImage: cafeEsperanzaCard,
+    cardImageWidth: 2000,
+    cardImageHeight: 1500,
+    link: '/work/cafe-esperanza',
+  },
   {
     id: 18,
     title: 'Weebtech',
@@ -220,6 +238,7 @@ export const categorySlug = (c) => c.toLowerCase().replace(/\//g, '-').replace(/
 // Desktop and Work window data: order, short kind, categories (confirmed by
 // Mariella) and the cover used as the desktop file icon.
 const DESK = {
+  'cafe-esperanza': { kind: 'Brand and packaging', categories: ['Branding', 'User Research'] },
   weebtech: { kind: 'Brand and website', categories: ['Branding', 'User Research', 'Web Design', 'Web Platforms', 'UX/UI Design'] },
   trama: { name: 'Trama', kind: 'Design system', categories: ['UX Architecture', 'SaaS Infrastructure', 'UX/UI Design'] },
   hilo: { kind: 'AI product', categories: ['UX Architecture', 'SaaS Infrastructure', 'AI Systems', 'User Research', 'UX/UI Design'] },
@@ -231,7 +250,7 @@ const DESK = {
   'gexp-software': { kind: 'Client site', categories: ['Web Design', 'Branding', 'UX/UI Design'] },
 }
 
-const ORDER = ['weebtech', 'trama', 'hilo', 'ruta', 'goeasy-chat', 'social-club', 'pico-mar-villas', 'mrs-rent-a-car', 'gexp-software']
+const ORDER = ['weebtech', 'cafe-esperanza', 'trama', 'hilo', 'ruta', 'goeasy-chat', 'social-club', 'pico-mar-villas', 'mrs-rent-a-car', 'gexp-software']
 
 export const deskProjects = [
   ...ORDER.map((slug) => {

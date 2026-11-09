@@ -161,3 +161,12 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Café Esperanza case study accent. */
+.ce-cs {
+  --case-accent: #611d26;
+}
+
+[data-theme='dark'] .ce-cs {
+  --case-accent: #ffc75a;
+}
