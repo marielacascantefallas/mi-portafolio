@@ -131,6 +131,17 @@ function pin(el) {
   const wasFixed = getComputedStyle(el).position === 'fixed'
   const offset = wasFixed ? el.scrollTop : Math.max(0, -el.getBoundingClientRect().top)
   const prev = el.getAttribute('style') || ''
+  // Hold the window's place in the page so nothing below it jumps.
+  let spacer = null
+  if (!wasFixed) {
+    const cs = getComputedStyle(el)
+    spacer = document.createElement('div')
+    spacer.setAttribute('aria-hidden', 'true')
+    spacer.style.height = `${el.offsetHeight}px`
+    spacer.style.marginTop = cs.marginTop
+    spacer.style.marginBottom = cs.marginBottom
+    el.parentNode.insertBefore(spacer, el)
+  }
   Object.assign(el.style, {
     position: 'fixed',
     left: `${r.left}px`,
@@ -144,7 +155,14 @@ function pin(el) {
     transformOrigin: '0 0',
   })
   el.scrollTop = offset
-  return { rect: r, restore: () => el.setAttribute('style', prev) }
+  return {
+    rect: r,
+    restore: () => {
+      el.setAttribute('style', prev)
+      spacer?.remove()
+    },
+    dropSpacer: () => spacer?.remove(),
+  }
 }
 
 /** Grow a case study out of the rect it was opened from. */
@@ -178,15 +196,19 @@ export function closeCase(el, slug, done) {
     ],
     { duration: 380, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards' },
   )
-  anim.onfinish = () => done(from)
+  anim.onfinish = () => {
+    p.dropSpacer()
+    done(from)
+  }
 }
 
 /** Shrink any window into a rect (used for the dock). */
 export function shrinkInto(el, rect, done) {
   if (!el || !rect || reduced()) return done()
   const tall = el.getBoundingClientRect().height > window.innerHeight
-  const r = tall ? pin(el).rect : rectOf(el)
-  if (!tall) el.style.transformOrigin = '0 0'
+  const p = tall ? pin(el) : null
+  const r = p ? p.rect : rectOf(el)
+  if (!p) el.style.transformOrigin = '0 0'
   const anim = el.animate(
     [
       { transform: 'none', opacity: 1 },
@@ -194,7 +216,10 @@ export function shrinkInto(el, rect, done) {
     ],
     { duration: 380, easing: 'cubic-bezier(.55,0,.75,.4)', fill: 'forwards' },
   )
-  anim.onfinish = done
+  anim.onfinish = () => {
+    p?.dropSpacer()
+    done()
+  }
 }
 
 /** Smoothly move a window between two sizes (zoom and restore). */
