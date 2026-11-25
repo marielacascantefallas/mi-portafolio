@@ -1,16 +1,18 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import portrait from '../assets/portrait-blur.webp'
 import { deskProjects, CATEGORIES, categorySlug } from '../data/projects'
 import Speaker from './Speaker'
 import Preview from './Preview'
 import ProjectStack from './ProjectStack'
-import { markFirstPaint } from './WindowShell'
+import { dockStore, markFirstPaint, openCaseFrom, rememberFile, restoreCaseFrom, setRouteOrigin, useDock } from './WindowShell'
 import './desk.css'
 
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/mariela-cascante-fallas-aba957208'
 export const GITHUB_URL = 'https://github.com/marielacascantefallas'
 export const BEHANCE_URL = 'https://www.behance.net/mariellacascante'
+// Full portfolio as a PDF, shared from her Google Drive (anyone with the link).
+export const PDF_URL = 'https://drive.google.com/file/d/1_qYWTfHFLB8MDIqDYibo4jU9Bp4QV3R1/view'
 
 // Dark from 6 p.m. to 6 a.m. in the visitor's own time zone. index.html sets
 // it before the first paint; this keeps it right if the page stays open.
@@ -29,10 +31,22 @@ function useAutoTheme() {
 
 function DeskFile({ project, selected, onOpen }) {
   const navigate = useNavigate()
+  const imgRef = useRef(null)
+  // The file reports where it sits, so a case study can shrink back into it.
+  useLayoutEffect(() => {
+    const save = () => rememberFile(project.slug, imgRef.current)
+    save()
+    window.addEventListener('resize', save)
+    return () => window.removeEventListener('resize', save)
+  }, [project.slug])
+  const openCase = () => {
+    openCaseFrom(project.slug, imgRef.current, '/')
+    navigate(project.link)
+  }
   const open = (e) => {
     e.preventDefault()
     if (selected) {
-      navigate(project.link)
+      openCase()
       return
     }
     onOpen(project, e.currentTarget)
@@ -42,14 +56,50 @@ function DeskFile({ project, selected, onOpen }) {
       <a
         href={project.link}
         onClick={open}
-        onDoubleClick={() => navigate(project.link)}
+        onDoubleClick={openCase}
         aria-haspopup="dialog"
         aria-label={`${project.name}, open preview`}
       >
-        <img src={project.cover} alt="" width="264" height="184" loading="eager" decoding="async" />
+        <img ref={imgRef} data-file={project.slug} src={project.cover} alt="" width="264" height="184" loading="eager" decoding="async" />
         <span className="file__name">{project.name}</span>
       </a>
     </li>
+  )
+}
+
+// Minimized windows wait here, like the macOS dock. A click grows the window
+// back out of its slot.
+function Dock({ onRestorePreview }) {
+  const items = useDock()
+  const navigate = useNavigate()
+  const location = useLocation()
+  if (!items.length) return null
+  const restore = (item, el) => {
+    const rect = el.getBoundingClientRect()
+    dockStore.remove(item.key)
+    if (item.preview) {
+      if (location.pathname === '/') onRestorePreview(item.preview, rect)
+      else navigate('/', { state: { preview: item.preview, from: { left: rect.left, top: rect.top, width: rect.width, height: rect.height } } })
+      return
+    }
+    if (item.slug) restoreCaseFrom(item.slug, rect, item.from)
+    else setRouteOrigin(rect)
+    navigate(item.path)
+  }
+  return (
+    <nav className="dock glass" aria-label="Minimized windows">
+      <ul>
+        {items.map((item) => (
+          <li key={item.key}>
+            <button type="button" data-dock={item.key} onClick={(e) => restore(item, e.currentTarget)}>
+              {item.cover ? <img src={item.cover} alt="" width="48" height="36" /> : <span className="dock__glyph" aria-hidden="true" />}
+              <span className="dock__label">{item.title}</span>
+              <span className="sr-only">, restore window</span>
+            </button>
+          </li>
+        ))}
+      </ul>
+    </nav>
   )
 }
 
@@ -58,7 +108,16 @@ export default function Desk({ children, page = false, home = false }) {
   const location = useLocation()
   const [opened, setOpened] = useState(null)
   // A preview belongs to the page it was opened on.
-  const preview = opened && opened.path === location.pathname ? opened : null
+  // A preview restored from the dock on another page arrives in the
+  // navigation state; it shows until it is closed.
+  const [dismissedKey, setDismissedKey] = useState(null)
+  const fromDock = location.state?.preview && location.key !== dismissedKey ? location.state : null
+  const dockPreview = fromDock && {
+    project: deskProjects.find((p) => p.slug === fromDock.preview),
+    origin: fromDock.from,
+    path: location.pathname,
+  }
+  const preview = opened && opened.path === location.pathname ? opened : dockPreview?.project ? dockPreview : null
   // The phone menu also closes itself when the page changes.
   const [menuAt, setMenuAt] = useState(null)
   const menuOpen = menuAt === location.pathname
@@ -89,6 +148,11 @@ export default function Desk({ children, page = false, home = false }) {
     markFirstPaint()
   }, [])
 
+  const openPreviewFrom = (slug, rect) => {
+    const project = deskProjects.find((p) => p.slug === slug)
+    if (project) setOpened({ project, origin: rect, path: '/' })
+  }
+
   const left = deskProjects.slice(0, 5)
   const right = deskProjects.slice(5)
 
@@ -98,7 +162,10 @@ export default function Desk({ children, page = false, home = false }) {
         key={p.slug}
         project={p}
         selected={preview?.project.slug === p.slug}
-        onOpen={(proj, el) => setOpened({ project: proj, origin: el, path: location.pathname })}
+        onOpen={(proj, el) => {
+          setDismissedKey(location.key)
+          setOpened({ project: proj, origin: el, path: location.pathname })
+        }}
       />
     ))
 
@@ -144,6 +211,11 @@ export default function Desk({ children, page = false, home = false }) {
                   </NavLink>
                 </li>
               ))}
+              <li>
+                <a href={PDF_URL} className="pill glass desk__pdf" target="_blank" rel="noopener noreferrer">
+                  Portfolio PDF<span className="sr-only"> (opens Google Drive in a new tab)</span>
+                </a>
+              </li>
             </ul>
           </nav>
           <ul className="desk__menu-links">
@@ -190,10 +262,17 @@ export default function Desk({ children, page = false, home = false }) {
           origin={preview.origin}
           onClose={() => {
             setOpened(null)
-            preview.origin?.focus()
+            setDismissedKey(location.key)
+            preview.origin?.focus?.()
+          }}
+          onMinimized={() => {
+            setOpened(null)
+            setDismissedKey(location.key)
           }}
         />
       )}
+
+      <Dock onRestorePreview={openPreviewFrom} />
 
       <footer className="desk__foot">
         <div className="glass desk__who">
@@ -217,6 +296,11 @@ export default function Desk({ children, page = false, home = false }) {
           <li>
             <a href={BEHANCE_URL} target="_blank" rel="noopener noreferrer me">
               Behance
+            </a>
+          </li>
+          <li>
+            <a href={PDF_URL} target="_blank" rel="noopener noreferrer">
+              Portfolio PDF
             </a>
           </li>
         </ul>

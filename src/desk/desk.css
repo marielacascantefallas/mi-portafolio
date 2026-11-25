@@ -59,6 +59,13 @@
   justify-self: start;
 }
 
+/* The PDF download stands out from the other pills. */
+.pill.glass.desk__pdf {
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-color: transparent;
+}
+
 .desk__nav {
   list-style: none;
   margin: 0;
@@ -477,11 +484,14 @@
 
 .work.is-zoomed,
 .big.is-zoomed {
-  inset: 100px 24px 24px 24px;
+  position: fixed;
+  inset: 12px;
   width: auto;
   height: auto;
+  min-height: 0;
+  margin: 0;
   transform: none;
-  z-index: 35;
+  z-index: 70;
 }
 
 .work .win__bar {
@@ -793,9 +803,22 @@
   width: calc(100% - 48px);
 }
 
+/* Green control: the case study fills the screen and scrolls inside. */
 .case.is-zoomed {
-  width: calc(100% - 16px);
+  position: fixed;
+  inset: 0;
+  width: auto;
   max-width: none;
+  margin: 0;
+  border-radius: 0;
+  border: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  z-index: 70;
+}
+
+.case.is-zoomed .case__bar {
+  border-radius: 0;
 }
 
 .case__bar {
@@ -1293,5 +1316,69 @@
   to {
     opacity: 1;
     transform: none;
+  }
+}
+
+/* ----- Dock: minimized windows ----- */
+.dock {
+  position: fixed;
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  z-index: 50;
+  padding: 6px;
+  border-radius: 18px;
+  max-width: calc(100vw - 32px);
+  overflow-x: auto;
+}
+
+.dock ul {
+  display: flex;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dock button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 4px 12px 4px 4px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.dock button:hover,
+.dock button:focus-visible {
+  background: var(--icon-label);
+}
+
+.dock img,
+.dock__glyph {
+  display: block;
+  width: 48px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.dock__glyph {
+  width: 36px;
+  background: var(--win-bg);
+  border: 1px solid var(--win-line);
+}
+
+@media (max-width: 860px), (max-height: 620px) {
+  .dock {
+    bottom: 16px;
   }
 }

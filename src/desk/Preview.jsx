@@ -1,12 +1,14 @@
 import { useEffect, useLayoutEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Lights, growFrom, shrinkTo } from './WindowShell'
+import { Lights, growFrom, minimizeToDock, openCaseFrom, shrinkTo, useCloseOnOutside } from './WindowShell'
 
-// Small project window that grows out of the desktop file. A second click
-// on the file, "Open case study", or the green control opens the case.
-export default function Preview({ project, origin, onClose }) {
+// Small project window that grows out of the desktop file. Red or a click
+// on the desktop shrinks it back into the file, yellow sends it to the
+// dock, and green (or "Open case study") enlarges it into the full case.
+export default function Preview({ project, origin, onClose, onMinimized }) {
   const ref = useRef(null)
   const headingRef = useRef(null)
+  const busy = useRef(false)
   const navigate = useNavigate()
 
   useLayoutEffect(() => {
@@ -14,8 +16,26 @@ export default function Preview({ project, origin, onClose }) {
     headingRef.current?.focus({ preventScroll: true })
   }, [origin, project.slug])
 
-  const close = () => shrinkTo(ref.current, origin, onClose)
-  const openCase = () => navigate(project.link)
+  const close = () => {
+    if (busy.current) return
+    busy.current = true
+    shrinkTo(ref.current, document.querySelector(`[data-file="${project.slug}"]`) || origin, onClose)
+  }
+  const minimize = () => {
+    if (busy.current) return
+    busy.current = true
+    minimizeToDock(
+      ref.current,
+      { key: `preview:${project.slug}`, path: '/', preview: project.slug, title: project.title, cover: project.cover },
+      onMinimized,
+    )
+  }
+  const openCase = () => {
+    openCaseFrom(project.slug, ref.current, '/')
+    navigate(project.link)
+  }
+
+  useCloseOnOutside(ref, close)
 
   useEffect(() => {
     const onKey = (e) => {
@@ -28,7 +48,7 @@ export default function Preview({ project, origin, onClose }) {
   return (
     <section ref={ref} className="win preview" role="dialog" aria-labelledby="preview-title">
       <div className="win__bar">
-        <Lights onClose={close} onMinimize={close} onZoom={openCase} zoomLabel="Open case study" />
+        <Lights onClose={close} onMinimize={minimize} onZoom={openCase} zoomLabel="Enlarge to the full case study" />
         <p className="win__title" aria-hidden="true">
           {project.title}
         </p>
@@ -40,7 +60,7 @@ export default function Preview({ project, origin, onClose }) {
         </h2>
         <p className="preview__kind">{project.kind}</p>
         <p className="preview__desc">{project.description}</p>
-        <Link className="btn" to={project.link}>
+        <Link className="btn" to={project.link} onClick={() => openCaseFrom(project.slug, ref.current, '/')}>
           Open case study
         </Link>
       </div>

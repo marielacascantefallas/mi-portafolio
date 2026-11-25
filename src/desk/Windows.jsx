@@ -1,27 +1,52 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { CATEGORIES, categorySlug, deskProjects } from '../data/projects'
-import { Lights, useGrowFromNav } from './WindowShell'
+import { Lights, minimizeToDock, shrinkTo, useCloseOnOutside, useGrowFromNav, useZoomMotion } from './WindowShell'
 import ProjectStack from './ProjectStack'
 
+const TITLES = { work: 'Work', about: 'About', contact: 'Contact' }
+
+// Shared behavior for the Work, About and Contact windows: red (or a click
+// on the desktop) shrinks the window back into its nav pill, yellow sends
+// it to the dock and green fills the screen.
 function useRouteWindow(name) {
   const ref = useRef(null)
+  const busy = useRef(false)
   const navigate = useNavigate()
   const [zoomed, setZoomed] = useState(false)
+  const beforeZoom = useZoomMotion(ref, zoomed)
   useGrowFromNav(ref, name)
+  const close = () => {
+    if (busy.current) return
+    busy.current = true
+    shrinkTo(ref.current, document.querySelector(`[data-origin="${name}"]`), () => navigate('/'))
+  }
+  const minimize = () => {
+    if (busy.current) return
+    busy.current = true
+    const path = window.location.pathname + window.location.search
+    minimizeToDock(ref.current, { key: `/${name}`, path, title: TITLES[name] }, () => navigate('/'))
+  }
+  const toggleZoom = () => {
+    beforeZoom()
+    setZoomed((z) => !z)
+  }
+  useCloseOnOutside(ref, close)
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === 'Escape' && !e.defaultPrevented) navigate('/')
+      if (e.key !== 'Escape' || e.defaultPrevented) return
+      if (zoomed) toggleZoom()
+      else close()
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [navigate])
+  })
   const lights = (
     <Lights
-      onClose={() => navigate('/')}
-      onMinimize={() => navigate('/')}
-      onZoom={() => setZoomed((z) => !z)}
-      zoomLabel={zoomed ? 'Restore window size' : 'Enlarge window'}
+      onClose={close}
+      onMinimize={minimize}
+      onZoom={toggleZoom}
+      zoomLabel={zoomed ? 'Exit full screen' : 'Enter full screen'}
     />
   )
   return { ref, lights, zoomed }

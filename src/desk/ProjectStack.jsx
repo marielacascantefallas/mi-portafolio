@@ -1,11 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { openCaseFrom, rememberCard, takeStackFocus } from './WindowShell'
 
 // Projects stacked in depth: the current one faces the visitor, the others
 // tilt away above and below. Wheel, trackpad, swipe and arrow keys move one
 // project at a time, right away. Used by the Work window and the phone home.
 export default function ProjectStack({ list, resetKey = 'all', label = 'All projects', headingLevel = 2 }) {
-  const [pos, setPos] = useState({ key: resetKey, i: 0 })
+  // After a case study closes back into the stack, its card is in front.
+  const [pos, setPos] = useState(() => {
+    const focus = takeStackFocus()
+    return { key: resetKey, i: Math.max(0, list.findIndex((p) => p.slug === focus)) }
+  })
   const index = pos.key === resetKey ? pos.i : 0
   const i = Math.min(index, list.length - 1)
   const listRef = useRef(list)
@@ -103,7 +108,15 @@ export default function ProjectStack({ list, resetKey = 'all', label = 'All proj
             <H className="work__name">{current.title}</H>
             <p className="work__kind">{current.kind}</p>
             <p className="work__cats">{current.categories.join(', ')}</p>
-            <Link className="btn" to={current.link}>
+            <Link
+              className="btn"
+              to={current.link}
+              onClick={() => {
+                const card = stageRef.current?.querySelector('.card[aria-current="true"]')
+                rememberCard(card)
+                openCaseFrom(current.slug, card, window.location.pathname === '/' ? '/' : '/work')
+              }}
+            >
               Open case study
             </Link>
           </>
@@ -138,6 +151,8 @@ export default function ProjectStack({ list, resetKey = 'all', label = 'All proj
                       go(k)
                     } else {
                       e.preventDefault()
+                      rememberCard(e.currentTarget)
+                      openCaseFrom(p.slug, e.currentTarget, window.location.pathname === '/' ? '/' : '/work')
                       navigate(p.link)
                     }
                   }}

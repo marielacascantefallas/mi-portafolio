@@ -154,7 +154,7 @@ export default function RutaCaseStudy() {
 
   useEffect(() => {
     const onKeyDown = (e) => {
-      if (e.key === 'Escape') navigate('/work')
+      if (e.key === 'Escape' && !e.defaultPrevented) navigate('/work')
     }
     window.addEventListener('keydown', onKeyDown)
     return () => window.removeEventListener('keydown', onKeyDown)
