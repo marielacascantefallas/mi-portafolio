@@ -107,7 +107,7 @@ export default function Desk({ children, page = false, home = false }) {
   useAutoTheme()
   const location = useLocation()
   const [opened, setOpened] = useState(null)
-  // A preview belongs to the page it was opened on.
+  // A preview belongs to the visit of the page it was opened on.
   // A preview restored from the dock on another page arrives in the
   // navigation state; it shows until it is closed.
   const [dismissedKey, setDismissedKey] = useState(null)
@@ -115,9 +115,9 @@ export default function Desk({ children, page = false, home = false }) {
   const dockPreview = fromDock && {
     project: deskProjects.find((p) => p.slug === fromDock.preview),
     origin: fromDock.from,
-    path: location.pathname,
+    key: location.key,
   }
-  const preview = opened && opened.path === location.pathname ? opened : dockPreview?.project ? dockPreview : null
+  const preview = opened && opened.key === location.key ? opened : dockPreview?.project ? dockPreview : null
   // The phone menu also closes itself when the page changes.
   const [menuAt, setMenuAt] = useState(null)
   const menuOpen = menuAt === location.pathname
@@ -150,7 +150,7 @@ export default function Desk({ children, page = false, home = false }) {
 
   const openPreviewFrom = (slug, rect) => {
     const project = deskProjects.find((p) => p.slug === slug)
-    if (project) setOpened({ project, origin: rect, path: '/' })
+    if (project) setOpened({ project, origin: rect, key: location.key })
   }
 
   const left = deskProjects.slice(0, 5)
@@ -164,7 +164,7 @@ export default function Desk({ children, page = false, home = false }) {
         selected={preview?.project.slug === p.slug}
         onOpen={(proj, el) => {
           setDismissedKey(location.key)
-          setOpened({ project: proj, origin: el, path: location.pathname })
+          setOpened({ project: proj, origin: el, key: location.key })
         }}
       />
     ))
