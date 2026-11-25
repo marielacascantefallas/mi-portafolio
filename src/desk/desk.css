@@ -492,6 +492,7 @@
   min-height: 0;
   margin: 0;
   transform: none;
+  background: var(--color-bg);
   z-index: 70;
 }
 
@@ -815,6 +816,7 @@
   border: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
+  background: var(--color-bg);
   z-index: 70;
 }
 
@@ -1324,7 +1326,7 @@
 .dock {
   position: fixed;
   left: 50%;
-  bottom: 96px;
+  bottom: 150px;
   transform: translateX(-50%);
   z-index: 50;
   padding: 6px;

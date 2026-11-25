@@ -76,25 +76,23 @@ function CaseWindowInner({ slug, index }) {
     )
   }
 
+  // Keep the reader's place when the window changes size.
+  const keepPlace = useRef(null)
   const toggleZoom = () => {
     const el = ref.current
     if (!el) return
-    if (!zoomed) {
-      const offset = Math.max(0, -el.getBoundingClientRect().top)
-      beforeZoom()
-      setZoomed(true)
-      requestAnimationFrame(() => {
-        el.scrollTop = offset
-      })
-    } else {
-      const offset = el.scrollTop
-      beforeZoom()
-      setZoomed(false)
-      requestAnimationFrame(() => {
-        window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY + offset)
-      })
-    }
+    keepPlace.current = zoomed ? el.scrollTop : Math.max(0, -el.getBoundingClientRect().top)
+    beforeZoom()
+    setZoomed((z) => !z)
   }
+  useLayoutEffect(() => {
+    const el = ref.current
+    const offset = keepPlace.current
+    if (!el || offset === null) return
+    keepPlace.current = null
+    if (zoomed) el.scrollTop = offset
+    else window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY + offset)
+  }, [zoomed])
 
   useCloseOnOutside(ref, close)
 

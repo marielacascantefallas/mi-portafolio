@@ -197,8 +197,8 @@ export function closeCase(el, slug, done) {
     { duration: 380, easing: 'cubic-bezier(.4,0,.6,1)', fill: 'forwards' },
   )
   anim.onfinish = () => {
-    p.dropSpacer()
     done(from)
+    requestAnimationFrame(() => requestAnimationFrame(p.dropSpacer))
   }
 }
 
@@ -217,8 +217,8 @@ export function shrinkInto(el, rect, done) {
     { duration: 380, easing: 'cubic-bezier(.55,0,.75,.4)', fill: 'forwards' },
   )
   anim.onfinish = () => {
-    p?.dropSpacer()
     done()
+    if (p) requestAnimationFrame(() => requestAnimationFrame(p.dropSpacer))
   }
 }
 
@@ -332,6 +332,8 @@ export const useDock = () => useSyncExternalStore(dockStore.subscribe, dockStore
 
 /** Put a window in the dock: add it, then shrink the window into its slot. */
 export function minimizeToDock(el, item, done) {
+  // The window underneath (Work) is already open in the visitor's mind.
+  if (item.from && item.from !== '/') skipNextGrow = true
   dockStore.add(item)
   requestAnimationFrame(() => {
     const slot = document.querySelector(`[data-dock="${CSS.escape(item.key)}"]`)
