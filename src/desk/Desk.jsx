@@ -11,8 +11,8 @@ import './desk.css'
 export const LINKEDIN_URL = 'https://www.linkedin.com/in/mariela-cascante-fallas-aba957208'
 export const GITHUB_URL = 'https://github.com/marielacascantefallas'
 export const BEHANCE_URL = 'https://www.behance.net/mariellacascante'
-// Full portfolio as a PDF, shared from her Google Drive (anyone with the link).
-export const PDF_URL = 'https://drive.google.com/file/d/1_qYWTfHFLB8MDIqDYibo4jU9Bp4QV3R1/view'
+// Full portfolio as a PDF (web version, about 10 MB), served from public/.
+export const PDF_URL = '/portfolio-mariela-cascante.pdf'
 
 // Dark from 6 p.m. to 6 a.m. in the visitor's own time zone. index.html sets
 // it before the first paint; this keeps it right if the page stays open.
@@ -212,8 +212,8 @@ export default function Desk({ children, page = false, home = false }) {
                 </li>
               ))}
               <li>
-                <a href={PDF_URL} className="pill glass desk__pdf" target="_blank" rel="noopener noreferrer">
-                  Portfolio PDF<span className="sr-only"> (opens Google Drive in a new tab)</span>
+                <a href={PDF_URL} className="pill glass desk__pdf" download="Mariela-Cascante-Portfolio.pdf">
+                  Portfolio PDF<span className="sr-only"> (download, 10 MB)</span>
                 </a>
               </li>
             </ul>
@@ -299,8 +299,8 @@ export default function Desk({ children, page = false, home = false }) {
             </a>
           </li>
           <li>
-            <a href={PDF_URL} target="_blank" rel="noopener noreferrer">
-              Portfolio PDF
+            <a href={PDF_URL} download="Mariela-Cascante-Portfolio.pdf">
+              Portfolio PDF<span className="sr-only"> (download, 10 MB)</span>
             </a>
           </li>
         </ul>
