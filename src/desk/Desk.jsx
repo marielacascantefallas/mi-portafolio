@@ -1,7 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 import portrait from '../assets/portrait-blur.webp'
-import { deskProjects, CATEGORIES, categorySlug } from '../data/projects'
+import { deskProjects } from '../data/projects'
 import Speaker from './Speaker'
 import Preview from './Preview'
 import ProjectStack from './ProjectStack'
@@ -211,11 +211,6 @@ export default function Desk({ children, page = false, home = false }) {
                   </NavLink>
                 </li>
               ))}
-              <li>
-                <a href={PDF_URL} className="pill glass desk__pdf" download="Mariela-Cascante-Portfolio.pdf">
-                  Portfolio PDF<span className="sr-only"> (download, 10 MB)</span>
-                </a>
-              </li>
             </ul>
           </nav>
           <ul className="desk__menu-links">
@@ -232,6 +227,11 @@ export default function Desk({ children, page = false, home = false }) {
             <li>
               <a href={BEHANCE_URL} target="_blank" rel="noopener noreferrer me">
                 Behance
+              </a>
+            </li>
+            <li>
+              <a href={PDF_URL} download="Mariela-Cascante-Portfolio.pdf">
+                Portfolio PDF<span className="sr-only"> (download, 10 MB)</span>
               </a>
             </li>
           </ul>
@@ -275,12 +275,9 @@ export default function Desk({ children, page = false, home = false }) {
       <Dock onRestorePreview={openPreviewFrom} />
 
       <footer className="desk__foot">
-        <div className="glass desk__who">
-          <Who className="desk__who-text">
-            Mariela Cascante<span className="sr-only">,</span>
-            <br />
-            Product Designer<span className="sr-only"> and UX/UI Designer in Costa Rica</span>
-          </Who>
+        {/* Her name stays for search and screen readers; the bubble is gone. */}
+        <div className="desk__foot-start">
+          <Who className="sr-only">Mariela Cascante, Product Designer and UX/UI Designer in Costa Rica</Who>
         </div>
         <ul className="glass glass--dark desk__links">
           <li>
@@ -304,15 +301,9 @@ export default function Desk({ children, page = false, home = false }) {
             </a>
           </li>
         </ul>
-        <nav className="glass desk__cats" aria-label="Work by category">
-          <ul>
-            {CATEGORIES.map((c) => (
-              <li key={c}>
-                <Link to={`/work?category=${categorySlug(c)}`}>{c}</Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <a href={PDF_URL} className="pill glass desk__pdf desk__pdf--corner" download="Mariela-Cascante-Portfolio.pdf">
+          Portfolio PDF<span className="sr-only"> (download, 10 MB)</span>
+        </a>
       </footer>
     </div>
   )

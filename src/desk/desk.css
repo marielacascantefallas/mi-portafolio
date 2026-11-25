@@ -60,6 +60,11 @@
 }
 
 /* The PDF download stands out from the other pills. */
+.desk__pdf--corner {
+  justify-self: end;
+  align-self: end;
+}
+
 .pill.glass.desk__pdf {
   white-space: nowrap;
   background: var(--color-text);
