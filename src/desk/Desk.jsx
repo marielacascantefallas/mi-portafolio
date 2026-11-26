@@ -301,9 +301,6 @@ export default function Desk({ children, page = false, home = false }) {
             </a>
           </li>
         </ul>
-        <a href={PDF_URL} className="pill glass desk__pdf desk__pdf--corner" download="Mariela-Cascante-Portfolio.pdf">
-          Portfolio PDF<span className="sr-only"> (download, 10 MB)</span>
-        </a>
       </footer>
     </div>
   )
